@@ -1,0 +1,164 @@
+Project Requirements Document:
+
+Project Title: Solana Airdrop Platform
+
+Introduction
+
+Project Overview:
+
+Santa Drops is a web3 airdrop platform in solana, ethereum, bnb, bitcoin, Litecoin, and polygon, 
+Santa Drops aims to create product where communities or personal can create Giveaway's or any web3 product 
+like Tokens, Nft's or coins(eth,bnb,btc,sol,matic,ltc, and 
+This product aims to provide a platform to communities or individuals to giveaway's a web3 product 
+and people can participate in the giveaway and get a chance to win the product.
+For instance, "A platform that allows communities to create and participate in Solana-based airdrops."
+
+Objectives:
+
+Specific goals of the project, such as "To enable easy creation of Giveaway's of web3 products from a individual to community publically, 
+facilitate community engagement, and Super-Admin have access over the platform and can also decide a winner in that giveaway"
+
+Functional Requirements
+
+User Registration/Login:
+
+People can use various wallets, like Metamask, phantom, and other wallets where user can connect and authenticate using their wallet
+Integration with blockchain wallets, and authentication done by wallets (e.g., Phantom, Sollet).
+
+Airdrop Creation:
+
+Allow community managers or any Individual user to create a Giveaway and publish it on our platform.
+Options to set airdrop parameters (id, Giveaway name, description, type, amount, Message, Participation criteria (Must follow on Twitter/must join Discord server), set participation fee) and a dashboard to manage them or create more .
+
+Wallet Connection:
+
+Users can connect their Wallets to participate in airdrops, 
+and also add all possible wallets mentioned to make sure user can have access to various wallet options to connect and participate accordingly.
+
+Airdrop Participation:
+
+User see all the Airdrops active in the home screen, accordingly arraged in its category of blockchain.
+go to the airdrop detail page, 
+check out all the details of Giveaway as submitted by giveaway creator.
+to participate check the wallet is connect, if auth-done then continue with the eligibility criteria(twitter follow and discord join) if there, and transaction of participation(set by Giveaway Creator) + Platform fee and confirm the participation of user once transaction is completed
+user can also see all the Giveaway participated by him (his wallet) and can also remove participation from any participated giveaway
+can check their remaining time for the Giveaway, and also after time, check the winner of giveaway's as well
+can also check their wallet balances and the connected wallets
+
+
+Random Selection Algorithm or Winner can be chosed by SuperAdmin:
+
+one user wallet, which is specified as super-admin user on the platform can also specify the winner of the airdrop, once the airdrop is live
+and if the super-admin didn't allot the winner, then the random selection of the winner happens, and the winner is announced
+
+Notifications:
+
+Automated notifications for airdrop start/end, winner announcements, 
+Browser based notification as well when user is off-site, 
+notifications through platform when user in on-site as the actions taken by the user are confirmed by Platform Internal notification on the Page Itself.
+
+Non-Functional Requirements
+
+Performance:
+
+Response time expectations, load handling capabilities, Completely Professional ThemeUI, error reporting capabilites, issue trackers, Image Optimised, Error and resistance free Platform.
+
+Security:
+
+Security measures for user and Platform data and wallet transactions.
+Data-Flow and data-Storage cache and audit requirements.
+
+Scalability:
+
+The ability to handle a growing number of users and airdrops/Giveaway's, 
+also develop the platform in a way where further we can add feaures features like 
+staking, 
+complex giveaway's like private giveaway's and so on, 
+Daily claims and so on.
+
+
+Usability:
+
+User-friendly interface, accessibility considerations, professional optimal code and theme based UI
+
+Technical Requirements
+
+Blockchain Technology:
+
+connection of MultiChain Wallets, auth from wallets, 
+participation transaction to Super-Admin Wallet (While Creating Giveaway), 
+create giveaway transaction of transfer the Giveaway product to Super-admin wallet 
+once the giveaway is completed, the giveaway products will be automatically transferred to the winner.
+
+
+Frontend:
+
+Technology stack (Next.js with required packages for any purposes).
+Responsive design principles. User friendly UI and components, Professional Looks
+
+Backend:
+
+Server technology (Node.js, Express.js).
+Database management (e.g., PostgreSQL, MongoDB).
+
+APIs:
+
+Integration with all listed blockchain APIs.
+Any external services or data sources.
+
+Hosting/Deployment:
+
+Hosting solutions (Not yet Confirmed).
+Continuous integration and deployment strategies.
+
+Design Requirements
+
+UI/UX Design:
+
+Wireframes or mockups of key pages will be provided in figma or Images
+Design theme and branding guidelines, can be followed according to the santa theme
+
+Compliance and Regulations
+
+Legal Compliance:
+
+Adherence to relevant cryptocurrency regulations.
+Data protection laws (e.g., GDPR).
+Timeline and Milestones for further features will be added to the platform
+
+Development Phases:
+
+Breakdown of project into phases
+
+planning, 
+development, 
+testing,
+and cycles continues to planning for further features
+
+Key Milestones:
+
+easy understanding of code with brief comments of Workflow of the code and well documented
+simple and themed, easy accessibility in UI
+Error/Issues or bugs less product
+optimal code and functionality
+
+Budget
+
+Cost Estimates:
+
+Breakdown of costs development and hosting.
+
+Risk Management
+
+Potential Risks:
+
+Identification of possible project risks (technical, financial, operational).
+
+Mitigation Strategies:
+
+Plans to address and manage these risks.
+Appendix
+
+Additional Resources:
+
+Any questions regarding this project, technically, logically throughout the project and its developement and workflow can we asked to me.
