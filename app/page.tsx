@@ -1,12 +1,13 @@
-import ConnectButton from "@/components/main/authenticate";
-import { ModeToggle } from "@/components/mode-toggle";
-import { Button } from "@/components/ui/button";
+import Header from "@/components/header/header";
+import ConnectButton from "@/components/modals/components/authenticate";
+import Main from "@/components/main/main";
 
 const Home = () => {
   return (
-    <main className="flex items-center justify-center w-full h-full">
-      <ConnectButton />
-    </main>
+    <>
+      <Header />
+      <Main />
+    </>
   );
 };
 

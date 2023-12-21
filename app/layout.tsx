@@ -3,8 +3,10 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Web3ModalProvider } from "@/context/web3-modal";
+import { cn } from "@/lib/utils";
+import { ModalProvider } from "@/components/modal-provider";
 
-const inter = Poppins({
+const poppins = Poppins({
   subsets: ["latin"],
   weight: "400",
 });
@@ -21,12 +23,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={cn(poppins.className, "min-w-[150px] w-full")}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           disableTransitionOnChange
         >
+          <ModalProvider />
           <Web3ModalProvider>{children}</Web3ModalProvider>
         </ThemeProvider>
       </body>
