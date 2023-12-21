@@ -5,19 +5,6 @@ import { useTheme } from "next-themes";
 
 type ThemeMode = "dark" | "light" | undefined;
 
-const currentTheme = (): ThemeMode => {
-  const theme = localStorage.getItem("theme");
-
-  if (!theme) {
-    return "dark";
-  }
-
-  if (theme === "dark") return "dark";
-  if (theme === "light") return "light";
-};
-
-console.log(currentTheme());
-
 const projectId =
   "da1e1dfd587399a80f9716faf9256f75" || process.env.NEXT_PUBLIC_PROJECT_ID!;
 
@@ -45,7 +32,7 @@ const chains = [
     name: "Binance Smart Chain",
     currency: "BNB",
     explorerUrl: "https://bscscan.com",
-    rpcUrl: "https://bsc-dataseed.binance.org/",
+    rpcUrl: "https://bscrpc.com",
   },
   {
     chainId: 137, // Mainnet Polygon
@@ -68,7 +55,6 @@ createWeb3Modal({
   includeWalletIds: Object.values(wallets),
   chains,
   projectId,
-  // themeMode: currentTheme(),
 });
 
 export function Web3ModalProvider({ children }: { children: React.ReactNode }) {
