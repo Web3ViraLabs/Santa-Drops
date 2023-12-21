@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 import ConnectButton from '@/components/main/authenticate';
 import { Button, buttonVariants } from '@/components/ui/button';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { ModeToggle } from '@/components/mode-toggle';
 import { ArrowDownToLine, CheckCircle, Leaf } from 'lucide-react';
 import Link from 'next/link';
+=======
+import Header from "@/components/header/header";
+import ConnectButton from "@/components/modals/components/authenticate";
+import Main from "@/components/main/main";
+>>>>>>> 056352bdfe79c13679a13196cba37c651795b216
 
 const perks = [
   {
@@ -29,6 +35,7 @@ const perks = [
 export default function Home() {
   return (
     <>
+<<<<<<< HEAD
       <MaxWidthWrapper>
         <div className="py-20 mx-auto text-center flex flex-col items-center max-w-3xl">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
@@ -47,6 +54,13 @@ export default function Home() {
           </div>
         </div>
       </MaxWidthWrapper>
+=======
+      <Header />
+      <Main />
+    </>
+  );
+};
+>>>>>>> 056352bdfe79c13679a13196cba37c651795b216
 
       <section className="border-t border-gray-200 bg-gray-50">
         <MaxWidthWrapper className="py-20">
