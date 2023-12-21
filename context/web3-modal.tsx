@@ -68,7 +68,7 @@ createWeb3Modal({
   includeWalletIds: Object.values(wallets),
   chains,
   projectId,
-  themeMode: currentTheme(),
+  // themeMode: currentTheme(),
 });
 
 export function Web3ModalProvider({ children }: { children: React.ReactNode }) {
