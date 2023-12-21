@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ProfileDrawer from "./modals/profile-drawer";
+import ProfileDrawer from "../modals/profile-drawer";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
