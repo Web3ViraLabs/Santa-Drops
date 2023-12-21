@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { PRODUCT_CATEGORIES } from '@/config';
-import { Button } from './ui/button';
-import { ChevronDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import Link from 'next/link';
+import { PRODUCT_CATEGORIES } from "@/config";
+import { Button } from "../ui/button";
+import { ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
 
 type Category = (typeof PRODUCT_CATEGORIES)[number];
 
@@ -30,12 +30,12 @@ const NavItem = ({
         <Button
           className="gap-1.5"
           onClick={handleOpen}
-          variant={isOpen ? 'secondary' : 'ghost'}
+          variant={isOpen ? "secondary" : "ghost"}
         >
           {category.label}
           <ChevronDown
-            className={cn('h-4 w-4 transition-all text-muted-foreground', {
-              '-rotate-180': isOpen,
+            className={cn("h-4 w-4 transition-all text-muted-foreground", {
+              "-rotate-180": isOpen,
             })}
           />
         </Button>
@@ -45,9 +45,9 @@ const NavItem = ({
         <div
           onClick={() => close()}
           className={cn(
-            'absolute inset-x-0 top-full text-sm text-muted-foreground',
+            "absolute inset-x-0 top-full text-sm text-muted-foreground",
             {
-              'animate-in fade-in-10 slide-in-from-top-5': !isAnyOpen,
+              "animate-in fade-in-10 slide-in-from-top-5": !isAnyOpen,
             }
           )}
         >

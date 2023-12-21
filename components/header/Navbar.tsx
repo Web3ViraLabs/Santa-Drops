@@ -1,16 +1,13 @@
-import Link from 'next/link';
-import MaxWidthWrapper from './MaxWidthWrapper';
-import { Icons } from './Icons';
-import NavItems from './NavItems';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { cookies } from 'next/headers';
-import MobileNav from './MobileNav';
+"use client";
 
-const Navbar = async () => {
-  const nextCookies = cookies();
+import Link from "next/link";
+import NavItems from "./NavItems";
+import { Button, buttonVariants } from "@/components/ui/button";
+import MobileNav from "./MobileNav";
+import { Icons } from "../Icons";
+import MaxWidthWrapper from "../MaxWidthWrapper";
 
-  /* const { user } = await getServerSideUser(nextCookies) */
-
+const Navbar = () => {
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-16">
       <header className="relative bg-white">
@@ -36,7 +33,7 @@ const Navbar = async () => {
                   <Link
                     href="#"
                     className={buttonVariants({
-                      variant: 'ghost',
+                      variant: "ghost",
                     })}
                   >
                     Participated Giveaways
@@ -53,10 +50,10 @@ const Navbar = async () => {
                   <Link
                     href="#"
                     className={buttonVariants({
-                      variant: 'ghost',
+                      variant: "ghost",
                     })}
                   >
-                    Manage Giveaway's
+                    Manage Giveaway&apos;s
                   </Link>
                   {/*    )} */}
 
@@ -72,8 +69,11 @@ const Navbar = async () => {
 
                   {/* TODO: Connect this with Wallet Sheet component or give it a Complete route*/}
                   <div className="ml-4 flow-root lg:ml-6">
-                    <Link href="#" className={buttonVariants()}>
-                      Connect Wallet
+                    <Link
+                      href={"/login"}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-auto"
+                    >
+                      Connect Your Wallet
                     </Link>
                   </div>
                 </div>

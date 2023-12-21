@@ -7,7 +7,6 @@ import Account from "./components/account";
 import { X } from "lucide-react";
 
 const ProfileDrawer: React.FC = ({}) => {
-  const [confirmOpen, setConfirmOpen] = useState(false);
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === "profileDrawer";
 
