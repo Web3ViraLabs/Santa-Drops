@@ -1,0 +1,34 @@
+import Link from 'next/link';
+import MaxWidthWrapper from '../MaxWidthWrapper';
+import { Button, buttonVariants } from '../ui/button';
+import { cn } from '@/lib/utils';
+
+const CommunityHero = () => {
+  return (
+    <>
+      <MaxWidthWrapper>
+        <div className="py-20 mx-auto text-center flex flex-col items-center max-w-3xl dark:text-white dark:back">
+          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl dark:text-white">
+            Utility Ecosystem for{' '}
+            <span className="text-blue-600 dark:text-blue-300">
+              Growing Web3 Projects
+            </span>
+            .
+          </h1>
+          <p className="mt-6 text-lg max-w-prose text-muted-foreground dark:text-white">
+            A platform offering Rubust essential tools for the development and
+            growth of your Web3 projects
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 mt-6">
+            <Link href="#" className={cn(buttonVariants(), 'dark:text-white')}>
+              Build a Community
+            </Link>
+            <Button variant="ghost">Our quality Products &rarr;</Button>
+          </div>
+        </div>
+      </MaxWidthWrapper>
+    </>
+  );
+};
+
+export default CommunityHero;

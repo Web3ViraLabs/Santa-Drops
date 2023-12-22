@@ -1,16 +1,17 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import NavItems from "./NavItems";
-import { Button, buttonVariants } from "@/components/ui/button";
-import MobileNav from "./MobileNav";
-import { Icons } from "../Icons";
-import MaxWidthWrapper from "../MaxWidthWrapper";
+import Link from 'next/link';
+import NavItems from './NavItems';
+import { Button, buttonVariants } from '@/components/ui/button';
+import MobileNav from './MobileNav';
+import { Icons } from '../Icons';
+import MaxWidthWrapper from '../MaxWidthWrapper';
+import { ModeToggle } from '../mode-toggle';
 
 const Navbar = () => {
   return (
-    <div className="bg-white sticky z-50 top-0 inset-x-0 h-16">
-      <header className="relative bg-white">
+    <div className="background sticky z-50 top-0 inset-x-0 h-16 bg-white dark:bg-background">
+      <header className="relative background">
         <MaxWidthWrapper>
           <div className="border-b border-gray-200">
             q
@@ -30,14 +31,14 @@ const Navbar = () => {
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   {/*  {user ? null : (  */}
-                  <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
+
                   <Link
                     href="#"
                     className={buttonVariants({
-                      variant: "ghost",
+                      variant: 'ghost',
                     })}
                   >
-                    Participated Giveaways
+                    Products
                   </Link>
                   {/*  )} */}
 
@@ -51,10 +52,10 @@ const Navbar = () => {
                   <Link
                     href="#"
                     className={buttonVariants({
-                      variant: "ghost",
+                      variant: 'ghost',
                     })}
                   >
-                    Manage Giveaway&apos;s
+                    Features
                   </Link>
                   {/*    )} */}
 
@@ -71,12 +72,13 @@ const Navbar = () => {
                   {/* TODO: Connect this with Wallet Sheet component or give it a Complete route*/}
                   <div className="ml-4 flow-root lg:ml-6">
                     <Link
-                      href={"/login"}
+                      href={'/login'}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-auto"
                     >
                       Connect Your Wallet
                     </Link>
                   </div>
+                  <ModeToggle />
                 </div>
               </div>
             </div>
