@@ -13,6 +13,7 @@ const Navbar = () => {
       <header className="relative bg-white">
         <MaxWidthWrapper>
           <div className="border-b border-gray-200">
+            q
             <div className="flex h-16 items-center">
               <MobileNav />
 
