@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { usePathname } from 'next/navigation';
-import MaxWidthWrapper from '../MaxWidthWrapper';
-import { Icons } from '../Icons';
-import Link from 'next/link';
-import React from 'react';
+import { usePathname } from "next/navigation";
+import MaxWidthWrapper from "../MaxWidthWrapper";
+import { Icons } from "../Icons";
+import Link from "next/link";
+import React from "react";
 
 const Footer = () => {
   const pathname = usePathname();
@@ -39,10 +39,10 @@ const Footer = () => {
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground dark:text-white">
                   If you&apos;d like to create a Giveaway for your community,
-                  you can do so in minutes.{' '}
+                  you can do so in minutes.{" "}
                   <Link
                     href="#"
-                    className="whitespace-nowrap font-medium text-black hover:text-zinc-900 dark:text-white"
+                    className="whitespace-nowrap font-medium text-black hover:text-zinc-900 dark:hover:text-zinc-200 dark:text-white"
                   >
                     Get started &rarr;
                   </Link>

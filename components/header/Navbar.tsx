@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import NavItems from './NavItems';
-import { Button, buttonVariants } from '@/components/ui/button';
-import MobileNav from './MobileNav';
-import { Icons } from '../Icons';
-import MaxWidthWrapper from '../MaxWidthWrapper';
-import { ModeToggle } from '../mode-toggle';
+import Link from "next/link";
+import NavItems from "./NavItems";
+import { Button, buttonVariants } from "@/components/ui/button";
+import MobileNav from "./MobileNav";
+import { Icons } from "../Icons";
+import MaxWidthWrapper from "../MaxWidthWrapper";
+import { ModeToggle } from "../mode-toggle";
 
 const Navbar = () => {
   return (
@@ -14,7 +14,6 @@ const Navbar = () => {
       <header className="relative background">
         <MaxWidthWrapper>
           <div className="border-b border-gray-200">
-            q
             <div className="flex h-16 items-center">
               <MobileNav />
 
@@ -35,7 +34,7 @@ const Navbar = () => {
                   <Link
                     href="#"
                     className={buttonVariants({
-                      variant: 'ghost',
+                      variant: "ghost",
                     })}
                   >
                     Products
@@ -52,7 +51,7 @@ const Navbar = () => {
                   <Link
                     href="#"
                     className={buttonVariants({
-                      variant: 'ghost',
+                      variant: "ghost",
                     })}
                   >
                     Features
@@ -72,7 +71,7 @@ const Navbar = () => {
                   {/* TODO: Connect this with Wallet Sheet component or give it a Complete route*/}
                   <div className="ml-4 flow-root lg:ml-6">
                     <Link
-                      href={'/login'}
+                      href={"/login"}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-auto"
                     >
                       Connect Your Wallet
