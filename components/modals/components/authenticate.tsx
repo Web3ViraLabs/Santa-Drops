@@ -3,8 +3,9 @@
 import { useWeb3Modal, useWeb3ModalAccount } from "@web3modal/ethers/react";
 import { Button } from "../../ui/button";
 import { useModal } from "@/hooks/use-modal";
+import { cn } from "@/lib/utils";
 
-export default function ConnectButton() {
+export default function ConnectButton({ className }: { className?: string }) {
   const { open } = useWeb3Modal();
   const { onOpen } = useModal();
   const { isConnected } = useWeb3ModalAccount();
@@ -22,9 +23,12 @@ export default function ConnectButton() {
       {!isConnected ? (
         <Button
           onClick={handleConnect}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-auto"
+          className={cn(
+            "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-auto",
+            className
+          )}
         >
-          Sign In
+          Connect to wallet
         </Button>
       ) : (
         <Button onClick={() => onOpen("profileDrawer")}>Account</Button>

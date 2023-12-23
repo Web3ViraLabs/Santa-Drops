@@ -19,44 +19,43 @@ const wallets = {
   Exodus: "e9ff15be73584489ca4a66f64d32c4537711797e30b6660dbcb71ea72a42b1f4",
 };
 
-const chains = [
-  {
-    chainId: 1, // Mainnet Ethereum
-    name: "Ethereum",
-    currency: "ETH",
-    explorerUrl: "https://etherscan.io",
-    rpcUrl: "https://cloudflare-eth.com",
-  },
-  {
-    chainId: 56, // Mainnet Binance Smart Chain
-    name: "Binance Smart Chain",
-    currency: "BNB",
-    explorerUrl: "https://bscscan.com",
-    rpcUrl: "https://bscrpc.com",
-  },
-  {
-    chainId: 137, // Mainnet Polygon
-    name: "Polygon",
-    currency: "MATIC",
-    explorerUrl: "https://polygonscan.com",
-    rpcUrl: "https://polygon-rpc.com/",
-  },
-];
+interface Web3ModalProviderProps {
+  chainID: 1 | 137;
+  children: React.ReactNode;
+}
 
-const metadata = {
-  name: "Santa Drops",
-  description: "Santa Drops description",
-  url: "https://mywebsite.com",
-  icons: ["/favicon.ico"],
-};
+export function Web3ModalProvider({
+  children,
+  chainID,
+}: Web3ModalProviderProps) {
+  const chains = [
+    {
+      chainId: 1, // Mainnet Ethereum
+      name: "Ethereum",
+      currency: "ETH",
+      explorerUrl: "https://etherscan.io",
+      rpcUrl: "https://cloudflare-eth.com",
+    },
+    {
+      chainId: 137, // Mainnet Polygon
+      name: "Polygon",
+      currency: "MATIC",
+      explorerUrl: "https://polygonscan.com",
+      rpcUrl: "https://polygon-rpc.com/",
+    },
+  ];
 
-createWeb3Modal({
-  ethersConfig: defaultConfig({ metadata, defaultChainId: 1 }),
-  includeWalletIds: Object.values(wallets),
-  chains,
-  projectId,
-});
-
-export function Web3ModalProvider({ children }: { children: React.ReactNode }) {
+  const metadata = {
+    name: "Santa Drops",
+    description: "Santa Drops description",
+    url: "https://mywebsite.com",
+    icons: ["/favicon.ico"],
+  };
+  createWeb3Modal({
+    ethersConfig: defaultConfig({ metadata, defaultChainId: chainID }),
+    includeWalletIds: Object.values(wallets),
+    chains: chains.filter((chain) => chain.chainId === chainID),
+    projectId,
+  });
   return children;
 }
