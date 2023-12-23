@@ -9,6 +9,9 @@ import Hero from '@/components/main/hero';
 import Perks from '@/components/main/perks';
 import OurPatners from '@/components/main/patners';
 import AllBlockchains from '@/components/main/allblockchain';
+import Feature1 from '@/components/features/feature1';
+import Feature2 from '@/components/features/feature2';
+import Feature3 from '@/components/features/feature3';
 
 export default function Home() {
   return (
@@ -18,6 +21,9 @@ export default function Home() {
         <Hero />
         <OurPatners />
         <AllBlockchains />
+        <Feature1 />
+        <Feature2 />
+        <Feature3 />
         <Perks />
       </div>
       <Footer />
