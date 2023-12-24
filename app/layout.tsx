@@ -1,13 +1,9 @@
-import { ThemeProvider } from "@/components/providers/theme-provider";
-
-import Navbar from "@/components/header/Navbar";
 import { cn, constructMetadata } from "@/lib/utils";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Footer from "@/components/footer/Footer";
 
 import { Toaster } from "sonner";
-import { ModalProvider } from "@/components/providers/modal-provider";
+import LayoutProvider from "@/components/providers/layout-provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,11 +26,8 @@ export default function RootLayout({
           poppins.className
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark">
-          <ModalProvider />
-          {children}
-          <Toaster position="top-center" richColors />
-        </ThemeProvider>
+        <LayoutProvider>{children}</LayoutProvider>
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );

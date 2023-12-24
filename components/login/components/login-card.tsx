@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useLoginContext } from "./login-context";
 import axios from "axios";
+import { useState } from "react";
 
 const formSchema = z.object({
   username: z
@@ -33,6 +34,7 @@ const LoginCard = ({
   address: string;
 }) => {
   const { setSigned } = useLoginContext();
+  const [error, setError] = useState("");
 
   const onClose = () => {
     setSigned(false);
@@ -45,16 +47,27 @@ const LoginCard = ({
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      axios.post("/api/users", {
-        signature,
-        address,
-        name: values.username,
-      });
-    } catch (error) {
-      console.log(error);
-      return "Internal error";
+      const { data, status } = await axios.get(
+        "/api/account/login?name=" + values.username
+      );
+
+      if (status === 200) {
+        const { data } = await axios.post("/api/account/create", {
+          address,
+          name: values.username,
+        });
+
+        if (data) {
+          localStorage.setItem("TOKEN", JSON.stringify(data.token));
+        }
+      }
+    } catch (error: any) {
+      if (error.response.status === 409 && error.response.data.code === 1001) {
+        console.log("User already exists");
+        setError(`Username ${error.response.data.name} has been taken`);
+      }
     }
   }
 
@@ -92,6 +105,7 @@ const LoginCard = ({
                     />
                   </FormControl>
                   <FormMessage />
+                  {error && <p className="text-red-500">{error}</p>}
                 </FormItem>
               )}
             />
@@ -99,7 +113,7 @@ const LoginCard = ({
               <Button variant={"outline"} onClick={onClose}>
                 Cancel
               </Button>
-              <Button type="submit" className="px-10 dark:text-white">
+              <Button autoFocus type="submit" className="px-10 dark:text-white">
                 Create
               </Button>
             </div>

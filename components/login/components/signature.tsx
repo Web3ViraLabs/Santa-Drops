@@ -2,16 +2,25 @@ import { Button } from "@/components/ui/button";
 import { Address } from "@/lib/types";
 import { useSignMessage } from "wagmi";
 import { useLoginContext } from "./login-context";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const Signature = ({ address }: Address) => {
   const { setSigned, setSignature } = useLoginContext();
+  const router = useRouter();
 
-  const { data, isError, isSuccess, isLoading, signMessage } = useSignMessage({
+  const { isLoading, signMessage } = useSignMessage({
     message: "Alphagini",
-    onSuccess(data) {
-      console.log(data);
+    onSuccess: async (signData) => {
+      const { data, status } = await axios.post("/api/account/login", {
+        address,
+      });
+      if (status === 200 && data.user) {
+        localStorage.setItem("TOKEN", data.user.token);
+        return router.refresh();
+      }
       setSigned(true);
-      setSignature(data);
+      // setSignature(data);
     },
   });
 
@@ -33,7 +42,7 @@ const Signature = ({ address }: Address) => {
         disabled={isLoading}
         onClick={() => signMessage()}
       >
-        Sign Message
+        Sign Message {isLoading && <span>(signing...)</span>}
       </Button>
     </div>
   );

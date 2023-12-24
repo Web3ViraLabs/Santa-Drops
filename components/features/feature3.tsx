@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 const Feature3 = () => {
   return (
@@ -16,10 +16,9 @@ const Feature3 = () => {
               width={1056}
               height={836}
               decoding="async"
-              data-nImage={1}
               className="w-full"
               src="/sol.png"
-              style={{ color: 'transparent' }}
+              style={{ color: "transparent" }}
             />
           </div>
           <div className="flex flex-col gap-5 text-left items-left col-span-5">

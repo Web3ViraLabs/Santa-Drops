@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 const Feature2 = () => {
   return (
@@ -16,10 +16,9 @@ const Feature2 = () => {
             width={946}
             height={903}
             decoding="async"
-            data-nImage={1}
             className="justify-self-center md:order-last"
             src="/sol.png"
-            style={{ color: 'transparent' }}
+            style={{ color: "transparent" }}
           />
           <div>
             <div className="flex rounded-3xl p-6 gap-7 items-center">
@@ -29,9 +28,8 @@ const Feature2 = () => {
                 width={69}
                 height={68}
                 decoding="async"
-                data-nImage={1}
                 src="/sol.png"
-                style={{ color: 'transparent' }}
+                style={{ color: "transparent" }}
               />
               <div>
                 <div className="text-xl">Exclusive Events</div>
@@ -47,9 +45,8 @@ const Feature2 = () => {
                 width={69}
                 height={75}
                 decoding="async"
-                data-nImage={1}
                 src="/sol.png"
-                style={{ color: 'transparent' }}
+                style={{ color: "transparent" }}
               />
               <div>
                 <div className="text-xl">Community Access</div>
@@ -65,9 +62,8 @@ const Feature2 = () => {
                 width={69}
                 height={68}
                 decoding="async"
-                data-nImage={1}
                 src="/sol.png"
-                style={{ color: 'transparent' }}
+                style={{ color: "transparent" }}
               />
               <div>
                 <div className="text-xl">Airdrops</div>

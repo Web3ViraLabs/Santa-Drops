@@ -21,14 +21,14 @@ const AllBlockchains = () => {
         <MaxWidthWrapper className="py-20">
           <div className="text-center relative mx-auto max-w-sm pb-6">
             <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-6xl dark:text-white">
-              all Chains{" "}
+              All Chains{" "}
               <span className="text-blue-600 dark:text-blue-300">
                 One Platform
               </span>
               .
             </h1>
           </div>
-          <div className="grid p-2 grid-cols-1 gap-y-12 sm:grid-cols-1 sm:gap-x-20 md:grid-cols-2 md:gap-x-20 lg:grid-cols-3 lg:gap-x-20 lg:gap-y-0">
+          <div className="flex items-center justify-center flex-wrap">
             {SUPPORTEDBLOCKCHAIN_CONFIG.map((blockchain) => (
               <Card
                 key={blockchain.name}

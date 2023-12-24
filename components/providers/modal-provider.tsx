@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ProfileDrawer from "../modals/profile-drawer";
+import LoginModal from "../login/login-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -17,6 +18,7 @@ export const ModalProvider = () => {
   return (
     <>
       <ProfileDrawer />
+      <LoginModal />
     </>
   );
 };

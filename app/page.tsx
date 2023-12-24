@@ -1,19 +1,16 @@
-import { Button, buttonVariants } from '@/components/ui/button';
+import Navbar from "@/components/header/Navbar";
+import Footer from "@/components/footer/Footer";
+import Hero from "@/components/main/hero";
+import Perks from "@/components/main/perks";
+import OurPatners from "@/components/main/patners";
+import AllBlockchains from "@/components/main/allblockchain";
+import Feature1 from "@/components/features/feature1";
+import Feature2 from "@/components/features/feature2";
+import Feature3 from "@/components/features/feature3";
+import { User } from "@/lib/types";
+import axios from "axios";
 
-import { ModeToggle } from '@/components/mode-toggle';
-
-import Link from 'next/link';
-import Navbar from '@/components/header/Navbar';
-import Footer from '@/components/footer/Footer';
-import Hero from '@/components/main/hero';
-import Perks from '@/components/main/perks';
-import OurPatners from '@/components/main/patners';
-import AllBlockchains from '@/components/main/allblockchain';
-import Feature1 from '@/components/features/feature1';
-import Feature2 from '@/components/features/feature2';
-import Feature3 from '@/components/features/feature3';
-
-export default function Home() {
+export default async function Home() {
   return (
     <main className="relative flex flex-col min-h-screen">
       <Navbar />

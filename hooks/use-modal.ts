@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type ModalType = "profileDrawer";
+export type ModalType = "profileDrawer" | "login";
 
 type ModalData = {};
 

@@ -7,8 +7,30 @@ import MobileNav from "./MobileNav";
 import { Icons } from "../Icons";
 import MaxWidthWrapper from "../MaxWidthWrapper";
 import { ModeToggle } from "../mode-toggle";
+import { useModal } from "@/hooks/use-modal";
+import { User } from "@/lib/types";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Navbar = () => {
+  const { onOpen } = useModal();
+  const [user, setUser] = useState<User | null>(null);
+
+  const fetchUser = async () => {
+    try {
+      const { data } = await axios.get<User>("/api/users/me", {
+        headers: {
+          Authorization: localStorage.getItem("TOKEN"),
+        },
+      });
+      setUser(data);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <div className="background sticky z-50 top-0 inset-x-0 h-16 bg-white dark:bg-background">
       <header className="relative background">
@@ -70,12 +92,16 @@ const Navbar = () => {
 
                   {/* TODO: Connect this with Wallet Sheet component or give it a Complete route*/}
                   <div className="ml-4 flow-root lg:ml-6">
-                    <Link
-                      href={"/login"}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-auto"
-                    >
-                      Connect Your Wallet
-                    </Link>
+                    {user ? (
+                      "Welcome " + user.name
+                    ) : (
+                      <Button
+                        onClick={() => onOpen("login")}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-auto"
+                      >
+                        Connect Your Wallet
+                      </Button>
+                    )}
                   </div>
                   <ModeToggle />
                 </div>
