@@ -18,6 +18,7 @@ const NetworkBtn: React.FC<NetworkProps> = ({
 }) => {
   return (
     <button
+      key={name}
       onClick={onClick}
       className={cn(
         "flex w-full border rounded-md p-4 border-[#7d5eda] dark:hover:bg-[#7d5eda]/10",

@@ -1,9 +1,9 @@
 import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
-import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import { PhantomConnector } from "phantom-wagmi-connector";
 import { polygon } from "viem/chains";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
@@ -12,7 +12,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 );
 
 const config = createConfig({
-  //   autoConnect: true,
+  autoConnect: true,
   connectors: [
     new MetaMaskConnector({ chains }),
     new CoinbaseWalletConnector({
@@ -27,13 +27,7 @@ const config = createConfig({
         projectId: "da1e1dfd587399a80f9716faf9256f75",
       },
     }),
-    // new InjectedConnector({
-    //   chains,
-    //   options: {
-    //     name: "Injected",
-    //     shimDisconnect: true,
-    //   },
-    // }),
+    new PhantomConnector({ chains }),
   ],
   publicClient,
   webSocketPublicClient,

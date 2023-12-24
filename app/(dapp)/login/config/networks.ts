@@ -5,7 +5,7 @@ export const NETWORKS = [
     icon: "/eth.png",
   },
   {
-    id: 2,
+    id: 137,
     name: "Polygon",
     icon: "/matic.png",
   },
