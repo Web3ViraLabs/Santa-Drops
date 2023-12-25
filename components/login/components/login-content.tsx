@@ -9,7 +9,14 @@ import { EVM_NETWORKS, OTHER_NETWORKS } from "../config/networks";
 import NetworkBtn from "./network-btn";
 import WalletBtn from "./wallet-btn";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { WalletName } from "@solana/wallet-adapter-base";
+import {
+  WalletConnectionError,
+  WalletName,
+  WalletReadyState,
+  WalletWindowClosedError,
+} from "@solana/wallet-adapter-base";
+import SignatureSolana from "./sign-in-solana";
+import { Loader2 } from "lucide-react";
 
 type EVMNetworkID = 1 | 137;
 const validEVMNetworks = [1, 137];
@@ -40,6 +47,7 @@ const Login = () => {
     },
   });
   const { disconnect: EVMDisconnect } = useDisconnect();
+  const [selectedWallet, setSelectedWallet] = useState<boolean>(false);
 
   // When user connects their wallet, this event changes currentNetwork state
   const { connect, connectors, pendingConnector, error, isLoading } =
@@ -57,12 +65,14 @@ const Login = () => {
     select: selectSolanaWallet,
     publicKey: solanaPublicKey,
     connect: solanaConnect,
+    connected: isSolanaWalletConnected,
     disconnect: solanaDisconnect,
+
+    connecting: isSolanaWalletConnecting,
   } = useWallet();
 
   useEffect(() => {
     EVMDisconnect();
-    console.log("disconnected from evm");
   }, [EVMDisconnect]);
 
   const handleEVMNetworkClick = (id: EVMNetworkID) => {
@@ -78,14 +88,63 @@ const Login = () => {
     }
   };
 
-  const handleSolanaWalletConnect = (name: WalletName) => {
+  const handleSolanaNetworkClick = () => {
+    setOtherNetworks(1);
+  };
+
+  useEffect(() => {
+    setSelectedWallet(false);
+  }, [selectedWallet]);
+
+  const handleSolanaConnect = async () => {
+    // Assuming this code is inside an asynchronous function or a function marked with 'async'
     try {
-      // solanaDisconnect();
-      selectSolanaWallet(name);
-      solanaConnect();
-      console.log(solanaPublicKey?.toBase58());
+      await solanaConnect();
+      console.log("Connecting to wallet...");
+    } catch (error: any) {
+      if (
+        error instanceof WalletConnectionError &&
+        error.message === "User rejected the request."
+      ) {
+        console.log("User rejected the connection request");
+      } else {
+        // Handle other cases of WalletConnectionError
+        console.error("Wallet connection error:", error.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (selectedWallet) {
+      handleSolanaConnect();
+    }
+  }, [selectedWallet]);
+
+  useEffect(() => {
+    if (solanaPublicKey) {
+      setCurrentNetwork({
+        address: solanaPublicKey.toBase58(),
+      });
+    }
+  }, [solanaPublicKey]);
+
+  const handleSolanaWalletConnect = async (name: WalletName) => {
+    try {
+      if (!isSolanaWalletConnected) {
+        selectSolanaWallet(name);
+        setSelectedWallet(true);
+        console.log(
+          "Connecting to wallet...",
+          name,
+          selectedWallet,
+          isSolanaWalletConnected
+        );
+
+        return;
+      }
+      setSelectedWallet(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -93,6 +152,8 @@ const Login = () => {
     EVMDisconnect();
     setCurrentNetwork(undefined);
     setSelectedEVMNetwork(selectedEVMNetwork);
+    solanaDisconnect();
+    setSelectedWallet(false);
   };
 
   const handleChangeNetwork = () => {
@@ -100,7 +161,7 @@ const Login = () => {
     setSelectedEVMNetwork(null);
     setOtherNetworks(null);
     solanaDisconnect();
-    localStorage.removeItem("walletName");
+    setSelectedWallet(false);
     EVMDisconnect();
   };
 
@@ -119,13 +180,34 @@ const Login = () => {
   return (
     <Card className="w-full md:w-[580px] px-4 md:px-8 lg:me-16 max-h-[600px]">
       <CardHeader className="p-2 sm:p-6">
-        <CardTitle className="text-3xl text-center">
-          {!isSigned && (currentNetwork ? "Verify wallet" : "Select a network")}
+        <CardTitle className="text-3xl text-center flex items-center gap-x-2 justify-center">
+          <div>
+            {!isSigned &&
+              (currentNetwork ? "Verify wallet" : "Select a network")}
+          </div>
+          <div>
+            {isSolanaWalletConnecting && (
+              <Loader2 className="animate-spin h-6 w-6 dark:text-white" />
+            )}
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent key={selectedEVMNetwork} className="flex flex-col gap-4">
         {isSigned && address && (
-          <LoginCard signature={signature} address={address!} />
+          <LoginCard
+            currentNetwork={currentNetwork}
+            signature={signature}
+            address={address!}
+            setCurrentNetwork={setCurrentNetwork}
+          />
+        )}
+        {isSigned && solanaPublicKey && (
+          <LoginCard
+            setCurrentNetwork={setCurrentNetwork}
+            currentNetwork={currentNetwork}
+            signature={signature}
+            address={solanaPublicKey.toBase58()}
+          />
         )}
         {currentNetwork && !isSigned && address === currentNetwork.address && (
           <>
@@ -135,6 +217,17 @@ const Login = () => {
             </Button>
           </>
         )}
+        {currentNetwork &&
+          !isSigned &&
+          solanaPublicKey?.toBase58() === currentNetwork.address && (
+            <>
+              <SignatureSolana publicKey={solanaPublicKey} />
+              <Button variant={"outline"} onClick={handleChangeWallet}>
+                Change wallet
+              </Button>
+            </>
+          )}
+
         {!isSigned && (
           <>
             {NETWORK_TAB_CONDITION && (
@@ -144,9 +237,7 @@ const Login = () => {
                     icon={network.icon}
                     key={network.id}
                     name={network.name}
-                    onClick={() => {
-                      setOtherNetworks(network.id as 1 | 2);
-                    }}
+                    onClick={handleSolanaNetworkClick}
                   />
                 ))}
                 {EVM_NETWORKS.map((network, _) => (
@@ -183,8 +274,8 @@ const Login = () => {
                   name={wallet.adapter.name}
                   id={wallet.adapter.name}
                   onClick={() => handleSolanaWalletConnect(wallet.adapter.name)}
-                  isDisable={false}
-                  isLoading={false}
+                  isDisable={wallet.readyState === WalletReadyState.NotDetected}
+                  // isLoading={isWalletConnecting}
                 />
               ))}
             {CHANGE_NETWORK_CONDITION && (

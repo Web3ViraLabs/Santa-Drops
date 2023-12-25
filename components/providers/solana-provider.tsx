@@ -1,7 +1,12 @@
-import { WalletAdapterNetwork, WalletError } from "@solana/wallet-adapter-base";
+import {
+  WalletAdapterNetwork,
+  WalletError,
+  WalletWindowClosedError,
+} from "@solana/wallet-adapter-base";
 import {
   ConnectionProvider,
   WalletProvider,
+  useWallet,
 } from "@solana/wallet-adapter-react";
 
 import {
@@ -10,19 +15,15 @@ import {
   WalletConnectWalletAdapter,
   SolflareWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { Cluster, clusterApiUrl } from "@solana/web3.js";
+import { clusterApiUrl } from "@solana/web3.js";
 import { FC, ReactNode, useCallback, useMemo } from "react";
-import {
-  WalletModalProvider,
-  WalletMultiButton,
-} from "@solana/wallet-adapter-react-ui";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import { useModal } from "@/hooks/use-modal";
 
 const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const network = WalletAdapterNetwork.Mainnet;
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-
-  console.log(network);
-
+  const { onClose } = useModal();
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),
@@ -39,7 +40,15 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   );
 
   const onError = useCallback((error: WalletError) => {
-    console.error(error);
+    try {
+      console.log(error);
+
+      // if (error instanceof WalletWindowClosedError) {
+      //   onClose();
+      // }
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   return (

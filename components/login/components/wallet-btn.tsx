@@ -8,7 +8,7 @@ interface WalletProps {
   icon: string;
   isDisable?: boolean;
   onClick?: () => void;
-  isLoading: boolean;
+  isLoading?: boolean;
   className?: string;
 }
 
@@ -39,8 +39,8 @@ const WalletBtn = ({
           <span>{name}</span>
         </div>
         <div className="ms-auto me-3">
-          {isLoading && "(connecting)"}
-          {isDisable && "(not detected)"}
+          {isLoading && <span>(loading...)</span>}
+          {isDisable && <span className="ms-1"> (not detected)</span>}
         </div>
       </div>
     </button>

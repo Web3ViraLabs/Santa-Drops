@@ -12,17 +12,15 @@ export default function LayoutProvider({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <ThemeProvider attribute="class" defaultTheme="dark">
-        <WagmiProvider>
-          <SolanaProvider>
-            <LoginProvider>
-              <ModalProvider />
-              {children}
-            </LoginProvider>
-          </SolanaProvider>
-        </WagmiProvider>
-      </ThemeProvider>
-    </>
+    <ThemeProvider attribute="class" defaultTheme="dark">
+      <WagmiProvider>
+        <SolanaProvider>
+          <LoginProvider>
+            <ModalProvider />
+            {children}
+          </LoginProvider>
+        </SolanaProvider>
+      </WagmiProvider>
+    </ThemeProvider>
   );
 }

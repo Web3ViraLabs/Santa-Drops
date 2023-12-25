@@ -16,6 +16,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useModal } from "@/hooks/use-modal";
 import { User } from "@prisma/client";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 const formSchema = z.object({
   username: z
@@ -28,20 +30,35 @@ const formSchema = z.object({
     }),
 });
 
+interface Network {
+  address: `0x${string}`;
+}
+
+interface SolanaNetwork {
+  address: string;
+}
+
 const LoginCard = ({
   signature,
   address,
+  currentNetwork,
+  setCurrentNetwork,
 }: {
   signature: string;
   address: string;
+  currentNetwork: Network | SolanaNetwork | undefined;
+  setCurrentNetwork: (network: Network | SolanaNetwork | undefined) => void;
 }) => {
   const { setSigned } = useLoginContext();
   const [error, setError] = useState("");
   const { login } = useLoginContext();
   const { onClose: closeModal } = useModal();
+  const { disconnect } = useWallet();
 
   const onClose = () => {
     setSigned(false);
+    disconnect();
+    closeModal();
   };
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -67,7 +84,7 @@ const LoginCard = ({
 
         if (user) {
           login(user);
-          closeModal();
+          onClose();
           return;
         }
       }
@@ -75,6 +92,10 @@ const LoginCard = ({
       if (error.response.status === 409 && error.response.data.code === 1001) {
         console.log("User already exists");
         setError(`Username ${error.response.data.name} has been taken`);
+        return;
+      }
+      if (error) {
+        setError("Failed to create account");
       }
     }
   }
@@ -106,7 +127,6 @@ const LoginCard = ({
                       {...field}
                       className="px-4 py-6 bg-[#7d5eda]/10 rounded-lg"
                       autoComplete="off"
-                      autoFocus
                       value={field.value}
                       onChange={field.onChange}
                       placeholder="Username"
@@ -118,10 +138,17 @@ const LoginCard = ({
               )}
             />
             <div className="ml-3 flex w-full mt-5 items-center justify-around">
-              <Button variant={"outline"} onClick={onClose}>
+              <Button
+                variant={"outline"}
+                type="button"
+                onClick={() => {
+                  setSigned(false);
+                  setCurrentNetwork(currentNetwork);
+                }}
+              >
                 Cancel
               </Button>
-              <Button autoFocus type="submit" className="px-10 dark:text-white">
+              <Button type="submit" className="px-10 dark:text-white">
                 Create
               </Button>
             </div>
