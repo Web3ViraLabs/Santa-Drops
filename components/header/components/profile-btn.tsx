@@ -1,0 +1,47 @@
+import { User } from "@prisma/client";
+import Image from "next/image";
+import { Popover, Transition } from "@headlessui/react";
+import { Button } from "@/components/ui/button";
+import LogoutBtn from "./logout-btn";
+
+const ProfileBtn = ({ id, name, image }: User) => {
+  return (
+    <Popover className="relative">
+      <Popover.Button>
+        <div className="rounded-full focus:ring-2 focus:ring-[#315e9c] transition">
+          <div className="relative w-10 h-10">
+            <Image
+              src={image || "/diamond.svg"}
+              alt={name}
+              fill
+              sizes={"24px"}
+              className="rounded-full border"
+            />
+          </div>
+        </div>
+      </Popover.Button>
+      <Transition
+        enter="transition duration-400 ease-in"
+        enterFrom="transform scale-65 opacity-0"
+        enterTo="transform scale-100 opacity-100"
+        leave="transition duration-75 ease-out"
+        leaveFrom="transform scale-100 opacity-100"
+        leaveTo="transform scale-95 opacity-0"
+      >
+        <Popover.Panel className="absolute left-[-10rem] z-10 w-[200px]">
+          <div className="flex items-center justify-center space-y-2  bg-background border flex-col flex-1 p-2">
+            <div className="bg-[#262729] w-full p-2 text-center rounded-lg">
+              <span>{name}</span>
+            </div>
+            <Button className="w-full" variant={"ghost"}>
+              Profile
+            </Button>
+            <LogoutBtn />
+          </div>
+        </Popover.Panel>
+      </Transition>
+    </Popover>
+  );
+};
+
+export default ProfileBtn;

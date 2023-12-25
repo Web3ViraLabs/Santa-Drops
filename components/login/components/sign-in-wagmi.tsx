@@ -4,10 +4,13 @@ import { useSignMessage } from "wagmi";
 import { useLoginContext } from "./login-context";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useModal } from "@/hooks/use-modal";
+import { User } from "@prisma/client";
 
 const Signature = ({ address }: Address) => {
-  const { setSigned, setSignature } = useLoginContext();
+  const { setSigned, login } = useLoginContext();
   const router = useRouter();
+  const { onClose } = useModal();
 
   const { isLoading, signMessage } = useSignMessage({
     message: "Alphagini",
@@ -15,10 +18,15 @@ const Signature = ({ address }: Address) => {
       const { data, status } = await axios.post("/api/account/login", {
         address,
       });
-      if (status === 200 && data.user) {
-        localStorage.setItem("TOKEN", data.user.token);
-        return router.refresh();
+
+      const user: User = data.user;
+
+      if (status === 200 && user) {
+        login(user);
+        onClose();
+        return router.push("/");
       }
+
       setSigned(true);
       // setSignature(data);
     },

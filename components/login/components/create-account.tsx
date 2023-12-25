@@ -14,6 +14,8 @@ import { Input } from "@/components/ui/input";
 import { useLoginContext } from "./login-context";
 import axios from "axios";
 import { useState } from "react";
+import { useModal } from "@/hooks/use-modal";
+import { User } from "@prisma/client";
 
 const formSchema = z.object({
   username: z
@@ -35,6 +37,8 @@ const LoginCard = ({
 }) => {
   const { setSigned } = useLoginContext();
   const [error, setError] = useState("");
+  const { login } = useLoginContext();
+  const { onClose: closeModal } = useModal();
 
   const onClose = () => {
     setSigned(false);
@@ -49,7 +53,7 @@ const LoginCard = ({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const { data, status } = await axios.get(
+      const { status } = await axios.get(
         "/api/account/login?name=" + values.username
       );
 
@@ -59,8 +63,12 @@ const LoginCard = ({
           name: values.username,
         });
 
-        if (data) {
-          localStorage.setItem("TOKEN", JSON.stringify(data.token));
+        const user: User = data;
+
+        if (user) {
+          login(user);
+          closeModal();
+          return;
         }
       }
     } catch (error: any) {

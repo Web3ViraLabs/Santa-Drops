@@ -6,5 +6,5 @@ export type User = {
   name: string;
   id: string;
   image: string;
-  createdAt: Date;
+  createdAt?: Date;
 };

@@ -22,7 +22,7 @@ export default function RootLayout({
       <body
         suppressHydrationWarning
         className={cn(
-          "relative h-full font-sans antialiased",
+          "relative  min-h-full h-full font-sans antialiased",
           poppins.className
         )}
       >
