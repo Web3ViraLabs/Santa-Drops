@@ -1,13 +1,13 @@
-import { cn, constructMetadata } from "@/lib/utils";
-import { Poppins } from "next/font/google";
-import "./globals.css";
+import { cn, constructMetadata } from '@/lib/utils';
+import { Poppins } from 'next/font/google';
+import './globals.css';
 
-import { Toaster } from "sonner";
-import LayoutProvider from "@/components/providers/layout-provider";
+import { Toaster } from 'sonner';
+import LayoutProvider from '@/components/providers/layout-provider';
 
 const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400"],
+  subsets: ['latin'],
+  weight: ['400'],
 });
 
 export const metadata = constructMetadata();
@@ -22,7 +22,7 @@ export default function RootLayout({
       <body
         suppressHydrationWarning
         className={cn(
-          "relative  min-h-full h-full font-sans antialiased",
+          'relative  min-h-full h-full font-sans antialiased',
           poppins.className
         )}
       >
