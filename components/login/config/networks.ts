@@ -1,11 +1,11 @@
 export const EVM_NETWORKS = [
   {
-    id: 1,
+    symbol: "ETH",
     name: "Ethereum",
     icon: "/eth.png",
   },
   {
-    id: 137,
+    symbol: "MATIC",
     name: "Polygon",
     icon: "/matic.png",
   },
@@ -13,7 +13,7 @@ export const EVM_NETWORKS = [
 
 export const OTHER_NETWORKS = [
   {
-    id: 1,
+    symbol: "SOL",
     name: "Solana",
     icon: "/sol.png",
   },

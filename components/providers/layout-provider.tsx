@@ -1,6 +1,6 @@
 "use client";
 
-import { LoginProvider } from "../login/components/login-context";
+import { LoginProvider } from "../login/components/context/login-context";
 import { ModalProvider } from "./modal-provider";
 import { SolanaProvider } from "./solana-provider";
 import { ThemeProvider } from "./theme-provider";

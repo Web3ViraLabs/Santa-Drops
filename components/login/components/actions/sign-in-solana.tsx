@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Address } from "@/lib/types";
 import { useSignMessage } from "wagmi";
-import { useLoginContext } from "./login-context";
+import { useLoginContext } from "../context/login-context";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal";

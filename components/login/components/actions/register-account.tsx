@@ -11,13 +11,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useLoginContext } from "./login-context";
+import { useLoginContext } from "../context/login-context";
 import axios from "axios";
 import { useState } from "react";
 import { useModal } from "@/hooks/use-modal";
 import { User } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { useWallet } from "@solana/wallet-adapter-react";
+import useLoginStore from "../../config/login-store";
 
 const formSchema = z.object({
   username: z
@@ -30,30 +31,13 @@ const formSchema = z.object({
     }),
 });
 
-interface Network {
-  address: `0x${string}`;
-}
-
-interface SolanaNetwork {
-  address: string;
-}
-
-const LoginCard = ({
-  signature,
-  address,
-  currentNetwork,
-  setCurrentNetwork,
-}: {
-  signature: string;
-  address: string;
-  currentNetwork: Network | SolanaNetwork | undefined;
-  setCurrentNetwork: (network: Network | SolanaNetwork | undefined) => void;
-}) => {
+const LoginCard = ({ address }: { address: string }) => {
   const { setSigned } = useLoginContext();
   const [error, setError] = useState("");
   const { login } = useLoginContext();
   const { onClose: closeModal } = useModal();
   const { disconnect } = useWallet();
+  const { setCurrentNetwork, currentNetwork, signature } = useLoginStore();
 
   const onClose = () => {
     setSigned(false);

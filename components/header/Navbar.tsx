@@ -9,7 +9,7 @@ import MaxWidthWrapper from "../MaxWidthWrapper";
 import { ModeToggle } from "../mode-toggle";
 import ProfileBtn from "./components/profile-btn";
 import LoginBtn from "./components/login-btn";
-import { useLoginContext } from "../login/components/login-context";
+import { useLoginContext } from "../login/components/context/login-context";
 
 const Navbar = () => {
   const { user } = useLoginContext();

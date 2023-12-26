@@ -1,4 +1,4 @@
-import { useLoginContext } from "@/components/login/components/login-context";
+import { useLoginContext } from "@/components/login/components/context/login-context";
 import { Button } from "@/components/ui/button";
 
 const LogoutBtn = () => {

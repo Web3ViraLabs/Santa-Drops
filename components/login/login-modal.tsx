@@ -4,7 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useModal } from "@/hooks/use-modal";
 import { X } from "lucide-react";
 import { Fragment } from "react";
-import Login from "./components/login-content";
+import Login from "./login-content";
 
 const LoginModal = () => {
   const { isOpen, onClose, type } = useModal();
