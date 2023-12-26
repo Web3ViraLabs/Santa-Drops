@@ -7,8 +7,6 @@ import AllBlockchains from "@/components/main/allblockchain";
 import Feature1 from "@/components/features/feature1";
 import Feature2 from "@/components/features/feature2";
 import Feature3 from "@/components/features/feature3";
-import { User } from "@/lib/types";
-import axios from "axios";
 
 export default async function Home() {
   return (
