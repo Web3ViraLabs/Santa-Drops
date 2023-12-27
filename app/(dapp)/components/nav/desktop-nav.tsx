@@ -2,9 +2,11 @@
 
 import NavItem from "./nav-item";
 import { usePathname, useRouter } from "next/navigation";
-import { Group, Home, User } from "lucide-react";
+import { Group, Home, Settings, User } from "lucide-react";
+import { Profile } from "@prisma/client";
+import Link from "next/link";
 
-const NavBar = () => {
+const NavBar = ({ user }: { user: Profile | null }) => {
   const NAV_ITEMS = [
     {
       name: "Home",
@@ -31,7 +33,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="border hidden lg:flex justify-end lg:w-[320px] 2xl:w-[380px]">
+    <nav className="border-r hidden lg:flex justify-end lg:w-[320px] 2xl:w-[380px]">
       <div className="flex flex-col mr-4 w-48 p-4 pt-2 text-zinc-400">
         <div className="my-4">
           <h1 className="text-xl font-bold opacity-90 dark:text-white">
@@ -39,14 +41,32 @@ const NavBar = () => {
           </h1>
         </div>
         {NAV_ITEMS.map((item) => (
-          <NavItem
-            key={item.name}
-            label={item.name}
-            icon={item.icon}
-            isActive={isActive(item.href)}
-            onClick={() => router.push(item.href)}
-          />
+          <Link key={item.name} href={item.href}>
+            <NavItem
+              key={item.name}
+              label={item.name}
+              icon={item.icon}
+              isActive={isActive(item.href)}
+              // onClick={() => router.push(item.href)}
+            />
+          </Link>
         ))}
+        {user && (
+          <>
+            <NavItem
+              label={"Profile"}
+              icon={<User />}
+              isActive={isActive(`/user/${user.name}`)}
+              onClick={() => router.push(`/user/${user.name}`)}
+            />
+            <NavItem
+              label={"Settings"}
+              icon={<Settings />}
+              isActive={isActive(`/settings`)}
+              onClick={() => router.push(`/settings`)}
+            />
+          </>
+        )}
       </div>
     </nav>
   );

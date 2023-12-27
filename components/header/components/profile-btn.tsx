@@ -2,8 +2,11 @@ import Image from "next/image";
 import { Popover, Transition } from "@headlessui/react";
 import { Button } from "@/components/ui/button";
 import LogoutBtn from "./logout-btn";
+import { useRouter } from "next/navigation";
 
 const ProfileBtn = ({ image, name }: { image: string; name: string }) => {
+  const router = useRouter();
+
   return (
     <Popover className="relative">
       <Popover.Button>
@@ -32,7 +35,11 @@ const ProfileBtn = ({ image, name }: { image: string; name: string }) => {
             <div className="bg-[#262729] w-full p-2 text-center rounded-lg">
               <span>{name}</span>
             </div>
-            <Button className="w-full" variant={"ghost"}>
+            <Button
+              onClick={() => router.push(`/user/${name}`)}
+              className="w-full"
+              variant={"ghost"}
+            >
               Profile
             </Button>
             <LogoutBtn />

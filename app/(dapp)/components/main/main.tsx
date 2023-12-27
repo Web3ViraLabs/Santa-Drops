@@ -1,20 +1,17 @@
-import Link from "next/link";
+"use client";
 
-const Main = ({ children }: { children: React.ReactNode }) => {
+import MainHeader from "./main-header";
+import { Profile } from "@prisma/client";
+
+interface MainProps {
+  children: React.ReactNode;
+  user: Profile | null;
+}
+
+const Main = async ({ children, user }: MainProps) => {
   return (
-    <div className="relative flex flex-col flex-1 h-full">
-      <div className="sticky flex top-0 max-w-[1080px] px-4 md:px-8 items-center h-20">
-        <div className="ms-auto">
-          <div className="ml-4 flow-root lg:ml-6">
-            <Link
-              href={"/login"}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-auto"
-            >
-              Sign In
-            </Link>
-          </div>
-        </div>
-      </div>
+    <div className="relative flex flex-col flex-1 h-full p-4">
+      <MainHeader user={user} />
       {children}
     </div>
   );

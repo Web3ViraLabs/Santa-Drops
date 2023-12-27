@@ -1,13 +1,14 @@
-"use client";
-
+import { getCurrentUser } from "@/lib/get-current-user";
 import Main from "./components/main/main";
 import NavBar from "./components/nav/desktop-nav";
 
-const Dapp = ({ children }: { children: React.ReactNode }) => {
+const Dapp = async ({ children }: { children: React.ReactNode }) => {
+  const user = await getCurrentUser();
+
   return (
     <div className="h-full w-full flex dark:bg-[#09141B]">
-      <NavBar />
-      <Main>{children}</Main>
+      <NavBar user={user} />
+      <Main user={user}>{children}</Main>
     </div>
   );
 };

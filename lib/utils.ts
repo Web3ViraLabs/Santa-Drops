@@ -1,16 +1,16 @@
-import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-import { Metadata } from 'next';
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+import { Metadata } from "next";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 export function constructMetadata({
-  title = 'DigitalHippo - All in one Web3 Platform',
-  description = 'DigitalHippo is a platform for web3 assets',
-  image = '/thumbnail.png',
-  icons = '/favicon.ico',
+  title = "DigitalHippo - All in one Web3 Platform",
+  description = "DigitalHippo is a platform for web3 assets",
+  image = "/thumbnail.png",
+  icons = "/favicon.ico",
   noIndex = false,
 }: {
   title?: string;
@@ -32,14 +32,14 @@ export function constructMetadata({
       ],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title,
       description,
       images: [image],
-      creator: '@joshtriedcoding',
+      creator: "@ViraLabs",
     },
     icons,
-    metadataBase: new URL('https://www.google.com/'),
+    metadataBase: new URL("https://www.google.com/"),
     ...(noIndex && {
       robots: {
         index: false,

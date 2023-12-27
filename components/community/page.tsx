@@ -1,27 +1,27 @@
-import { Button, buttonVariants } from '@/components/ui/button';
-import MaxWidthWrapper from '@/components/MaxWidthWrapper';
-import { ModeToggle } from '@/components/mode-toggle';
-import { ArrowDownToLine, CheckCircle, Leaf } from 'lucide-react';
-import Link from 'next/link';
-import Navbar from '@/components/header/Navbar';
-import Footer from '@/components/footer/Footer';
-import Hero from '@/components/main/communityhero';
+import { Button, buttonVariants } from "@/components/ui/button";
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import { ModeToggle } from "@/components/mode-toggle";
+import { ArrowDownToLine, CheckCircle, Leaf } from "lucide-react";
+import Link from "next/link";
+import Navbar from "@/components/header/Navbar";
+import Footer from "@/components/footer/Footer";
+import Hero from "@/components/main/communityhero";
 
 const perks = [
   {
-    name: 'Instant Delivery',
+    name: "Instant Delivery",
     Icon: ArrowDownToLine,
     description:
-      'Get your assets delivered to your email in seconds and download them right away.',
+      "Get your assets delivered to your email in seconds and download them right away.",
   },
   {
-    name: 'Guaranteed Quality',
+    name: "Guaranteed Quality",
     Icon: CheckCircle,
     description:
-      'Every asset on our platform is verified by our team to ensure our highest quality standards. Not happy? We offer a 30-day refund guarantee.',
+      "Every asset on our platform is verified by our team to ensure our highest quality standards. Not happy? We offer a 30-day refund guarantee.",
   },
   {
-    name: 'For the Planet',
+    name: "For the Planet",
     Icon: Leaf,
     description:
       "We've pledged 1% of sales to the preservation and restoration of the natural environment.",
@@ -31,7 +31,7 @@ const perks = [
 export default function Home() {
   return (
     <main className="relative flex flex-col min-h-screen">
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="flex-grow flex-1">
         <Hero />
         <>

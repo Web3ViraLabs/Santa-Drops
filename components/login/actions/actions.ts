@@ -69,9 +69,9 @@ export async function loginAccount(address: string) {
     }
 
     cookies().set("token", user.token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
+      // httpOnly: true,
+      // secure: true,
+      // sameSite: "strict",
     });
 
     return user;
@@ -111,9 +111,9 @@ export async function createAccount({
     }
 
     cookies().set("token", user.token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
+      // httpOnly: true,
+      // secure: true,
+      // sameSite: "strict",
     });
 
     return user;

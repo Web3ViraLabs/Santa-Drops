@@ -9,24 +9,9 @@ import MaxWidthWrapper from "../MaxWidthWrapper";
 import { ModeToggle } from "../mode-toggle";
 import ProfileBtn from "./components/profile-btn";
 import LoginBtn from "./components/login-btn";
-import { useLoginContext } from "../login/context/login-context";
-import { getCurrentUser } from "@/lib/get-current-user";
 import { Profile } from "@prisma/client";
-import { useEffect, useState } from "react";
 
 const Navbar = ({ user }: { user: Profile | null }) => {
-  // const { user } = useLoginContext();
-  // const [user, setUser] = useState<Profile | null>(null);
-
-  // const fetchUser = async () => {
-  //   const user = await getCurrentUser();
-  //   setUser(user);
-  // };
-
-  // useEffect(() => {
-  //   fetchUser();
-  // }, []);
-
   return (
     <div className="background sticky z-50 top-0 inset-x-0 h-16 bg-white dark:bg-background">
       <header className="relative background">

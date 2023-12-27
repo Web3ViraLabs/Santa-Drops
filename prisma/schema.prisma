@@ -20,16 +20,35 @@ enum Symbol {
 }
 
 model Profile {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  name       String   @unique
-  registered Boolean  @default(false)
-  role       Role     @default(USER)
-  token      String   @unique
-  image      String?
-  createdAt  DateTime @default(now())
-  wallets    Wallet[]
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String    @unique
+  registered  Boolean   @default(false)
+  role        Role      @default(USER)
+  token       String    @unique
+  image       String?
+  createdAt   DateTime  @default(now())
+  wallets     Wallet[]
+  connections Account[]
 
   @@index([name, token])
+}
+
+model Account {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  accountId     String?
+  username      String?
+  image         String?
+  provider      String
+  refresh_token String?   @db.String
+  access_token  String?   @db.String
+  expires_at    DateTime?
+  token_type    String?
+  scope         String?
+  profileId     String    @db.ObjectId
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([provider])
 }
 
 model Wallet {
@@ -41,7 +60,7 @@ model Wallet {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  profile   Profile @relation(fields: [profileId], references: [id])
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId String  @db.ObjectId
 
   @@index([address, profileId])

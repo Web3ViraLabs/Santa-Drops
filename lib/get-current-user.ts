@@ -1,10 +1,8 @@
-"use server";
-
-import { cookies } from "next/headers";
 import { db } from "./db";
+import { getToken } from "./get-token";
 
 export async function getCurrentUser() {
-  const token = cookies().get("token")?.value;
+  const token = getToken();
 
   if (!token) {
     return null;
@@ -13,6 +11,9 @@ export async function getCurrentUser() {
   const profile = await db.profile.findFirst({
     where: {
       token,
+    },
+    include: {
+      connections: true,
     },
   });
 
