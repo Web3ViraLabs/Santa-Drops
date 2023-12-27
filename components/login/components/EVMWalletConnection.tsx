@@ -1,11 +1,23 @@
 import React from "react";
 import WalletBtn from "./buttons/wallet-btn";
-import { useConnect } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import useLoginStore from "../config/login-store";
 
 const EVMWalletConnectionComponent: React.FC = ({}) => {
   const selectedEVMNetwork = useLoginStore((state) => state.selectedEVMNetwork);
   const setCurrentAddress = useLoginStore((state) => state.setCurrentAddress);
+  const setIsNetwork = useLoginStore((state) => state.setIsNetwork);
+  const setSigned = useLoginStore((state) => state.setSigned);
+  const setSignature = useLoginStore((state) => state.setSignature);
+
+  useAccount({
+    onDisconnect: () => {
+      setIsNetwork(true);
+      setCurrentAddress(null);
+      setSigned(false);
+      setSignature("");
+    },
+  });
 
   const { connect, connectors, pendingConnector, error, isLoading } =
     useConnect({

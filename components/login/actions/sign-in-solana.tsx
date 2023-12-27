@@ -1,30 +1,28 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Address } from "@/lib/types";
-import { useSignMessage } from "wagmi";
 import { useLoginContext } from "../context/login-context";
-import axios from "axios";
+import base58 from "bs58";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal";
-import { User } from "@prisma/client";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useState } from "react";
 import nacl from "tweetnacl";
-import base58 from "bs58";
 import { type PublicKey } from "@solana/web3.js";
 import { WalletSignMessageError } from "@solana/wallet-adapter-base";
+import useLoginStore from "../config/login-store";
+import { existAddress, loginAccount } from "./actions";
 
 const MESSAGE_TO_SIGN = "Alphagini";
 
 const SignatureSolana = ({ publicKey }: { publicKey: PublicKey }) => {
-  const { setSigned, login } = useLoginContext();
+  const { login } = useLoginContext();
   const router = useRouter();
   const { onClose } = useModal();
-
+  const { setSigned, reset, setSignature } = useLoginStore();
   const { signMessage, disconnect } = useWallet();
 
   const handleClose = () => {
+    reset();
     onClose();
     disconnect();
   };
@@ -42,19 +40,23 @@ const SignatureSolana = ({ publicKey }: { publicKey: PublicKey }) => {
       );
 
       if (walletIsSigner) {
-        const { data, status } = await axios.post("/api/account/login", {
-          address: publicKey.toBase58(),
-        });
+        const isAddressRegistered = await existAddress(publicKey.toBase58());
 
-        const user: User = data.user;
-
-        if (status === 200 && user) {
-          login(user);
-          handleClose();
-          return router.push("/");
+        if (!isAddressRegistered) {
+          setSignature(base58.encode(uint8arraySignature));
+          setSigned(true);
+          return;
         }
 
-        setSigned(true);
+        const user = await loginAccount(publicKey.toBase58());
+
+        if (user) {
+          // login(user);
+
+          reset();
+          onClose();
+          return;
+        }
       }
     } catch (error) {
       if (error instanceof WalletSignMessageError) {

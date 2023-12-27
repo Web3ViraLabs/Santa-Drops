@@ -20,6 +20,7 @@ interface LoginStoreState {
   signature: string;
   isSigned: boolean;
   selectedWallet: boolean;
+  solanaAddress: boolean;
 }
 
 interface LoginStoreActions extends LoginStoreState {
@@ -31,9 +32,13 @@ interface LoginStoreActions extends LoginStoreState {
   setSignature: (value: string) => void;
   setSigned: (value: boolean) => void;
   setSelectedWallet: (value: boolean) => void;
+  setSolanaAddress: (value: boolean) => void;
+
+  // New reset function
+  reset: () => void;
 }
 
-const useLoginStore = create<LoginStoreState & LoginStoreActions>((set) => ({
+const initialState: LoginStoreState = {
   selectedEVMNetwork: null,
   otherNetworks: null,
   currentAddress: null,
@@ -42,6 +47,11 @@ const useLoginStore = create<LoginStoreState & LoginStoreActions>((set) => ({
   signature: "",
   isSigned: false,
   selectedWallet: false,
+  solanaAddress: true,
+};
+
+const useLoginStore = create<LoginStoreState & LoginStoreActions>((set) => ({
+  ...initialState,
 
   setSelectedEVMNetwork: (id) => set({ selectedEVMNetwork: id }),
   setOtherNetworks: (value) => set({ otherNetworks: value }),
@@ -51,6 +61,10 @@ const useLoginStore = create<LoginStoreState & LoginStoreActions>((set) => ({
   setSignature: (value) => set({ signature: value }),
   setSigned: (value) => set({ isSigned: value }),
   setSelectedWallet: (value) => set({ selectedWallet: value }),
+  setSolanaAddress: (value) => set({ solanaAddress: value }),
+
+  // Implementation of the reset function
+  reset: () => set(initialState),
 }));
 
 export default useLoginStore;

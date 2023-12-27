@@ -4,15 +4,30 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useModal } from "@/hooks/use-modal";
 import { X } from "lucide-react";
 import { Fragment } from "react";
-import Login from "./login-content";
+import Login from "./authenticate";
+import useLoginStore from "./config/login-store";
+import { useLoginContext } from "./context/login-context";
 
 const LoginModal = () => {
   const { isOpen, onClose, type } = useModal();
+  const { setSigned } = useLoginContext();
+  const {
+    setSelectedEVMNetwork,
+    setOtherNetworks,
+    setIsNetwork,
+    setCurrentAddress,
+    reset,
+  } = useLoginStore();
+
+  const handleClose = () => {
+    reset();
+    onClose();
+  };
 
   const isModalOpen = isOpen && type === "login";
   return (
     <Transition.Root show={isModalOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
+      <Dialog as="div" className="relative z-50" onClose={handleClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-200"
@@ -40,7 +55,7 @@ const LoginModal = () => {
                 <Dialog.Panel className="relative pointer-events-auto w-screen max-w-lg  bg-transparent flex items-center justify-center">
                   <button
                     aria-label="close"
-                    onClick={() => onClose()}
+                    onClick={handleClose}
                     className="absolute right-2 top-2 focus:ring-1"
                   >
                     <X />

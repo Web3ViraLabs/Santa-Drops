@@ -9,10 +9,11 @@ import {
 } from "@solana/wallet-adapter-base";
 
 const SolanaWalletConnectionComponent: React.FC = () => {
-  console.log("SolanaWalletConnectionComponent");
-
-  const { selectedWallet, setSelectedWallet, setCurrentAddress } =
-    useLoginStore();
+  const selectedWallet = useLoginStore((state) => state.selectedWallet);
+  const setSelectedWallet = useLoginStore((state) => state.setSelectedWallet);
+  const setCurrentAddress = useLoginStore((state) => state.setCurrentAddress);
+  const solanaAddress = useLoginStore((state) => state.solanaAddress);
+  const setSolanaAddress = useLoginStore((state) => state.setSolanaAddress);
 
   const {
     wallets: solanaWallets,
@@ -45,28 +46,21 @@ const SolanaWalletConnectionComponent: React.FC = () => {
   }, [selectedWallet]);
 
   useEffect(() => {
-    if (solanaPublicKey) {
+    if (solanaPublicKey && solanaAddress) {
       setCurrentAddress({
         address: solanaPublicKey.toBase58(),
       });
     }
-  }, [solanaPublicKey]);
+  }, [solanaPublicKey, solanaAddress]);
 
   const handleSolanaWalletConnect = async (name: WalletName) => {
     try {
       if (!isSolanaWalletConnected) {
         selectSolanaWallet(name);
         setSelectedWallet(true);
-        console.log(
-          "Connecting to wallet...",
-          name,
-          selectedWallet,
-          isSolanaWalletConnected
-        );
-
+        setSolanaAddress(true);
         return;
       }
-      setSelectedWallet(false);
     } catch (error) {
       console.error(error);
     }

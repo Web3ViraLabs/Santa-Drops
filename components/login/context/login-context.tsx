@@ -1,27 +1,22 @@
-import { User } from "@prisma/client";
+import { Profile } from "@prisma/client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface LoginContextProps {
-  isSigned: boolean;
-  setSigned: React.Dispatch<React.SetStateAction<boolean>>;
-  signature: string;
-  setSignature: React.Dispatch<React.SetStateAction<string>>;
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  login: (userData: User) => void;
+  user: Profile | null;
+  setUser: React.Dispatch<React.SetStateAction<Profile | null>>;
+  login: (userData: Profile) => void;
   logout: () => void;
 }
 
 const LoginContext = createContext<LoginContextProps | null>(null);
 
 export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isSigned, setSigned] = useState(false);
-  const [signature, setSignature] = useState("");
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<Profile | null>(null);
 
-  const login = (userData: User) => {
+  const login = (userData: Profile) => {
     setUser(userData);
-    localStorage.setItem("USER_SESSION", JSON.stringify(userData)); // Store user data
+    localStorage.setItem("USER_SESSION", JSON.stringify(userData));
+    // Store user data
   };
 
   const logout = () => {
@@ -40,10 +35,6 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <LoginContext.Provider
       value={{
-        setSigned,
-        isSigned,
-        signature,
-        setSignature,
         user,
         setUser,
         login,

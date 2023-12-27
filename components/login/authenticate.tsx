@@ -1,11 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useEffect } from "react";
 import { useAccount, useDisconnect } from "wagmi";
-import { useLoginContext } from "./components/context/login-context";
-import LoginCard from "./components/actions/register-account";
-import Signature from "./components/actions/sign-in-wagmi";
+import LoginCard from "./actions/register-account";
+import Signature from "./actions/sign-in-wagmi";
 import { useWallet } from "@solana/wallet-adapter-react";
-import SignatureSolana from "./components/actions/sign-in-solana";
+import SignatureSolana from "./actions/sign-in-solana";
 import { Loader2 } from "lucide-react";
 import EVMWalletConnectionComponent from "./components/EVMWalletConnection";
 import NetworkSelectionComponent from "./components/NetworkSelection";
@@ -13,40 +12,34 @@ import SolanaWalletConnectionComponent from "./components/SolanaWalletConnection
 import ChangeNetworkButtonComponent from "./components/ChangeNetworkButton";
 import ChangeWalletButtonComponent from "./components/ChangeWalletButton";
 import useLoginStore from "./config/login-store";
+import { symbol } from "zod";
 
 const Login = () => {
-  const { isSigned, setSignature, setSigned } = useLoginContext();
-  const {
-    setIsNetwork,
-    setCurrentAddress,
-    selectedEVMNetwork,
-    otherNetworks,
-    isNetwork,
-    currentAddress,
-    selectedWallet,
-    setSelectedWallet,
-  } = useLoginStore();
+  const selectedEVMNetwork = useLoginStore((state) => state.selectedEVMNetwork);
+  const otherNetworks = useLoginStore((state) => state.otherNetworks);
+  const isNetwork = useLoginStore((state) => state.isNetwork);
+  const isSigned = useLoginStore((state) => state.isSigned);
+  const currentAddress = useLoginStore((state) => state.currentAddress);
+  const selectedWallet = useLoginStore((state) => state.selectedWallet);
+  const setSelectedWallet = useLoginStore((state) => state.setSelectedWallet);
 
-  const { address } = useAccount({
-    onDisconnect: () => {
-      setIsNetwork(true);
-      setCurrentAddress(null);
-      setSigned(false);
-      setSignature("");
-    },
-  });
+  const { address } = useAccount();
   const { disconnect: EVMDisconnect } = useDisconnect();
-
   const { publicKey: solanaPublicKey, connecting: isSolanaWalletConnecting } =
     useWallet();
 
+  // Disconnects EVM Wallet so user can login again from different wallet or chain
   useEffect(() => {
     EVMDisconnect();
   }, [EVMDisconnect]);
 
+  // Set solana selected wallet to false, so user can login again from different wallet
+
   useEffect(() => {
     setSelectedWallet(false);
   }, [selectedWallet]);
+
+  // Below are the conditions required to show different states
 
   const NETWORK_TAB_CONDITION =
     !selectedEVMNetwork && !otherNetworks && isNetwork;
@@ -76,9 +69,9 @@ const Login = () => {
       <CardContent className="flex flex-col gap-4">
         {isSigned && (
           <>
-            {address && <LoginCard address={address!} />}
+            {address && <LoginCard address={address!} symbol="ETH" />}
             {solanaPublicKey && (
-              <LoginCard address={solanaPublicKey.toBase58()} />
+              <LoginCard address={solanaPublicKey.toBase58()} symbol="SOL" />
             )}
           </>
         )}

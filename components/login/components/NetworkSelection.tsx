@@ -11,6 +11,8 @@ const NetworkSelectionComponent: React.FC = ({}) => {
   const setSelectedEVMNetwork = useLoginStore(
     (state) => state.setSelectedEVMNetwork
   );
+  const setCurrentAddress = useLoginStore((state) => state.setCurrentAddress);
+
   const { disconnect: EVMDisconnect } = useDisconnect();
 
   const handleEVMNetworkClick = (symbol: EVMSymbol) => {
@@ -19,6 +21,7 @@ const NetworkSelectionComponent: React.FC = ({}) => {
   };
 
   const handleSolanaNetworkClick = () => {
+    setCurrentAddress(null);
     setOtherNetworks("SOL");
   };
 

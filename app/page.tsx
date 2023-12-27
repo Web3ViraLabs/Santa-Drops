@@ -7,11 +7,14 @@ import AllBlockchains from "@/components/main/allblockchain";
 import Feature1 from "@/components/features/feature1";
 import Feature2 from "@/components/features/feature2";
 import Feature3 from "@/components/features/feature3";
+import { getCurrentUser } from "@/lib/get-current-user";
 
 export default async function Home() {
+  const user = await getCurrentUser();
+
   return (
     <main className="relative flex flex-col min-h-screen">
-      <Navbar />
+      <Navbar user={user} />
       <div className="flex-grow flex-1">
         <Hero />
         <OurPatners />

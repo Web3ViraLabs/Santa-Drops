@@ -1,15 +1,9 @@
-import { useLoginContext } from "@/components/login/components/context/login-context";
 import { Button } from "@/components/ui/button";
+import { logout } from "../actions/logout";
 
 const LogoutBtn = () => {
-  const { logout } = useLoginContext();
-
-  const onClick = () => {
-    logout();
-  };
-
   return (
-    <Button onClick={onClick} className="w-full" variant={"ghost"}>
+    <Button onClick={() => logout()} className="w-full" variant={"ghost"}>
       Logout
     </Button>
   );

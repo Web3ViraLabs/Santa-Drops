@@ -9,10 +9,23 @@ import MaxWidthWrapper from "../MaxWidthWrapper";
 import { ModeToggle } from "../mode-toggle";
 import ProfileBtn from "./components/profile-btn";
 import LoginBtn from "./components/login-btn";
-import { useLoginContext } from "../login/components/context/login-context";
+import { useLoginContext } from "../login/context/login-context";
+import { getCurrentUser } from "@/lib/get-current-user";
+import { Profile } from "@prisma/client";
+import { useEffect, useState } from "react";
 
-const Navbar = () => {
-  const { user } = useLoginContext();
+const Navbar = ({ user }: { user: Profile | null }) => {
+  // const { user } = useLoginContext();
+  // const [user, setUser] = useState<Profile | null>(null);
+
+  // const fetchUser = async () => {
+  //   const user = await getCurrentUser();
+  //   setUser(user);
+  // };
+
+  // useEffect(() => {
+  //   fetchUser();
+  // }, []);
 
   return (
     <div className="background sticky z-50 top-0 inset-x-0 h-16 bg-white dark:bg-background">
@@ -55,7 +68,14 @@ const Navbar = () => {
                     <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
                   </div>
                   <div className="ml-4 flow-root lg:ml-6">
-                    {user ? <ProfileBtn {...user} /> : <LoginBtn />}
+                    {user ? (
+                      <ProfileBtn
+                        image={user.image || "/diamond.svg"}
+                        name={user.name}
+                      />
+                    ) : (
+                      <LoginBtn />
+                    )}
                   </div>
                   <ModeToggle />
                 </div>

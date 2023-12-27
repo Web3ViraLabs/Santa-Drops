@@ -12,13 +12,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useLoginContext } from "../context/login-context";
-import axios from "axios";
 import { useState } from "react";
 import { useModal } from "@/hooks/use-modal";
-import { User } from "@prisma/client";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { useWallet } from "@solana/wallet-adapter-react";
-import useLoginStore from "../../config/login-store";
+import useLoginStore from "../config/login-store";
+import { createAccount, existAddress, existUser } from "./actions";
+import { Symbol } from "@prisma/client";
+import { cookies } from "next/headers";
 
 const formSchema = z.object({
   username: z
@@ -31,17 +31,23 @@ const formSchema = z.object({
     }),
 });
 
-const LoginCard = ({ address }: { address: string }) => {
-  const { setSigned } = useLoginContext();
+const LoginCard = ({
+  address,
+  symbol,
+}: {
+  address: string;
+  symbol: Symbol;
+}) => {
   const [error, setError] = useState("");
   const { login } = useLoginContext();
   const { onClose: closeModal } = useModal();
   const { disconnect } = useWallet();
-  const { setCurrentNetwork, currentNetwork, signature } = useLoginStore();
+  const { setCurrentAddress, currentAddress, setSigned, reset, signature } =
+    useLoginStore();
 
   const onClose = () => {
-    setSigned(false);
     disconnect();
+    reset();
     closeModal();
   };
 
@@ -53,34 +59,33 @@ const LoginCard = ({ address }: { address: string }) => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      const { status } = await axios.get(
-        "/api/account/login?name=" + values.username
+    const userNameExist = await existUser(values.username);
+
+    if (userNameExist === true) {
+      setError(`Username ${values.username} has been taken`);
+      return;
+    }
+
+    const isAddressRegistered = await existAddress(address);
+
+    if (isAddressRegistered === true) {
+      setError(`Address ${address} has been registered`);
+      return;
+    }
+
+    const account = await createAccount({
+      address,
+      name: values.username,
+      symbol,
+      signature,
+    });
+
+    if (account) {
+      onClose();
+    } else {
+      setError(
+        "Something went wrong. Please try again later. If the problem persists, please contact us."
       );
-
-      if (status === 200) {
-        const { data } = await axios.post("/api/account/create", {
-          address,
-          name: values.username,
-        });
-
-        const user: User = data;
-
-        if (user) {
-          login(user);
-          onClose();
-          return;
-        }
-      }
-    } catch (error: any) {
-      if (error.response.status === 409 && error.response.data.code === 1001) {
-        console.log("User already exists");
-        setError(`Username ${error.response.data.name} has been taken`);
-        return;
-      }
-      if (error) {
-        setError("Failed to create account");
-      }
     }
   }
 
@@ -127,7 +132,7 @@ const LoginCard = ({ address }: { address: string }) => {
                 type="button"
                 onClick={() => {
                   setSigned(false);
-                  setCurrentNetwork(currentNetwork);
+                  setCurrentAddress(currentAddress);
                 }}
               >
                 Cancel

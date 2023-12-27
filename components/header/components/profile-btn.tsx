@@ -1,10 +1,9 @@
-import { User } from "@prisma/client";
 import Image from "next/image";
 import { Popover, Transition } from "@headlessui/react";
 import { Button } from "@/components/ui/button";
 import LogoutBtn from "./logout-btn";
 
-const ProfileBtn = ({ id, name, image }: User) => {
+const ProfileBtn = ({ image, name }: { image: string; name: string }) => {
   return (
     <Popover className="relative">
       <Popover.Button>

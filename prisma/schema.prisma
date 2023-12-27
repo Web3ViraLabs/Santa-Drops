@@ -9,19 +9,40 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String   @unique
-  token     String   @unique
-  signature String?
-  image     String?
-  createdAt DateTime @default(now())
-  wallets   Wallet[] // Relation to multiple wallets
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Symbol {
+  ETH
+  SOL
+}
+
+model Profile {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String   @unique
+  registered Boolean  @default(false)
+  role       Role     @default(USER)
+  token      String   @unique
+  image      String?
+  createdAt  DateTime @default(now())
+  wallets    Wallet[]
+
+  @@index([name, token])
 }
 
 model Wallet {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  address String @unique
-  user    User   @relation(fields: [userId], references: [id]) // Relation to one user
-  userId  String @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  address    String   @unique
+  signature  String
+  symbol     Symbol
+  registered Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String  @db.ObjectId
+
+  @@index([address, profileId])
 }
