@@ -81,7 +81,7 @@ const ConnectionTable = ({ connectedOauth }: { connectedOauth: Account[] }) => {
       <thead className="text-xs text-gray-700 uppercase bg-main dark:text-gray-400">
         <tr>
           <th scope="col" className={commonClasses}>
-            Providers
+            Provider
           </th>
           <th scope="col" className={commonClasses}>
             Linked Account
