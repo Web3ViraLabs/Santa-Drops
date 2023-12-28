@@ -18,3 +18,11 @@ export const OTHER_NETWORKS = [
     icon: "/sol.png",
   },
 ];
+
+export const BTC_NETWORK = [
+  {
+    symbol: "BTC",
+    name: "Bitcoin",
+    icon: "/btc.png",
+  },
+];

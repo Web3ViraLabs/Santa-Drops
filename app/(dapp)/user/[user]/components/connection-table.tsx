@@ -7,6 +7,7 @@ import {
   generateCodeChallenge,
   generateCodeVerifier,
 } from "../../../settings/actions/challenge-code";
+import { useTheme } from "next-themes";
 
 const discordClientId = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID;
 const discordRedirectUri = process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI;
@@ -62,6 +63,8 @@ const ConnectionTable = ({ connectedOauth }: { connectedOauth: Account[] }) => {
     }
   };
 
+  const { theme } = useTheme();
+
   const handleUnlink = async (id: string) => {
     if (!id) {
       return null;
@@ -100,7 +103,24 @@ const ConnectionTable = ({ connectedOauth }: { connectedOauth: Account[] }) => {
           return (
             <tr key={index} className={rowClasses}>
               <th scope="row" className={commonClasses}>
-                <span className="capitalize">{provider.name}</span>
+                <div className="flex items-center space-x-4">
+                  <div className="relative h-8 w-8">
+                    <Image
+                      src={
+                        provider.name === "DISCORD"
+                          ? "/discord.svg"
+                          : theme === "dark"
+                          ? "/twitter_light.svg"
+                          : "/twitter.svg"
+                      }
+                      alt={provider.name + "icon"}
+                      fill
+                      sizes="64px"
+                      className="object-cover rounded-lg"
+                    />
+                  </div>
+                  <span className="capitalize">{provider.name}</span>
+                </div>
               </th>
               <td className="px-6 py-6 ">
                 {connectedProvider ? (

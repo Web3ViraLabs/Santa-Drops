@@ -12,7 +12,8 @@ import SolanaWalletConnectionComponent from "./components/SolanaWalletConnection
 import ChangeNetworkButtonComponent from "./components/ChangeNetworkButton";
 import ChangeWalletButtonComponent from "./components/ChangeWalletButton";
 import useLoginStore from "./config/login-store";
-import { symbol } from "zod";
+import XverseWallet from "./components/XVerseWalletConnection";
+import SignatureXverse from "./actions/sign-in-xverse";
 
 const Login = () => {
   const selectedEVMNetwork = useLoginStore((state) => state.selectedEVMNetwork);
@@ -21,6 +22,7 @@ const Login = () => {
   const isSigned = useLoginStore((state) => state.isSigned);
   const currentAddress = useLoginStore((state) => state.currentAddress);
   const selectedWallet = useLoginStore((state) => state.selectedWallet);
+  const btcAddress = useLoginStore((state) => state.btcAddress);
   const setSelectedWallet = useLoginStore((state) => state.setSelectedWallet);
 
   const { address } = useAccount();
@@ -57,6 +59,8 @@ const Login = () => {
   const SOLANA_WALLET_CONDITION =
     !selectedEVMNetwork && otherNetworks === "SOL";
 
+  const BTC_WALLET_CONDITION = !selectedEVMNetwork && otherNetworks === "BTC";
+
   const CHANGE_NETWORK_CONDITION = otherNetworks || selectedEVMNetwork;
 
   return (
@@ -81,6 +85,13 @@ const Login = () => {
             {solanaPublicKey && (
               <LoginCard address={solanaPublicKey.toBase58()} symbol="SOL" />
             )}
+            {!address && !solanaPublicKey && currentAddress && btcAddress && (
+              <LoginCard
+                address={currentAddress.address}
+                symbol="BTC"
+                btcAddress={btcAddress}
+              />
+            )}
           </>
         )}
         {!isSigned && (
@@ -99,6 +110,12 @@ const Login = () => {
                     <ChangeWalletButtonComponent />
                   </>
                 )}
+                {currentAddress && !solanaPublicKey && !address && (
+                  <>
+                    <SignatureXverse address={currentAddress.address} />
+                    <ChangeWalletButtonComponent />
+                  </>
+                )}
               </>
             )}
 
@@ -107,6 +124,7 @@ const Login = () => {
                 {NETWORK_TAB_CONDITION && <NetworkSelectionComponent />}
                 {EVM_WALLET_CONDITION && <EVMWalletConnectionComponent />}
                 {SOLANA_WALLET_CONDITION && <SolanaWalletConnectionComponent />}
+                {BTC_WALLET_CONDITION && <XverseWallet />}
               </>
             )}
             {CHANGE_NETWORK_CONDITION && <ChangeNetworkButtonComponent />}

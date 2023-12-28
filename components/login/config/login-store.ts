@@ -1,20 +1,21 @@
 import { create } from "zustand";
 
 type EVMSymbol = "ETH" | "MATIC";
-type NONEVMSymbol = "SOL";
+type NONEVMSymbol = "SOL" | "BTC";
 
 interface Network {
   address: `0x${string}`;
 }
 
-interface SolanaNetwork {
+interface OtherNetworks {
   address: string;
 }
 
 interface LoginStoreState {
   selectedEVMNetwork: EVMSymbol | null;
   otherNetworks: NONEVMSymbol | null;
-  currentAddress: Network | SolanaNetwork | null;
+  currentAddress: Network | OtherNetworks | null;
+  btcAddress: string | null;
   isNetwork: boolean;
   address: string | null;
   signature: string;
@@ -27,7 +28,8 @@ interface LoginStoreState {
 interface LoginStoreActions extends LoginStoreState {
   setSelectedEVMNetwork: (id: EVMSymbol | null) => void;
   setOtherNetworks: (value: NONEVMSymbol | null) => void;
-  setCurrentAddress: (network: Network | SolanaNetwork | null) => void;
+  setCurrentAddress: (network: Network | OtherNetworks | null) => void;
+  setBtcAddress: (value: string) => void;
   setIsNetwork: (value: boolean) => void;
   setAddress: (value: string) => void;
   setSignature: (value: string) => void;
@@ -44,6 +46,7 @@ const initialState: LoginStoreState = {
   selectedEVMNetwork: null,
   otherNetworks: null,
   currentAddress: null,
+  btcAddress: null,
   isNetwork: true,
   address: null,
   signature: "",
@@ -59,6 +62,7 @@ const useLoginStore = create<LoginStoreState & LoginStoreActions>((set) => ({
   setSelectedEVMNetwork: (id) => set({ selectedEVMNetwork: id }),
   setOtherNetworks: (value) => set({ otherNetworks: value }),
   setCurrentAddress: (network) => set({ currentAddress: network }),
+  setBtcAddress: (value) => set({ btcAddress: value }),
   setIsNetwork: (value) => set({ isNetwork: value }),
   setAddress: (value) => set({ address: value }),
   setSignature: (value) => set({ signature: value }),

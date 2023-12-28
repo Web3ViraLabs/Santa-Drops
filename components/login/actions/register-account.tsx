@@ -17,7 +17,6 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import useLoginStore from "../config/login-store";
 import { createAccount, existAddress, existUser } from "./actions";
 import { Symbol } from "@prisma/client";
-import { cookies } from "next/headers";
 import { getRandomNumber } from "@/lib/utils";
 
 const formSchema = z.object({
@@ -41,9 +40,11 @@ const USER_AVATARS = [
 const LoginCard = ({
   address,
   symbol,
+  btcAddress,
 }: {
   address: string;
   symbol: Symbol;
+  btcAddress?: string;
 }) => {
   const [error, setError] = useState("");
   const { onClose: closeModal } = useModal();
@@ -83,6 +84,7 @@ const LoginCard = ({
       address,
       image: USER_AVATARS[getRandomNumber()],
       name: values.username,
+      btcAddress,
       symbol,
       signature,
     });

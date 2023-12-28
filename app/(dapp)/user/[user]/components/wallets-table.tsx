@@ -83,6 +83,9 @@ const WalletTable = ({ wallets }: { wallets: Wallet[] }) => {
                   {wallet.symbol === "SOL" && (
                     <Image src={"/sol.png"} alt="eth" fill sizes={"24px"} />
                   )}
+                  {wallet.symbol === "BTC" && (
+                    <Image src={"/btc.png"} alt="eth" fill sizes={"24px"} />
+                  )}
                 </div>
               </td>
               <td className="px-6 py-6">

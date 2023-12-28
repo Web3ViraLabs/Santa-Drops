@@ -17,6 +17,7 @@ enum Role {
 enum Symbol {
   ETH
   SOL
+  BTC
 }
 
 model Profile {
@@ -57,6 +58,7 @@ model Account {
 model Wallet {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   address    String   @unique
+  btcAddress String?
   signature  String
   symbol     Symbol
   registered Boolean  @default(false)

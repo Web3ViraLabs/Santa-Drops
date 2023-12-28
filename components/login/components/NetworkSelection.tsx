@@ -2,7 +2,7 @@ import React from "react";
 import NetworkBtn from "./buttons/network-btn";
 import useLoginStore from "../config/login-store";
 import { useDisconnect } from "wagmi";
-import { EVM_NETWORKS, OTHER_NETWORKS } from "../config/networks";
+import { BTC_NETWORK, EVM_NETWORKS, OTHER_NETWORKS } from "../config/networks";
 
 type EVMSymbol = "ETH" | "MATIC";
 
@@ -25,6 +25,11 @@ const NetworkSelectionComponent: React.FC = ({}) => {
     setOtherNetworks("SOL");
   };
 
+  const handleBitcoinNetworkClick = () => {
+    setCurrentAddress(null);
+    setOtherNetworks("BTC");
+  };
+
   return (
     <>
       {OTHER_NETWORKS.map((network) => (
@@ -33,6 +38,14 @@ const NetworkSelectionComponent: React.FC = ({}) => {
           icon={network.icon}
           name={network.name}
           onClick={handleSolanaNetworkClick}
+        />
+      ))}
+      {BTC_NETWORK.map((network) => (
+        <NetworkBtn
+          key={network.symbol}
+          icon={network.icon}
+          name={network.name}
+          onClick={handleBitcoinNetworkClick}
         />
       ))}
       {EVM_NETWORKS.map((network) => (

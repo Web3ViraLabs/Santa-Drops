@@ -16,6 +16,7 @@ interface LinkAccountProps {
 interface AccountCreationProps extends LinkAccountProps {
   name: string;
   image: string;
+  btcAddress?: string;
 }
 
 export async function existUser(name: string) {
@@ -95,6 +96,7 @@ export async function createAccount({
   address,
   symbol,
   image,
+  btcAddress,
   signature,
   name,
 }: AccountCreationProps) {
@@ -112,6 +114,7 @@ export async function createAccount({
             address,
             signature,
             symbol,
+            btcAddress,
             registered: true,
           },
         },
