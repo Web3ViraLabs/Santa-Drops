@@ -16,7 +16,6 @@ const Signature = ({ address }: Address) => {
     message: "Alphagini",
     onSuccess: async (signData) => {
       const isAddressRegistered = await existAddress(address);
-      console.log(isAddressRegistered);
 
       if (isLinking) {
         if (!isAddressRegistered) {

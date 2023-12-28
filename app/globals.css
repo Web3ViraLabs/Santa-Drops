@@ -2,6 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #616161 #2c2e2e;
+}
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+  height: 7px;
+  width: 7px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 4px;
+  background-color: #2c2e2e;
+}
+
+*::-webkit-scrollbar-track:hover {
+  background-color: #2c2e2e;
+}
+
+*::-webkit-scrollbar-track:active {
+  background-color: #2c2e2e;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #616161;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #a7a7a7;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: #616161;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -27,19 +64,20 @@
   }
 
   .dark {
-    --background: 203 50% 7%;
+    --main: 230 6% 12%;
+    --background: 0 0% 7%;
     --foreground: 210 40% 98%;
-    --card: 203 50% 7%;
+    --card: 0 0% 7%;
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
+    --primary: 217.2 90% 80%;
     --primary-foreground: 222.2 47.4% 11.2%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 0 0% 50%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;

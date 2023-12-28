@@ -106,7 +106,9 @@ export async function GET(req: NextRequest) {
     }
 
     if (currentUser.connections.find((c) => c.provider === "twitter")) {
-      return NextResponse.redirect(new URL("/settings", req.url));
+      return NextResponse.redirect(
+        new URL(`/user/${currentUser.name}`, req.url)
+      );
     }
 
     if (!code) {
@@ -157,6 +159,13 @@ export async function GET(req: NextRequest) {
         expires_at: new Date(Date.now() + expires_in * 1000),
         profileId: currentUser.id,
       },
+      select: {
+        profile: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
 
     cookies().delete("code_verifier");
@@ -168,7 +177,9 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    return NextResponse.redirect(new URL("/settings", req.url));
+    return NextResponse.redirect(
+      new URL(`/user/${account.profile.name}`, req.url)
+    );
   } catch (error) {
     console.error("[CALLBACK] ", error);
     return NextResponse.json(

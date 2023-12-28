@@ -15,6 +15,7 @@ interface LinkAccountProps {
 
 interface AccountCreationProps extends LinkAccountProps {
   name: string;
+  image: string;
 }
 
 export async function existUser(name: string) {
@@ -54,7 +55,11 @@ export async function existAddress(address: string) {
     },
   });
 
-  return isWalletRegistered?.registered;
+  if (!isWalletRegistered) {
+    return false;
+  }
+
+  return isWalletRegistered.registered;
 }
 
 export async function loginAccount(address: string) {
@@ -89,6 +94,7 @@ export async function loginAccount(address: string) {
 export async function createAccount({
   address,
   symbol,
+  image,
   signature,
   name,
 }: AccountCreationProps) {
@@ -99,6 +105,7 @@ export async function createAccount({
       data: {
         name,
         token,
+        image,
         registered: true,
         wallets: {
           create: {
@@ -171,7 +178,7 @@ export async function linkWallet({
       return null;
     }
 
-    revalidatePath("/settings");
+    revalidatePath("/");
 
     return linkWallet;
   } catch (error) {

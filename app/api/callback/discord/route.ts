@@ -97,7 +97,9 @@ export async function GET(req: NextRequest) {
     }
 
     if (currentUser.connections.find((c) => c.provider === "discord")) {
-      return NextResponse.redirect(new URL("/settings", req.url));
+      return NextResponse.redirect(
+        new URL(`/user/${currentUser.name}`, req.url)
+      );
     }
 
     if (!code) {
@@ -149,6 +151,13 @@ export async function GET(req: NextRequest) {
         expires_at: new Date(Date.now() + expires_in * 1000),
         profileId: currentUser.id,
       },
+      include: {
+        profile: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
 
     if (!account) {
@@ -158,7 +167,9 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    return NextResponse.redirect(new URL("/settings", req.url));
+    return NextResponse.redirect(
+      new URL(`/user/${account.profile.name}`, req.url)
+    );
   } catch (error) {
     console.error("[CALLBACK] ", error);
     return NextResponse.json(

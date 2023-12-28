@@ -1,7 +1,10 @@
 "use client";
 
 import { Wallet } from "@prisma/client";
-import { removeProvider, unlinkWallet } from "../actions/actions";
+import {
+  removeProvider,
+  unlinkWallet,
+} from "../../../settings/actions/actions";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Check, Copy } from "lucide-react";
@@ -10,8 +13,7 @@ import { useState } from "react";
 const WalletTable = ({ wallets }: { wallets: Wallet[] }) => {
   const commonClasses =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
-  const rowClasses =
-    "dark:bg-gray-900 dark:border-gray-700 hover:bg-blue-200 dark:hover:bg-gray-600";
+  const rowClasses = "bg-main dark:hover:bg-main/70";
   const linkClasses =
     "font-medium text-blue-600 dark:text-blue-500 hover:underline";
 
@@ -31,7 +33,7 @@ const WalletTable = ({ wallets }: { wallets: Wallet[] }) => {
 
   return (
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
+      <thead className="text-xs text-gray-700 uppercase bg-main dark:text-gray-400">
         <tr>
           <th scope="col" className={commonClasses}>
             Address

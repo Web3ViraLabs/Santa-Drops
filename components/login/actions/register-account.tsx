@@ -19,6 +19,7 @@ import useLoginStore from "../config/login-store";
 import { createAccount, existAddress, existUser } from "./actions";
 import { Symbol } from "@prisma/client";
 import { cookies } from "next/headers";
+import { getRandomNumber } from "@/lib/utils";
 
 const formSchema = z.object({
   username: z
@@ -30,6 +31,13 @@ const formSchema = z.object({
       message: "Username must be less than 15 characters.",
     }),
 });
+
+const USER_AVATARS = [
+  "/assets/user/blue_diamond.svg",
+  "/assets/user/red_diamond.svg",
+  "/assets/user/orange_diamond.svg",
+  "/assets/user/yellow_diamond.svg",
+];
 
 const LoginCard = ({
   address,
@@ -75,6 +83,7 @@ const LoginCard = ({
 
     const account = await createAccount({
       address,
+      image: USER_AVATARS[getRandomNumber()],
       name: values.username,
       symbol,
       signature,

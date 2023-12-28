@@ -1,12 +1,12 @@
 "use client";
 
 import { Account } from "@prisma/client";
-import { removeProvider, setCookie } from "../actions/actions";
+import { removeProvider, setCookie } from "../../../settings/actions/actions";
 import Image from "next/image";
 import {
   generateCodeChallenge,
   generateCodeVerifier,
-} from "../actions/challenge-code";
+} from "../../../settings/actions/challenge-code";
 
 const discordClientId = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID;
 const discordRedirectUri = process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI;
@@ -40,8 +40,7 @@ const providers: Providers[] = [
 const ConnectionTable = ({ connectedOauth }: { connectedOauth: Account[] }) => {
   const commonClasses =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
-  const rowClasses =
-    "dark:bg-gray-900 dark:border-gray-700 hover:bg-blue-200 dark:hover:bg-gray-600";
+  const rowClasses = "bg-main dark:hover:bg-main/70";
   const linkClasses =
     "font-medium text-blue-600 dark:text-blue-500 hover:underline";
 
@@ -79,7 +78,7 @@ const ConnectionTable = ({ connectedOauth }: { connectedOauth: Account[] }) => {
 
   return (
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
+      <thead className="text-xs text-gray-700 uppercase bg-main dark:text-gray-400">
         <tr>
           <th scope="col" className={commonClasses}>
             Providers
@@ -103,10 +102,10 @@ const ConnectionTable = ({ connectedOauth }: { connectedOauth: Account[] }) => {
               <th scope="row" className={commonClasses}>
                 <span className="capitalize">{provider.name}</span>
               </th>
-              <td className="px-6 py-6">
+              <td className="px-6 py-6 ">
                 {connectedProvider ? (
                   <div className="flex items-center">
-                    <div className="relative w-8 h-8">
+                    <div className="relative w-6 h-6">
                       <Image
                         className="object-cover rounded-lg"
                         src={connectedProvider.image || "/diamond.svg"}

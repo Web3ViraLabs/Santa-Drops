@@ -10,9 +10,9 @@ interface MainProps {
 
 const Main = ({ children, user }: MainProps) => {
   return (
-    <div className="relative flex flex-col flex-1 h-full p-4 overflow-y-auto">
+    <div className="relative flex flex-col flex-1 h-screen overflow-y-auto">
       <MainHeader user={user} />
-      {children}
+      <div className="bg-main">{children}</div>
     </div>
   );
 };

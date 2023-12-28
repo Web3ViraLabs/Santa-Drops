@@ -3,15 +3,16 @@ import { Popover, Transition } from "@headlessui/react";
 import { Button } from "@/components/ui/button";
 import LogoutBtn from "./logout-btn";
 import { useRouter } from "next/navigation";
+import { UserCircle } from "lucide-react";
 
 const ProfileBtn = ({ image, name }: { image: string; name: string }) => {
   const router = useRouter();
 
   return (
     <Popover className="relative">
-      <Popover.Button>
-        <div className="rounded-full focus:ring-2 focus:ring-[#315e9c] transition">
-          <div className="relative w-10 h-10">
+      <Popover.Button className="rounded-full">
+        <div className="rounded-full focus:ring-2 focus:ring-[#07090a] transition">
+          <div className="relative w-10 h-10 rounded-full">
             <Image
               src={image || "/diamond.svg"}
               alt={name}
@@ -30,19 +31,19 @@ const ProfileBtn = ({ image, name }: { image: string; name: string }) => {
         leaveFrom="transform scale-100 opacity-100"
         leaveTo="transform scale-95 opacity-0"
       >
-        <Popover.Panel className="absolute left-[-10rem] z-50 w-[200px]">
-          <div className="flex items-center justify-center space-y-2  bg-background border flex-col flex-1 p-2 z-50">
-            <div className="bg-[#262729] w-full p-2 text-center rounded-lg">
-              <span>{name}</span>
+        <Popover.Panel className="absolute left-[-15rem] w-[270px]">
+          <div className="flex items-center justify-center space-y-2 bg-main border-none flex-col z-50 rounded-sm shadow-lg">
+            <div className="flex flex-col items-center py-4 w-full">
+              <Button
+                onClick={() => router.push(`/user/${name}`)}
+                className="w-full py-6 flex items-center gap-x-4"
+                variant={"ghost"}
+              >
+                <UserCircle />
+                <span className="text-lg">Profile</span>
+              </Button>
+              <LogoutBtn />
             </div>
-            <Button
-              onClick={() => router.push(`/user/${name}`)}
-              className="w-full"
-              variant={"ghost"}
-            >
-              Profile
-            </Button>
-            <LogoutBtn />
           </div>
         </Popover.Panel>
       </Transition>
