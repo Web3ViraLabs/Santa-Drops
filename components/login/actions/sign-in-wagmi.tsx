@@ -1,9 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Address } from "@/lib/types";
 import { useSignMessage } from "wagmi";
-import { useLoginContext } from "../context/login-context";
-import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal";
 import useLoginStore from "../config/login-store";
 import { existAddress, linkWallet, loginAccount } from "./actions";
@@ -50,7 +47,6 @@ const Signature = ({ address }: Address) => {
       const user = await loginAccount(address);
 
       if (user) {
-        // login(user);
         reset();
         onClose();
         return;

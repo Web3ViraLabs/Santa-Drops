@@ -15,7 +15,7 @@ const UserPage = async ({ params }: { params: { user: string } }) => {
   const user = await useUser(paramUsername);
 
   return (
-    <div className="flex flex-col w-full h-full p-2 pr-8 ">
+    <div className="flex flex-col w-full h-full overflow-y-auto bg-main p-2 pr-8 ">
       {currentUser && currentUser.name === paramUsername && (
         <>
           <ProfileBorder

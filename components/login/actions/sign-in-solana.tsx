@@ -15,8 +15,6 @@ import { existAddress, linkWallet, loginAccount } from "./actions";
 const MESSAGE_TO_SIGN = "Alphagini";
 
 const SignatureSolana = ({ publicKey }: { publicKey: PublicKey }) => {
-  const { login } = useLoginContext();
-  const router = useRouter();
   const { onClose } = useModal();
   const { setSigned, reset, setSignature, isLinking } = useLoginStore();
   const { signMessage, disconnect } = useWallet();

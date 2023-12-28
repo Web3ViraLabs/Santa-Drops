@@ -33,12 +33,17 @@ model Profile {
   @@index([name, token])
 }
 
+enum Provider {
+  DISCORD
+  TWITTER
+}
+
 model Account {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   accountId     String?
   username      String?
   image         String?
-  provider      String
+  provider      Provider
   refresh_token String?   @db.String
   access_token  String?   @db.String
   expires_at    DateTime?
@@ -47,8 +52,6 @@ model Account {
   profileId     String    @db.ObjectId
 
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
-
-  @@unique([provider])
 }
 
 model Wallet {

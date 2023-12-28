@@ -1,6 +1,6 @@
 "use client";
 
-import { Account } from "@prisma/client";
+import { Account, Provider } from "@prisma/client";
 import { removeProvider, setCookie } from "../../../settings/actions/actions";
 import Image from "next/image";
 import {
@@ -19,18 +19,18 @@ const twitterScope = process.env.NEXT_PUBLIC_TWITTER_SCOPE;
 const twitterResponseType = "code";
 
 type Providers = {
-  name: "discord" | "twitter";
+  name: Provider;
   redirect_url: string;
 };
 
 const providers: Providers[] = [
   {
-    name: "discord",
+    name: "DISCORD",
     redirect_url: `https://discord.com/api/oauth2/authorize?client_id=${discordClientId}&redirect_uri=${discordRedirectUri}&response_type=${discordResponseType}&scope=${discordScope}`,
   },
   {
     // &code_challenge=challenge&code_challenge_method=plain
-    name: "twitter",
+    name: "TWITTER",
     redirect_url: `https://twitter.com/i/oauth2/authorize?response_type=${twitterResponseType}&client_id=${twitterClientId}&redirect_uri=${encodeURIComponent(
       twitterRedirectUri!
     )}&scope=${twitterScope}&code_challenge_method=S256`,
@@ -44,16 +44,16 @@ const ConnectionTable = ({ connectedOauth }: { connectedOauth: Account[] }) => {
   const linkClasses =
     "font-medium text-blue-600 dark:text-blue-500 hover:underline";
 
-  const handleLink = async (provider: "discord" | "twitter", url: string) => {
+  const handleLink = async (provider: Provider, url: string) => {
     const state =
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15);
     setCookie("state", state);
-    if (provider === "discord") {
+    if (provider === "DISCORD") {
       window.location.href = url + "&state=" + state;
     }
 
-    if (provider === "twitter") {
+    if (provider === "TWITTER") {
       const codeVerifier = generateCodeVerifier();
       const codeChallenge = await generateCodeChallenge(codeVerifier);
       setCookie("code_verifier", codeVerifier);

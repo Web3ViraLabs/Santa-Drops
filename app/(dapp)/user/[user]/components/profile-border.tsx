@@ -17,8 +17,8 @@ const ProfileBorder = ({
   return (
     <>
       <div className="w-[80%] mt-2 p-4">
-        <div className="bg-background flex p-8 rounded-lg shadow-lg">
-          <div className="relative rounded-full w-[200px] h-[200px] ring-gray-500">
+        <div className="bg-background flex w-full items-center lg:p-8 p-4 rounded-lg shadow-lg">
+          <div className="relative rounded-full min-w-[100px] h-[100px] lg:min-w-[200px] lg:h-[200px] ring-gray-500">
             <Image
               className="object-cover rounded-full"
               src={image}
@@ -28,7 +28,7 @@ const ProfileBorder = ({
               priority
             />
           </div>
-          <div className="flex-1 flex-col pl-20">
+          <div className="flex flex-col ml-20">
             <div className="flex items-center">
               <h3 className="text-5xl font-semibold">{username}</h3>
               {isCurrentUser && (

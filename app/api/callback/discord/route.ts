@@ -96,7 +96,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    if (currentUser.connections.find((c) => c.provider === "discord")) {
+    if (currentUser.connections.find((c) => c.provider === "DISCORD")) {
       return NextResponse.redirect(
         new URL(`/user/${currentUser.name}`, req.url)
       );
@@ -143,7 +143,7 @@ export async function GET(req: NextRequest) {
         accountId: id,
         username,
         image: image_url,
-        provider: "discord",
+        provider: "DISCORD",
         access_token,
         refresh_token,
         scope,

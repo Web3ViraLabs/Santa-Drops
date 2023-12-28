@@ -105,7 +105,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    if (currentUser.connections.find((c) => c.provider === "twitter")) {
+    if (currentUser.connections.find((c) => c.provider === "TWITTER")) {
       return NextResponse.redirect(
         new URL(`/user/${currentUser.name}`, req.url)
       );
@@ -151,7 +151,7 @@ export async function GET(req: NextRequest) {
         accountId: id,
         username,
         image: avatar,
-        provider: "twitter",
+        provider: "TWITTER",
         access_token,
         refresh_token,
         scope,
