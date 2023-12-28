@@ -1,6 +1,5 @@
 "use client";
 
-import { LoginProvider } from "../login/context/login-context";
 import { ModalProvider } from "./modal-provider";
 import { SolanaProvider } from "./solana-provider";
 import { ThemeProvider } from "./theme-provider";
@@ -15,10 +14,8 @@ export default function LayoutProvider({
     <ThemeProvider attribute="class" defaultTheme="dark">
       <WagmiProvider>
         <SolanaProvider>
-          <LoginProvider>
-            <ModalProvider />
-            {children}
-          </LoginProvider>
+          <ModalProvider />
+          {children}
         </SolanaProvider>
       </WagmiProvider>
     </ThemeProvider>

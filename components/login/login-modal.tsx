@@ -6,18 +6,10 @@ import { X } from "lucide-react";
 import { Fragment } from "react";
 import Login from "./authenticate";
 import useLoginStore from "./config/login-store";
-import { useLoginContext } from "./context/login-context";
 
 const LoginModal = () => {
   const { isOpen, onClose, type } = useModal();
-  const { setSigned } = useLoginContext();
-  const {
-    setSelectedEVMNetwork,
-    setOtherNetworks,
-    setIsNetwork,
-    setCurrentAddress,
-    reset,
-  } = useLoginStore();
+  const { reset } = useLoginStore();
 
   const handleClose = () => {
     reset();

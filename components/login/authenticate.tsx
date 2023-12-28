@@ -25,19 +25,27 @@ const Login = () => {
 
   const { address } = useAccount();
   const { disconnect: EVMDisconnect } = useDisconnect();
-  const { publicKey: solanaPublicKey, connecting: isSolanaWalletConnecting } =
-    useWallet();
+  const {
+    publicKey: solanaPublicKey,
+    connecting: isSolanaWalletConnecting,
+    disconnect: solanaDisconnect,
+  } = useWallet();
+  const { reset } = useLoginStore();
 
   // Disconnects EVM Wallet so user can login again from different wallet or chain
   useEffect(() => {
     EVMDisconnect();
-  }, [EVMDisconnect]);
+  }, [EVMDisconnect, reset]);
 
   // Set solana selected wallet to false, so user can login again from different wallet
 
   useEffect(() => {
     setSelectedWallet(false);
   }, [selectedWallet]);
+
+  useEffect(() => {
+    solanaDisconnect();
+  }, [reset]);
 
   // Below are the conditions required to show different states
 

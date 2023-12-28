@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useLoginContext } from "../context/login-context";
 import base58 from "bs58";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal";

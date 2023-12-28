@@ -11,7 +11,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useLoginContext } from "../context/login-context";
 import { useState } from "react";
 import { useModal } from "@/hooks/use-modal";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -47,7 +46,6 @@ const LoginCard = ({
   symbol: Symbol;
 }) => {
   const [error, setError] = useState("");
-  const { login } = useLoginContext();
   const { onClose: closeModal } = useModal();
   const { disconnect } = useWallet();
   const { setCurrentAddress, currentAddress, setSigned, reset, signature } =
