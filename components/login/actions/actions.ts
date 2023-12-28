@@ -1,15 +1,20 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { getCurrentUser } from "@/lib/get-current-user";
 import { Symbol } from "@prisma/client";
 import crypto from "crypto";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-interface AccountCreationProps {
-  name: string;
+interface LinkAccountProps {
   address: string;
   symbol: Symbol;
   signature: string;
+}
+
+interface AccountCreationProps extends LinkAccountProps {
+  name: string;
 }
 
 export async function existUser(name: string) {
@@ -120,5 +125,56 @@ export async function createAccount({
   } catch (error) {
     console.log("[CREATE_ACCOUNT] ", error);
     return null;
+  }
+}
+
+export async function linkWallet({
+  address,
+  symbol,
+  signature,
+}: LinkAccountProps) {
+  try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      return null;
+    }
+
+    const linkWallet = await db.profile.update({
+      where: {
+        id: currentUser.id,
+      },
+      data: {
+        wallets: {
+          create: {
+            address,
+            symbol,
+            signature,
+            registered: true,
+          },
+        },
+      },
+      select: {
+        wallets: {
+          where: {
+            address,
+          },
+          select: {
+            id: true,
+            address: true,
+          },
+        },
+      },
+    });
+
+    if (!linkWallet) {
+      return null;
+    }
+
+    revalidatePath("/settings");
+
+    return linkWallet;
+  } catch (error) {
+    console.log("[LINK_ACCOUNT] ", error);
   }
 }

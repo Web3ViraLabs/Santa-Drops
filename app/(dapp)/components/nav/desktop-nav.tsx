@@ -33,7 +33,7 @@ const NavBar = ({ user }: { user: Profile | null }) => {
   };
 
   return (
-    <nav className="border-r hidden lg:flex justify-end lg:w-[320px] 2xl:w-[380px]">
+    <nav className="border-r h-full overflow-auto hidden lg:flex justify-end lg:w-[320px] 2xl:w-[380px]">
       <div className="flex flex-col mr-4 w-48 p-4 pt-2 text-zinc-400">
         <div className="my-4">
           <h1 className="text-xl font-bold opacity-90 dark:text-white">
@@ -41,7 +41,7 @@ const NavBar = ({ user }: { user: Profile | null }) => {
           </h1>
         </div>
         {NAV_ITEMS.map((item) => (
-          <Link key={item.name} href={item.href}>
+          <Link className="w-full" key={item.name} href={item.href}>
             <NavItem
               key={item.name}
               label={item.name}

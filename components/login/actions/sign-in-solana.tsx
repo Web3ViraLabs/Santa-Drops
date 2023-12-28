@@ -10,7 +10,7 @@ import nacl from "tweetnacl";
 import { type PublicKey } from "@solana/web3.js";
 import { WalletSignMessageError } from "@solana/wallet-adapter-base";
 import useLoginStore from "../config/login-store";
-import { existAddress, loginAccount } from "./actions";
+import { existAddress, linkWallet, loginAccount } from "./actions";
 
 const MESSAGE_TO_SIGN = "Alphagini";
 
@@ -18,7 +18,7 @@ const SignatureSolana = ({ publicKey }: { publicKey: PublicKey }) => {
   const { login } = useLoginContext();
   const router = useRouter();
   const { onClose } = useModal();
-  const { setSigned, reset, setSignature } = useLoginStore();
+  const { setSigned, reset, setSignature, isLinking } = useLoginStore();
   const { signMessage, disconnect } = useWallet();
 
   const handleClose = () => {
@@ -41,6 +41,30 @@ const SignatureSolana = ({ publicKey }: { publicKey: PublicKey }) => {
 
       if (walletIsSigner) {
         const isAddressRegistered = await existAddress(publicKey.toBase58());
+
+        if (isLinking) {
+          if (!isAddressRegistered) {
+            const linkNewWallet = await linkWallet({
+              address: publicKey.toBase58(),
+              signature: base58.encode(uint8arraySignature),
+              symbol: "SOL",
+            });
+
+            if (!linkNewWallet) {
+              return null;
+            }
+
+            console.log("Linked wallet", linkNewWallet);
+
+            reset();
+            onClose();
+            return;
+          }
+
+          reset();
+          onClose();
+          return console.log("Wallet already linked");
+        }
 
         if (!isAddressRegistered) {
           setSignature(base58.encode(uint8arraySignature));

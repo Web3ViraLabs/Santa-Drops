@@ -21,7 +21,7 @@ const NavItem: React.FC<NavItemProps> = ({
     <button
       onClick={onClick}
       className={cn(
-        "flex p-3 rounded-md hover:bg-blue-500/20 hover:text-white bg-transparent",
+        "flex w-full p-3 rounded-md hover:bg-blue-500/20 hover:text-white bg-transparent",
         isActive && "text-blue-400"
       )}
     >

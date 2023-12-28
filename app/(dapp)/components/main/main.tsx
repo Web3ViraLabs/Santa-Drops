@@ -8,9 +8,9 @@ interface MainProps {
   user: Profile | null;
 }
 
-const Main = async ({ children, user }: MainProps) => {
+const Main = ({ children, user }: MainProps) => {
   return (
-    <div className="relative flex flex-col flex-1 h-full p-4">
+    <div className="relative flex flex-col flex-1 h-full p-4 overflow-y-auto">
       <MainHeader user={user} />
       {children}
     </div>

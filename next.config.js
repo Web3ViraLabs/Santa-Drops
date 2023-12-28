@@ -6,6 +6,12 @@ module.exports = {
                 hostname: 'cdn.discordapp.com',
                 port: '',
                 pathname: '/**'
+            },
+            {
+                protocol: 'https',
+                hostname: 'pbs.twimg.com',
+                port: '',
+                pathname: '/**'
             }
         ]
     }

@@ -4,7 +4,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "next test"
+    "test": "next test",
+    "rebuild": "prisma generate && prisma db push"
   },
   "dependencies": {
     "@headlessui/react": "1.7.17",
@@ -25,6 +26,7 @@
     "axios": "1.6.2",
     "class-variance-authority": "0.7.0",
     "clsx": "2.0.0",
+    "crypto-js": "^4.2.0",
     "ethers": "6.9.1",
     "lucide-react": "0.300.0",
     "next": "14.0.4",

@@ -21,6 +21,7 @@ interface LoginStoreState {
   isSigned: boolean;
   selectedWallet: boolean;
   solanaAddress: boolean;
+  isLinking: boolean;
 }
 
 interface LoginStoreActions extends LoginStoreState {
@@ -33,6 +34,7 @@ interface LoginStoreActions extends LoginStoreState {
   setSigned: (value: boolean) => void;
   setSelectedWallet: (value: boolean) => void;
   setSolanaAddress: (value: boolean) => void;
+  setIsLinking: (value: boolean) => void;
 
   // New reset function
   reset: () => void;
@@ -48,6 +50,7 @@ const initialState: LoginStoreState = {
   isSigned: false,
   selectedWallet: false,
   solanaAddress: true,
+  isLinking: false,
 };
 
 const useLoginStore = create<LoginStoreState & LoginStoreActions>((set) => ({
@@ -62,6 +65,7 @@ const useLoginStore = create<LoginStoreState & LoginStoreActions>((set) => ({
   setSigned: (value) => set({ isSigned: value }),
   setSelectedWallet: (value) => set({ selectedWallet: value }),
   setSolanaAddress: (value) => set({ solanaAddress: value }),
+  setIsLinking: (value) => set({ isLinking: value }),
 
   // Implementation of the reset function
   reset: () => set(initialState),

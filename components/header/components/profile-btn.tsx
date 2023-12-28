@@ -30,8 +30,8 @@ const ProfileBtn = ({ image, name }: { image: string; name: string }) => {
         leaveFrom="transform scale-100 opacity-100"
         leaveTo="transform scale-95 opacity-0"
       >
-        <Popover.Panel className="absolute left-[-10rem] z-10 w-[200px]">
-          <div className="flex items-center justify-center space-y-2  bg-background border flex-col flex-1 p-2">
+        <Popover.Panel className="absolute left-[-10rem] z-50 w-[200px]">
+          <div className="flex items-center justify-center space-y-2  bg-background border flex-col flex-1 p-2 z-50">
             <div className="bg-[#262729] w-full p-2 text-center rounded-lg">
               <span>{name}</span>
             </div>

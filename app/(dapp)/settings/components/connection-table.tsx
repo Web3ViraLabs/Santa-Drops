@@ -1,18 +1,39 @@
 "use client";
 
 import { Account } from "@prisma/client";
-import { removeProvider, setStateCookie } from "../actions/actions";
+import { removeProvider, setCookie } from "../actions/actions";
 import Image from "next/image";
+import {
+  generateCodeChallenge,
+  generateCodeVerifier,
+} from "../actions/challenge-code";
 
-const clientId = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID;
-const redirectUri = process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI;
-const scope = process.env.NEXT_PUBLIC_DISCORD_SCOPE;
-const responseType = "code";
+const discordClientId = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID;
+const discordRedirectUri = process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI;
+const discordScope = process.env.NEXT_PUBLIC_DISCORD_SCOPE;
+const discordResponseType = "code";
 
-const providers = [
+const twitterClientId = process.env.NEXT_PUBLIC_TWITTER_CLIENT_ID;
+const twitterRedirectUri = process.env.NEXT_PUBLIC_TWITTER_REDIRECT_URI;
+const twitterScope = process.env.NEXT_PUBLIC_TWITTER_SCOPE;
+const twitterResponseType = "code";
+
+type Providers = {
+  name: "discord" | "twitter";
+  redirect_url: string;
+};
+
+const providers: Providers[] = [
   {
     name: "discord",
-    redirect_url: `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`,
+    redirect_url: `https://discord.com/api/oauth2/authorize?client_id=${discordClientId}&redirect_uri=${discordRedirectUri}&response_type=${discordResponseType}&scope=${discordScope}`,
+  },
+  {
+    // &code_challenge=challenge&code_challenge_method=plain
+    name: "twitter",
+    redirect_url: `https://twitter.com/i/oauth2/authorize?response_type=${twitterResponseType}&client_id=${twitterClientId}&redirect_uri=${encodeURIComponent(
+      twitterRedirectUri!
+    )}&scope=${twitterScope}&code_challenge_method=S256`,
   },
 ];
 
@@ -24,12 +45,22 @@ const ConnectionTable = ({ connectedOauth }: { connectedOauth: Account[] }) => {
   const linkClasses =
     "font-medium text-blue-600 dark:text-blue-500 hover:underline";
 
-  const handleLink = (url: string) => {
+  const handleLink = async (provider: "discord" | "twitter", url: string) => {
     const state =
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15);
-    setStateCookie(state);
-    window.location.href = url + "&state=" + state;
+    setCookie("state", state);
+    if (provider === "discord") {
+      window.location.href = url + "&state=" + state;
+    }
+
+    if (provider === "twitter") {
+      const codeVerifier = generateCodeVerifier();
+      const codeChallenge = await generateCodeChallenge(codeVerifier);
+      setCookie("code_verifier", codeVerifier);
+      window.location.href =
+        url + "&state=" + state + "&code_challenge=" + codeChallenge;
+    }
   };
 
   const handleUnlink = async (id: string) => {
@@ -62,54 +93,60 @@ const ConnectionTable = ({ connectedOauth }: { connectedOauth: Account[] }) => {
         </tr>
       </thead>
       <tbody>
-        {providers.map((provider, index) => (
-          <tr key={index} className={rowClasses}>
-            <th scope="row" className={commonClasses}>
-              <span className="capitalize">{provider.name}</span>
-            </th>
-            <td className="px-6 py-6">
-              {connectedOauth.filter((c) => c.provider === provider.name)
-                .length > 0 ? (
-                <div className="flex items-center">
-                  <div className="relative w-10 h-10">
-                    <Image
-                      className="object-cover rounded-lg"
-                      src={connectedOauth[0].image || "/diamond.svg"}
-                      alt={`${connectedOauth[0].username} image`}
-                      fill
-                      sizes="100px"
-                    />
+        {providers.map((provider, index) => {
+          const connectedProvider = connectedOauth.find(
+            (c) => c.provider === provider.name
+          );
+
+          return (
+            <tr key={index} className={rowClasses}>
+              <th scope="row" className={commonClasses}>
+                <span className="capitalize">{provider.name}</span>
+              </th>
+              <td className="px-6 py-6">
+                {connectedProvider ? (
+                  <div className="flex items-center">
+                    <div className="relative w-8 h-8">
+                      <Image
+                        className="object-cover rounded-lg"
+                        src={connectedProvider.image || "/diamond.svg"}
+                        alt={`${connectedProvider.username} image`}
+                        fill
+                        sizes="100px"
+                      />
+                    </div>
+                    <div className="ml-4">
+                      <span className="text-xl">
+                        {connectedProvider.username}
+                      </span>
+                    </div>
                   </div>
-                  <div className="ml-4">
-                    <span className="text-xl">
-                      {connectedOauth[0].username}
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                "Not Linked"
-              )}
-            </td>
-            <td className="px-6 py-6">
-              {connectedOauth.filter((c) => c.provider === provider.name)
-                .length > 0 ? (
-                <button
-                  onClick={() => handleUnlink(connectedOauth[0].id)}
-                  className={linkClasses}
-                >
-                  Unlink
-                </button>
-              ) : (
-                <button
-                  onClick={() => handleLink(provider.redirect_url)}
-                  className={linkClasses}
-                >
-                  Link
-                </button>
-              )}
-            </td>
-          </tr>
-        ))}
+                ) : (
+                  "Not Linked"
+                )}
+              </td>
+              <td className="px-6 py-6">
+                {connectedProvider ? (
+                  <button
+                    onClick={() => handleUnlink(connectedProvider.id)}
+                    className={linkClasses}
+                  >
+                    Unlink
+                  </button>
+                ) : (
+                  <button
+                    onClick={() =>
+                      handleLink(provider.name, provider.redirect_url)
+                    }
+                    className={linkClasses}
+                  >
+                    Link
+                  </button>
+                )}
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

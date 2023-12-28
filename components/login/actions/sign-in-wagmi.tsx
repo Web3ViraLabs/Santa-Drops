@@ -6,31 +6,41 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal";
 import useLoginStore from "../config/login-store";
-import { existAddress, loginAccount } from "./actions";
+import { existAddress, linkWallet, loginAccount } from "./actions";
 
 const Signature = ({ address }: Address) => {
-  const { login } = useLoginContext();
-  const { setSigned, reset, setSignature } = useLoginStore();
-  const router = useRouter();
+  const { setSigned, reset, setSignature, isLinking } = useLoginStore();
   const { onClose } = useModal();
 
   const { isLoading, signMessage } = useSignMessage({
     message: "Alphagini",
     onSuccess: async (signData) => {
-      // const { data, status } = await axios.post("/api/account/login", {
-      //   address,
-      // });
-
-      // const user = data.user;
-
-      // if (status === 200 && user) {
-      //   login(user);
-      //   reset();
-      //   onClose();
-      //   return router.push("/");
-      // }
-
       const isAddressRegistered = await existAddress(address);
+      console.log(isAddressRegistered);
+
+      if (isLinking) {
+        if (!isAddressRegistered) {
+          const linkNewWallet = await linkWallet({
+            address,
+            signature: signData,
+            symbol: "ETH",
+          });
+
+          if (!linkNewWallet) {
+            return null;
+          }
+
+          console.log("Linked wallet", linkNewWallet);
+
+          reset();
+          onClose();
+          return;
+        }
+
+        reset();
+        onClose();
+        return console.log("Wallet already linked");
+      }
 
       if (!isAddressRegistered) {
         setSignature(signData);
