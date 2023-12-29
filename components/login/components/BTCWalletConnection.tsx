@@ -1,4 +1,5 @@
 import HiroWallet from "./HiroWalletConnection";
+import UnisatWallet from "./UnisatWalletConnection";
 import XverseWallet from "./XVerseWalletConnection";
 
 const BTCWalletConnection = () => {
@@ -6,6 +7,7 @@ const BTCWalletConnection = () => {
     <>
       <XverseWallet />
       <HiroWallet />
+      <UnisatWallet />
     </>
   );
 };

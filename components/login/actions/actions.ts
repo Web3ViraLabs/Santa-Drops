@@ -21,11 +21,11 @@ interface AccountCreationProps extends LinkAccountProps {
 
 export async function existUser(name: string) {
   try {
-    const user = await db.profile.findFirst({
+    const users = await db.profile.findMany({
       where: {
         name: {
-          contains: name,
           mode: "insensitive",
+          equals: name.toLowerCase(),
         },
       },
       select: {
@@ -34,11 +34,8 @@ export async function existUser(name: string) {
       },
     });
 
-    if (!user) {
-      return false;
-    }
+    const isDuplicate = users.length > 0;
 
-    const isDuplicate = name.toLowerCase() === user.name.toLowerCase();
     return isDuplicate;
   } catch (error) {
     console.log("[EXIST_USERNAME] ", error);

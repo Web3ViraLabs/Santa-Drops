@@ -23,10 +23,8 @@ import { useModal } from "@/hooks/use-modal";
 const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const network = WalletAdapterNetwork.Mainnet;
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-  const { onClose } = useModal();
   const wallets = useMemo(
     () => [
-      new PhantomWalletAdapter(),
       new CoinbaseWalletAdapter(),
       new WalletConnectWalletAdapter({
         network,
@@ -34,7 +32,6 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
           projectId: "da1e1dfd587399a80f9716faf9256f75",
         },
       }),
-      new SolflareWalletAdapter(),
     ],
     [network]
   );

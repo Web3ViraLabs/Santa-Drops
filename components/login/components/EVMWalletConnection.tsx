@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import WalletBtn from "./buttons/wallet-btn";
-import { useAccount, useConnect } from "wagmi";
+import { Connector, useAccount, useConnect } from "wagmi";
 import useLoginStore from "../config/login-store";
 
 const EVMWalletConnectionComponent: React.FC = ({}) => {
@@ -16,6 +16,7 @@ const EVMWalletConnectionComponent: React.FC = ({}) => {
       setCurrentAddress(null);
       setSigned(false);
       setSignature("");
+      console.log("Disconnected");
     },
   });
 
@@ -34,7 +35,7 @@ const EVMWalletConnectionComponent: React.FC = ({}) => {
       },
     });
 
-  const handleEVMWalletConnect = (connector: any) => {
+  const handleEVMWalletConnect = (connector: Connector) => {
     try {
       connect({ connector });
     } catch (error) {

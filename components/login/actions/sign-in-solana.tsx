@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import base58 from "bs58";
-import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal";
 import { useWallet } from "@solana/wallet-adapter-react";
 import nacl from "tweetnacl";
@@ -10,6 +9,7 @@ import { type PublicKey } from "@solana/web3.js";
 import { WalletSignMessageError } from "@solana/wallet-adapter-base";
 import useLoginStore from "../config/login-store";
 import { existAddress, linkWallet, loginAccount } from "./actions";
+import { useState } from "react";
 
 const MESSAGE_TO_SIGN = "Alphagini";
 
@@ -17,6 +17,7 @@ const SignatureSolana = ({ publicKey }: { publicKey: PublicKey }) => {
   const { onClose } = useModal();
   const { setSigned, reset, setSignature, isLinking } = useLoginStore();
   const { signMessage, disconnect } = useWallet();
+  const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
     reset();
@@ -29,6 +30,7 @@ const SignatureSolana = ({ publicKey }: { publicKey: PublicKey }) => {
     if (!signMessage)
       throw new Error("Wallet does not support message signing");
     try {
+      setLoading(true);
       const uint8arraySignature = await signMessage(message);
       const walletIsSigner = nacl.sign.detached.verify(
         message,
@@ -85,6 +87,8 @@ const SignatureSolana = ({ publicKey }: { publicKey: PublicKey }) => {
           handleClose();
         }
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -125,6 +129,7 @@ const SignatureSolana = ({ publicKey }: { publicKey: PublicKey }) => {
 
       <Button className="px-10 dark:text-white" onClick={sign}>
         Sign Message
+        {loading && <span className="ml-2">(signing...)</span>}
       </Button>
     </div>
   );

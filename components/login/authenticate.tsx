@@ -16,6 +16,7 @@ import XverseWallet from "./components/XVerseWalletConnection";
 import SignatureXverse from "./actions/sign-in-xverse";
 import BTCWalletConnection from "./components/BTCWalletConnection";
 import SignatureLeather from "./actions/sign-in-hiro";
+import SignatureUnisat from "./actions/sign-in-unisat";
 
 const Login = () => {
   const selectedEVMNetwork = useLoginStore((state) => state.selectedEVMNetwork);
@@ -35,6 +36,7 @@ const Login = () => {
     connecting: isSolanaWalletConnecting,
     disconnect: solanaDisconnect,
   } = useWallet();
+
   const { reset } = useLoginStore();
 
   // Disconnects EVM Wallet so user can login again from different wallet or chain
@@ -88,11 +90,11 @@ const Login = () => {
             {solanaPublicKey && (
               <LoginCard address={solanaPublicKey.toBase58()} symbol="SOL" />
             )}
-            {currentAddress && btcAddress && !address && !solanaPublicKey && (
+            {currentAddress && !address && !solanaPublicKey && (
               <LoginCard
                 address={currentAddress.address}
                 symbol="BTC"
-                btcAddress={btcAddress}
+                btcAddress={btcAddress ? btcAddress : undefined}
               />
             )}
           </>
@@ -102,37 +104,33 @@ const Login = () => {
             {currentAddress && (
               <>
                 {address === currentAddress.address && (
-                  <>
-                    <Signature address={address} />
-                    <ChangeWalletButtonComponent />
-                  </>
+                  <Signature address={address} />
                 )}
                 {solanaPublicKey?.toBase58() === currentAddress.address && (
-                  <>
-                    <SignatureSolana publicKey={solanaPublicKey} />
-                    <ChangeWalletButtonComponent />
-                  </>
+                  <SignatureSolana publicKey={solanaPublicKey} />
                 )}
                 {currentAddress &&
                   !solanaPublicKey &&
                   !address &&
                   currentBtcWallet &&
                   currentBtcWallet === "xverse" && (
-                    <>
-                      <SignatureXverse address={currentAddress.address} />
-                      <ChangeWalletButtonComponent />
-                    </>
+                    <SignatureXverse address={currentAddress.address} />
                   )}
                 {currentAddress &&
                   currentBtcWallet &&
                   currentBtcWallet === "leather" &&
                   !solanaPublicKey &&
                   !address && (
-                    <>
-                      <SignatureLeather address={currentAddress.address} />
-                      <ChangeWalletButtonComponent />
-                    </>
+                    <SignatureLeather address={currentAddress.address} />
                   )}
+                {currentAddress &&
+                  currentBtcWallet &&
+                  currentBtcWallet === "unisat" &&
+                  !solanaPublicKey &&
+                  !address && (
+                    <SignatureUnisat address={currentAddress.address} />
+                  )}
+                <ChangeWalletButtonComponent />
               </>
             )}
 
