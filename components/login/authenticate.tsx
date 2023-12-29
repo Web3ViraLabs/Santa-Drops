@@ -17,6 +17,7 @@ import SignatureXverse from "./actions/sign-in-xverse";
 import BTCWalletConnection from "./components/BTCWalletConnection";
 import SignatureLeather from "./actions/sign-in-hiro";
 import SignatureUnisat from "./actions/sign-in-unisat";
+import SignaturePhantom from "./actions/sign-in-phantom";
 
 const Login = () => {
   const selectedEVMNetwork = useLoginStore((state) => state.selectedEVMNetwork);
@@ -109,27 +110,23 @@ const Login = () => {
                 {solanaPublicKey?.toBase58() === currentAddress.address && (
                   <SignatureSolana publicKey={solanaPublicKey} />
                 )}
-                {currentAddress &&
-                  !solanaPublicKey &&
-                  !address &&
-                  currentBtcWallet &&
-                  currentBtcWallet === "xverse" && (
-                    <SignatureXverse address={currentAddress.address} />
-                  )}
-                {currentAddress &&
-                  currentBtcWallet &&
-                  currentBtcWallet === "leather" &&
-                  !solanaPublicKey &&
-                  !address && (
-                    <SignatureLeather address={currentAddress.address} />
-                  )}
-                {currentAddress &&
-                  currentBtcWallet &&
-                  currentBtcWallet === "unisat" &&
-                  !solanaPublicKey &&
-                  !address && (
-                    <SignatureUnisat address={currentAddress.address} />
-                  )}
+                {currentBtcWallet && !solanaPublicKey && !address && (
+                  <>
+                    {currentBtcWallet === "xverse" && (
+                      <SignatureXverse address={currentAddress.address} />
+                    )}
+                    {currentBtcWallet === "leather" && (
+                      <SignatureLeather address={currentAddress.address} />
+                    )}
+                    {currentBtcWallet === "unisat" && (
+                      <SignatureUnisat address={currentAddress.address} />
+                    )}
+                    {currentBtcWallet === "phantom" && (
+                      <SignaturePhantom address={currentAddress.address} />
+                    )}
+                  </>
+                )}
+
                 <ChangeWalletButtonComponent />
               </>
             )}

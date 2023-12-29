@@ -11,7 +11,7 @@ interface OtherNetworks {
   address: string;
 }
 
-type BTCWallet = "leather" | "xverse" | "unisat";
+type BTCWallet = "leather" | "xverse" | "unisat" | "phantom";
 
 interface LoginStoreState {
   selectedEVMNetwork: EVMSymbol | null;

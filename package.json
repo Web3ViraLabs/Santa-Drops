@@ -26,6 +26,7 @@
     "@unisat/wallet-utils": "^1.0.0",
     "autoprefixer": "^10.4.16",
     "axios": "1.6.2",
+    "bip322-js": "^1.1.0",
     "bitcore-lib": "^10.0.21",
     "bs58": "^5.0.0",
     "class-variance-authority": "0.7.0",
