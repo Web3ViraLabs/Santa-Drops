@@ -2,9 +2,10 @@
 
 import { ModalProvider } from "./modal-provider";
 import { SolanaProvider } from "./solana-provider";
+import StacksProvider from "./stacks-provider";
 import { ThemeProvider } from "./theme-provider";
 import WagmiProvider from "./wagmi-provider";
-
+import { Connect } from "@stacks/connect-react";
 export default function LayoutProvider({
   children,
 }: {
@@ -15,7 +16,7 @@ export default function LayoutProvider({
       <WagmiProvider>
         <SolanaProvider>
           <ModalProvider />
-          {children}
+          <StacksProvider>{children}</StacksProvider>
         </SolanaProvider>
       </WagmiProvider>
     </ThemeProvider>

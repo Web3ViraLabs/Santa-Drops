@@ -14,6 +14,8 @@ import ChangeWalletButtonComponent from "./components/ChangeWalletButton";
 import useLoginStore from "./config/login-store";
 import XverseWallet from "./components/XVerseWalletConnection";
 import SignatureXverse from "./actions/sign-in-xverse";
+import BTCWalletConnection from "./components/BTCWalletConnection";
+import SignatureLeather from "./actions/sign-in-hiro";
 
 const Login = () => {
   const selectedEVMNetwork = useLoginStore((state) => state.selectedEVMNetwork);
@@ -24,6 +26,7 @@ const Login = () => {
   const selectedWallet = useLoginStore((state) => state.selectedWallet);
   const btcAddress = useLoginStore((state) => state.btcAddress);
   const setSelectedWallet = useLoginStore((state) => state.setSelectedWallet);
+  const currentBtcWallet = useLoginStore((state) => state.currentBtcWallet);
 
   const { address } = useAccount();
   const { disconnect: EVMDisconnect } = useDisconnect();
@@ -85,7 +88,7 @@ const Login = () => {
             {solanaPublicKey && (
               <LoginCard address={solanaPublicKey.toBase58()} symbol="SOL" />
             )}
-            {!address && !solanaPublicKey && currentAddress && btcAddress && (
+            {currentAddress && btcAddress && !address && !solanaPublicKey && (
               <LoginCard
                 address={currentAddress.address}
                 symbol="BTC"
@@ -110,12 +113,26 @@ const Login = () => {
                     <ChangeWalletButtonComponent />
                   </>
                 )}
-                {currentAddress && !solanaPublicKey && !address && (
-                  <>
-                    <SignatureXverse address={currentAddress.address} />
-                    <ChangeWalletButtonComponent />
-                  </>
-                )}
+                {currentAddress &&
+                  !solanaPublicKey &&
+                  !address &&
+                  currentBtcWallet &&
+                  currentBtcWallet === "xverse" && (
+                    <>
+                      <SignatureXverse address={currentAddress.address} />
+                      <ChangeWalletButtonComponent />
+                    </>
+                  )}
+                {currentAddress &&
+                  currentBtcWallet &&
+                  currentBtcWallet === "leather" &&
+                  !solanaPublicKey &&
+                  !address && (
+                    <>
+                      <SignatureLeather address={currentAddress.address} />
+                      <ChangeWalletButtonComponent />
+                    </>
+                  )}
               </>
             )}
 
@@ -124,7 +141,7 @@ const Login = () => {
                 {NETWORK_TAB_CONDITION && <NetworkSelectionComponent />}
                 {EVM_WALLET_CONDITION && <EVMWalletConnectionComponent />}
                 {SOLANA_WALLET_CONDITION && <SolanaWalletConnectionComponent />}
-                {BTC_WALLET_CONDITION && <XverseWallet />}
+                {BTC_WALLET_CONDITION && <BTCWalletConnection />}
               </>
             )}
             {CHANGE_NETWORK_CONDITION && <ChangeNetworkButtonComponent />}

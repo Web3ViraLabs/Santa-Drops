@@ -11,10 +11,13 @@ interface OtherNetworks {
   address: string;
 }
 
+type BTCWallet = "leather" | "xverse";
+
 interface LoginStoreState {
   selectedEVMNetwork: EVMSymbol | null;
   otherNetworks: NONEVMSymbol | null;
   currentAddress: Network | OtherNetworks | null;
+  currentBtcWallet: BTCWallet | null;
   btcAddress: string | null;
   isNetwork: boolean;
   address: string | null;
@@ -29,6 +32,7 @@ interface LoginStoreActions extends LoginStoreState {
   setSelectedEVMNetwork: (id: EVMSymbol | null) => void;
   setOtherNetworks: (value: NONEVMSymbol | null) => void;
   setCurrentAddress: (network: Network | OtherNetworks | null) => void;
+  setCurrentBtcWallet: (wallet: BTCWallet | null) => void;
   setBtcAddress: (value: string) => void;
   setIsNetwork: (value: boolean) => void;
   setAddress: (value: string) => void;
@@ -46,6 +50,7 @@ const initialState: LoginStoreState = {
   selectedEVMNetwork: null,
   otherNetworks: null,
   currentAddress: null,
+  currentBtcWallet: null,
   btcAddress: null,
   isNetwork: true,
   address: null,
@@ -62,6 +67,7 @@ const useLoginStore = create<LoginStoreState & LoginStoreActions>((set) => ({
   setSelectedEVMNetwork: (id) => set({ selectedEVMNetwork: id }),
   setOtherNetworks: (value) => set({ otherNetworks: value }),
   setCurrentAddress: (network) => set({ currentAddress: network }),
+  setCurrentBtcWallet: (wallet) => set({ currentBtcWallet: wallet }),
   setBtcAddress: (value) => set({ btcAddress: value }),
   setIsNetwork: (value) => set({ isNetwork: value }),
   setAddress: (value) => set({ address: value }),

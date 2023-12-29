@@ -14,6 +14,9 @@ function XverseWallet() {
   const [loading, setLoading] = useState(false);
   const setCurrentAddress = useLoginStore((state) => state.setCurrentAddress);
   const setBtcAddress = useLoginStore((state) => state.setBtcAddress);
+  const setCurrentBtcWallet = useLoginStore(
+    (state) => state.setCurrentBtcWallet
+  );
 
   const [capabilityState, setCapabilityState] = useState<
     "loading" | "loaded" | "missing" | "cancelled"
@@ -74,10 +77,12 @@ function XverseWallet() {
           );
 
           if (paymentAddressItem && ordinalsAddressItem) {
+            setCurrentBtcWallet("xverse");
             setCurrentAddress({
               address: ordinalsAddressItem.address,
             });
             setBtcAddress(paymentAddressItem.address);
+
             return;
           }
 
