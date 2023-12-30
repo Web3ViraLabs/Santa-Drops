@@ -85,7 +85,7 @@ const SignaturePhantom = ({ address }: { address: string }) => {
         }
       }
     } catch (error) {
-      console.log("[SignatureXverse] onSignMessageClick error", error);
+      console.log("[SignaturePhantom] onSignMessageClick error", error);
     } finally {
       setLoading(false);
     }

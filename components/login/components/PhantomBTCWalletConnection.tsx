@@ -19,7 +19,7 @@ const PhantomBTCWallet = () => {
   );
 
   useEffect(() => {
-    async function checkUnisat() {
+    async function checkPhantom() {
       let phantom = (window as any).phantom?.bitcoin;
 
       for (let i = 1; i < 10 && !phantom; i += 1) {
@@ -34,7 +34,7 @@ const PhantomBTCWallet = () => {
         return;
       }
     }
-    checkUnisat().then();
+    checkPhantom().then();
   }, []);
 
   const handleClick = async () => {
