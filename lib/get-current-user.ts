@@ -14,7 +14,7 @@ export async function getCurrentUser() {
     if (!profile) return null;
 
     const twitterConnection = profile.connections.find(
-      (c) => c.provider === "twitter"
+      (c) => c.provider === "TWITTER"
     );
 
     if (twitterConnection && new Date() >= twitterConnection.expires_at!) {

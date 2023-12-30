@@ -9,8 +9,8 @@ export function cn(...inputs: ClassValue[]) {
 export const getRandomNumber = () => Math.floor(Math.random() * 4);
 
 export function constructMetadata({
-  title = "DigitalHippo - All in one Web3 Platform",
-  description = "DigitalHippo is a platform for web3 assets",
+  title = "AlphaZ - Create Giveaways",
+  description = "AlphaZ is a platform for web3 assets",
   image = "/thumbnail.png",
   icons = "/favicon.ico",
   noIndex = false,

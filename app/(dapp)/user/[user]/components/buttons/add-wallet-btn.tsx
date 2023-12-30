@@ -1,6 +1,6 @@
 "use client";
 
-import useLoginStore from "@/components/login/config/login-store";
+import useLoginStore from "@/hooks/login-store";
 import { useModal } from "@/hooks/use-modal";
 import { PlusCircle } from "lucide-react";
 

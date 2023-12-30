@@ -2,7 +2,7 @@
 
 import NavItem from "./nav-item";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutGrid, Settings, User } from "lucide-react";
+import { BadgePlus, LayoutGrid, Settings, User } from "lucide-react";
 import { Profile } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,7 +12,7 @@ const NavBar = ({ user }: { user: Profile | null }) => {
     {
       name: "Home",
       icon: <LayoutGrid />,
-      href: "/home",
+      href: "/",
     },
   ];
 
@@ -28,7 +28,7 @@ const NavBar = ({ user }: { user: Profile | null }) => {
       <div className="w-full mt-6 flex items-center justify-center">
         <Link className="flex" href="/">
           <div className="relative w-10 h-10">
-            <Image src={"/diamond.svg"} alt="logo" fill sizes={"48px"} />
+            <Image src={"/favicon.ico"} alt="logo" fill sizes={"48px"} />
           </div>
         </Link>
         <div>
@@ -52,6 +52,12 @@ const NavBar = ({ user }: { user: Profile | null }) => {
               icon={<User />}
               isActive={isActive(`/user/${user.name}`)}
               onClick={() => router.push(`/user/${user.name}`)}
+            />
+            <NavItem
+              label="Create Giveaway"
+              icon={<BadgePlus />}
+              isActive={isActive("/creategiveaway")}
+              onClick={() => router.push("/creategiveaway")}
             />
             <NavItem
               label={"Settings"}

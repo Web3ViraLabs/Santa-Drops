@@ -6,10 +6,10 @@ const Dapp = async ({ children }: { children: React.ReactNode }) => {
   const user = await getCurrentUser();
 
   return (
-    <div className="h-full w-full flex">
+    <>
       <NavBar user={user} />
       <Main user={user}>{children}</Main>
-    </div>
+    </>
   );
 };
 

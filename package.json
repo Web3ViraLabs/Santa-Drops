@@ -5,7 +5,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "next test",
-    "rebuild": "prisma generate && prisma db push"
+    "migrate": "prisma generate && prisma db push"
   },
   "dependencies": {
     "@headlessui/react": "1.7.17",
@@ -23,10 +23,11 @@
     "@solana/wallet-adapter-react-ui": "^0.9.34",
     "@solana/wallet-adapter-wallets": "^0.19.24",
     "@stacks/connect-react": "^22.3.0",
-    "@unisat/wallet-utils": "^1.0.0",
     "autoprefixer": "^10.4.16",
     "axios": "1.6.2",
+    "bigint-buffer": "^1.1.5",
     "bip322-js": "^1.1.0",
+    "bitcoinjs-lib": "^6.1.5",
     "bitcore-lib": "^10.0.21",
     "bs58": "^5.0.0",
     "class-variance-authority": "0.7.0",

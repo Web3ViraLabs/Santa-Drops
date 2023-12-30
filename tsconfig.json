@@ -33,8 +33,6 @@
         "**/*.ts",
         "**/*.tsx",
         ".next/types/**/*.ts",
-        "app/(dapp)/login/providers/wagmi-provider.tsx",
-        "app/(dapp)/login/providers/wallet-provider.bin"
     ],
     "exclude": [
         "node_modules"

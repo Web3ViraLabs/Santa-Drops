@@ -8,6 +8,15 @@
   scrollbar-color: #616161 #2c2e2e;
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden !important;
+}
+
 /* Chrome, Edge and Safari */
 *::-webkit-scrollbar {
   height: 7px;
