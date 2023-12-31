@@ -49,6 +49,13 @@ body {
   background-color: #616161;
 }
 
+a:focus,
+button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

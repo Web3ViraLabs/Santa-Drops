@@ -26,7 +26,7 @@ model Profile {
   registered     Boolean         @default(false)
   role           Role            @default(USER)
   token          String          @unique
-  image          String?
+  image          String
   createdAt      DateTime        @default(now())
   wallets        Wallet[]
   connections    Account[]

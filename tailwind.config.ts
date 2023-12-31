@@ -16,5 +16,5 @@ export default withUt({
       },
     },
   },
-  plugins: [],
+  plugins: [require("@headlessui/tailwindcss")({ prefix: "ui" })],
 });

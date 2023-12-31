@@ -1,12 +1,12 @@
 "use client";
 
 import { Account, Provider } from "@prisma/client";
-import { removeProvider, setCookie } from "../../../settings/actions/actions";
+import { removeProvider, setCookie } from "../actions/actions";
 import Image from "next/image";
 import {
   generateCodeChallenge,
   generateCodeVerifier,
-} from "../../../settings/actions/challenge-code";
+} from "../actions/challenge-code";
 import { useTheme } from "next-themes";
 import icon from "@/config/image-provider";
 

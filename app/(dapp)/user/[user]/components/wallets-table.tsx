@@ -1,10 +1,7 @@
 "use client";
 
 import { Wallet } from "@prisma/client";
-import {
-  removeProvider,
-  unlinkWallet,
-} from "../../../settings/actions/actions";
+import { removeProvider, unlinkWallet } from "../actions/actions";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Check, Copy } from "lucide-react";
