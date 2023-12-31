@@ -9,6 +9,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
+import icon from "@/config/image-provider";
 
 const WalletTable = ({ wallets }: { wallets: Wallet[] }) => {
   const commonClasses =
@@ -76,15 +77,45 @@ const WalletTable = ({ wallets }: { wallets: Wallet[] }) => {
                 <div className="relative w-6 h-6 flex items-center space-x-3 ">
                   {wallet.symbol === "ETH" && (
                     <>
-                      <Image src={"/eth.png"} alt="eth" fill sizes={"24px"} />
-                      <Image src={"/matic.png"} alt="eth" fill sizes={"24px"} />
+                      <Image
+                        src={
+                          icon("coins").find((i) => i.name === "Ethereum")
+                            ?.image!
+                        }
+                        alt="eth"
+                        fill
+                        sizes={"24px"}
+                      />
+                      <Image
+                        src={
+                          icon("coins").find((i) => i.name === "Polygon")
+                            ?.image!
+                        }
+                        alt="matic"
+                        fill
+                        sizes={"24px"}
+                      />
                     </>
                   )}
                   {wallet.symbol === "SOL" && (
-                    <Image src={"/sol.png"} alt="eth" fill sizes={"24px"} />
+                    <Image
+                      src={
+                        icon("coins").find((i) => i.name === "Solana")?.image!
+                      }
+                      alt="solana"
+                      fill
+                      sizes={"24px"}
+                    />
                   )}
                   {wallet.symbol === "BTC" && (
-                    <Image src={"/btc.png"} alt="eth" fill sizes={"24px"} />
+                    <Image
+                      src={
+                        icon("coins").find((i) => i.name === "Bitcoin")?.image!
+                      }
+                      alt="btc"
+                      fill
+                      sizes={"24px"}
+                    />
                   )}
                 </div>
               </td>
