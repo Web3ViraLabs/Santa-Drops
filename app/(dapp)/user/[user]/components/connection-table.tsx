@@ -8,6 +8,7 @@ import {
   generateCodeVerifier,
 } from "../../../settings/actions/challenge-code";
 import { useTheme } from "next-themes";
+import icon from "@/config/image-provider";
 
 const discordClientId = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID;
 const discordRedirectUri = process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI;
@@ -108,10 +109,22 @@ const ConnectionTable = ({ connectedOauth }: { connectedOauth: Account[] }) => {
                     <Image
                       src={
                         provider.name === "DISCORD"
-                          ? "/discord.svg"
+                          ? icon("connections").find(
+                              (i) =>
+                                i.name.toLocaleLowerCase() ===
+                                "Discord".toLocaleLowerCase()
+                            )?.image!
                           : theme === "dark"
-                          ? "/twitter_light.svg"
-                          : "/twitter.svg"
+                          ? icon("connections").find(
+                              (i) =>
+                                i.name.toLocaleLowerCase() ===
+                                "Twitter Dark".toLocaleLowerCase()
+                            )?.image!
+                          : icon("connections").find(
+                              (i) =>
+                                i.name.toLocaleLowerCase() ===
+                                "Twitter Light".toLocaleLowerCase()
+                            )?.image!
                       }
                       alt={provider.name + "icon"}
                       fill

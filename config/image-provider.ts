@@ -16,8 +16,8 @@ const USER_ICON = [
 
 const CONNECTIONS_ICON = [
   { name: "Discord", image: "/assets/connections/discord.svg" },
-  { name: "Twitter Light", image: "/assets/connections/twitter.png" },
-  { name: "Twitter Dark", image: "/assets/connections/twitter_light.png" },
+  { name: "Twitter Light", image: "/assets/connections/twitter.svg" },
+  { name: "Twitter Dark", image: "/assets/connections/twitter_light.svg" },
 ];
 
 const WALLET_ICON = [

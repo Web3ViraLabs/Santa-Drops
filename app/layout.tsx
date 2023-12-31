@@ -1,6 +1,9 @@
 import { cn, constructMetadata } from "@/lib/utils";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { ourFileRouter } from "./api/uploadthing/core";
 
 import { Toaster } from "sonner";
 import LayoutProvider from "@/providers/providers";
@@ -26,6 +29,15 @@ export default function RootLayout({
           poppins.className
         )}
       >
+        <NextSSRPlugin
+          /**
+           * The `extractRouterConfig` will extract **only** the route configs
+           * from the router to prevent additional information from being
+           * leaked to the client. The data passed to the client is the same
+           * as if you were to fetch `/api/uploadthing` directly.
+           */
+          routerConfig={extractRouterConfig(ourFileRouter)}
+        />
         <LayoutProvider>{children}</LayoutProvider>
         <Toaster position="top-center" richColors />
       </body>

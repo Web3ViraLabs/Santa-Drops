@@ -21,15 +21,17 @@ enum Symbol {
 }
 
 model Profile {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  name        String    @unique
-  registered  Boolean   @default(false)
-  role        Role      @default(USER)
-  token       String    @unique
-  image       String?
-  createdAt   DateTime  @default(now())
-  wallets     Wallet[]
-  connections Account[]
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  name           String          @unique
+  registered     Boolean         @default(false)
+  role           Role            @default(USER)
+  token          String          @unique
+  image          String?
+  createdAt      DateTime        @default(now())
+  wallets        Wallet[]
+  connections    Account[]
+  giveaways      Giveaway[]      @relation("GiveawayCreator")
+  participations Participation[]
 
   @@index([name, token])
 }
@@ -69,4 +71,45 @@ model Wallet {
   profileId String  @db.ObjectId
 
   @@index([address, profileId])
+}
+
+enum GiveawayType {
+  TOKENS
+  COINS
+  NFT
+  WHITELIST
+}
+
+enum Type {
+  PUBLIC
+  RESTRICTED
+}
+
+model Giveaway {
+  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  image        String?
+  description  String?
+  type         Type            @default(PUBLIC)
+  giveawayType GiveawayType
+  amount       Float
+  endsAt       DateTime
+  twitterUrl   String?
+  discordUrl   String?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  creatorId    String          @db.ObjectId
+  creator      Profile         @relation(name: "GiveawayCreator", fields: [creatorId], references: [id])
+  participants Participation[]
+}
+
+model Participation {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  profileId  String   @db.ObjectId
+  profile    Profile  @relation(fields: [profileId], references: [id])
+  giveawayId String   @db.ObjectId
+  giveaway   Giveaway @relation(fields: [giveawayId], references: [id])
+  joinedAt   DateTime @default(now())
+
+  @@unique([profileId, giveawayId])
 }
