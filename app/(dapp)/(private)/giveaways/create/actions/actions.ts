@@ -11,7 +11,7 @@ interface GiveawayProps {
   endsAt: Date;
   discordUrl: string | null;
   twitterUrl: string | null;
-  giveawayType: "TOKENS" | "NFT" | "COINS" | "WHITELIST";
+  giveawayType: "TOKENS" | "NFT" | "COINS" | "WHITELIST" | "ALLOWLIST";
 }
 
 export async function createGiveaway({

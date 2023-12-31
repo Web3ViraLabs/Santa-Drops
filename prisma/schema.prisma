@@ -78,6 +78,7 @@ enum GiveawayType {
   COINS
   NFT
   WHITELIST
+  ALLOWLIST
 }
 
 enum Type {
