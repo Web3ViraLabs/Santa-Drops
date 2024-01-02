@@ -84,7 +84,7 @@ const NavBar = ({ user }: { user: Profile | null }) => {
   };
 
   return (
-    <nav className="relative h-full overflow-auto hidden lg:flex flex-col space-y-8 lg:w-[320px] 2xl:w-[380px] border-main border-r">
+    <nav className="relative h-full overflow-auto hidden lg:flex flex-col space-y-8 lg:min-w-[320px] 2xl:min-w-[380px] border-main border-r">
       <div className="w-full mt-6 flex items-center justify-center">
         <Link className="flex" href="/">
           <div className="relative w-10 h-10">

@@ -1,4 +1,4 @@
-type image = "wallet" | "coins" | "connections" | "user";
+type image = "wallet" | "coins" | "connections" | "user" | "demo";
 
 const COINS_ICON = [
   { name: "Bitcoin", image: "/assets/coins/btc.png" },
@@ -30,6 +30,11 @@ const WALLET_ICON = [
   { name: "Leather", image: "/assets/wallets/leather.png" },
 ];
 
+const DEMO_IMAGES = Array.from({ length: 11 }, (_, i) => ({
+  name: `Demo ${i + 1}`,
+  image: `/assets/demo_images/${i + 1}.png`,
+}));
+
 export default function icon(image: image) {
   switch (image) {
     case "wallet":
@@ -40,5 +45,7 @@ export default function icon(image: image) {
       return CONNECTIONS_ICON;
     case "user":
       return USER_ICON;
+    case "demo":
+      return DEMO_IMAGES;
   }
 }

@@ -12,7 +12,9 @@ const Main = ({ children, user }: MainProps) => {
   return (
     <main className="relative flex flex-col flex-1 min-h-screen">
       <MainHeader user={user} />
-      {children}
+      <div className="w-full h-full bg-main p-4 flex flex-col space-y-6">
+        {children}
+      </div>
     </main>
   );
 };
