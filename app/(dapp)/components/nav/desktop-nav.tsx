@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import NavItem from "./nav-item";
-import { usePathname, useRouter } from "next/navigation";
+import NavItem from './nav-item';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   BadgeDollarSign,
   BadgePlus,
@@ -16,43 +16,43 @@ import {
   LayoutList,
   Settings,
   User,
-} from "lucide-react";
-import { Profile } from "@prisma/client";
-import Image from "next/image";
-import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
-import ProfileBtn from "./components/profile-btn";
-import GiveawayManagement from "./components/giveaway-manage";
+} from 'lucide-react';
+import { Profile } from '@prisma/client';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Separator } from '@/components/ui/separator';
+import ProfileBtn from './components/profile-btn';
+import GiveawayManagement from './components/giveaway-manage';
 
 const NavBar = ({ user }: { user: Profile | null }) => {
   const CATEGORY_1 = [
     {
-      name: "Home",
+      name: 'Home',
       icon: <LayoutGrid />,
-      href: "/",
+      href: '/',
     },
     {
-      name: "Tokens Giveaway",
+      name: 'Tokens Giveaway',
       icon: <Currency />,
-      href: "/tokens-giveaway",
+      href: '/tokens-giveaway',
     },
     {
-      name: "Crypto Giveaway",
+      name: 'Crypto Giveaway',
       icon: <Bitcoin />,
-      href: "/crypto-giveaway",
+      href: '/crypto-giveaway',
     },
     {
-      name: "Nfts Giveaway",
+      name: 'Nfts Giveaway',
       icon: <ImageIcon />,
-      href: "/nfts-giveaway",
+      href: '/nfts-giveaway',
     },
     {
-      name: "Allowlists Giveaway",
+      name: 'Allowlists Giveaway',
       icon: <BadgeDollarSign />,
-      href: "/allowlists-giveaway",
+      href: '/allowlists-giveaway',
     },
     {
-      name: "Whitelists Giveaway",
+      name: 'Whitelists Giveaway',
       icon: <LayoutList />,
       href: `/whitelists-giveaway`,
     },
@@ -60,19 +60,19 @@ const NavBar = ({ user }: { user: Profile | null }) => {
 
   const CATEGORY_2 = [
     {
-      name: "Participated Giveaways",
+      name: 'Participated Giveaways',
       icon: <Gift />,
-      href: "/participated",
+      href: '/participated',
     },
     {
-      name: "Liked Giveaways",
+      name: 'Liked Giveaways',
       icon: <Heart />,
-      href: "/liked",
+      href: '/liked',
     },
     {
-      name: "Private Giveaways",
+      name: 'Private Giveaways',
       icon: <FileKey />,
-      href: "/private-giveaways",
+      href: '/private-giveaways',
     },
   ];
 
@@ -88,11 +88,11 @@ const NavBar = ({ user }: { user: Profile | null }) => {
       <div className="w-full mt-6 flex items-center justify-center">
         <Link className="flex" href="/">
           <div className="relative w-10 h-10">
-            <Image src={"/favicon.ico"} alt="logo" fill sizes={"48px"} />
+            <Image src={'/favicon.ico'} alt="logo" fill sizes={'48px'} />
           </div>
         </Link>
         <div>
-          <h1 className="text-4xl font-semibold">AlphaZ</h1>
+          <h1 className="text-2xl font-semibold">Santa Giveaway</h1>
         </div>
       </div>
       <div className="flex flex-col h-full p-2">
