@@ -73,35 +73,35 @@ model Wallet {
   @@index([address, profileId])
 }
 
-enum GiveawayType {
-  TOKENS
-  COINS
-  NFT
-  WHITELIST
-  ALLOWLIST
-}
-
 enum Type {
   PUBLIC
   RESTRICTED
 }
 
 model Giveaway {
-  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  id           String                @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   image        String?
   description  String?
-  type         Type            @default(PUBLIC)
-  giveawayType GiveawayType
-  amount       Float
   endsAt       DateTime
+  published    Boolean               @default(false)
+  type         Type                  @default(PUBLIC)
+  tokenDetails TokenGiveawayDetails?
   twitterUrl   String?
   discordUrl   String?
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
-  creatorId    String          @db.ObjectId
-  creator      Profile         @relation(name: "GiveawayCreator", fields: [creatorId], references: [id])
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+  creatorId    String                @db.ObjectId
+  creator      Profile               @relation(name: "GiveawayCreator", fields: [creatorId], references: [id])
   participants Participation[]
+}
+
+model TokenGiveawayDetails {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  tokenName  String
+  tokenCount Int
+  giveawayId String   @unique @db.ObjectId
+  giveaway   Giveaway @relation(fields: [giveawayId], references: [id])
 }
 
 model Participation {

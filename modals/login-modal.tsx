@@ -34,7 +34,7 @@ const LoginModal = () => {
 
         <div className="fixed inset-0 overflow-hidden backdrop-blur-md">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 flex items-center justify-center max-w-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] ">
+            <div className="fixed inset-y-0 flex items-center justify-center max-w-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] ">
               <Transition.Child
                 as={Fragment}
                 enter="transition-transform duration-200 ease-out"
@@ -44,7 +44,7 @@ const LoginModal = () => {
                 leaveFrom="scale-100"
                 leaveTo="scale-0"
               >
-                <Dialog.Panel className="relative pointer-events-auto w-screen max-w-lg  bg-transparent flex items-center justify-center">
+                <Dialog.Panel className="relative pointer-events-auto w-screen max-w-xl  bg-transparent flex items-center justify-center">
                   <button
                     aria-label="close"
                     onClick={handleClose}

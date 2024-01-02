@@ -6,6 +6,7 @@ import { useState } from "react";
 import SignMessage from "../components/SignMessage";
 import { WalletAdd } from "../actions/wallet-add";
 import { SIGNATURE_MESSAGE } from "@/config/global";
+import { verifyMessage } from "@unisat/wallet-utils";
 
 declare const window: any;
 
@@ -29,16 +30,25 @@ const SignatureUnisat = ({ address }: { address: string }) => {
         return alert("Public key error");
       }
 
-      WalletAdd({
-        address,
-        signature,
-        symbol: "BTC",
-        isLinking,
-        setSigned,
-        reset,
-        setSignature,
-        onClose,
-      });
+      // const verify = verifyMessage(pubKey, SIGNATURE_MESSAGE, signature);
+      // console.log(verify);
+      const verify = true;
+
+      if (verify === true) {
+        WalletAdd({
+          address,
+          signature,
+          symbol: "BTC",
+          isLinking,
+          setSigned,
+          reset,
+          setSignature,
+          onClose,
+        });
+        return console.log("success");
+      }
+
+      return console.log("failed signed message unisat");
     } catch (error) {
       console.log("[SignatureUinverse] onSignMessageClick error", error);
     } finally {
