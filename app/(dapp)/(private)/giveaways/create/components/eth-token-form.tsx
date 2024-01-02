@@ -1,14 +1,14 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import React, { useState, useEffect } from "react";
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import React, { useState, useEffect } from 'react';
 // import fetchTokenName from "../logic/get-eth-token";
-import { cn } from "@/lib/utils";
-import { Check, Loader2 } from "lucide-react";
-import useBlockchain from "../logic/use-store";
-import TokenForm from "./token-form";
+import { cn } from '@/lib/utils';
+import { Check, Loader2 } from 'lucide-react';
+import useBlockchain from '../logic/use-store';
+import TokenForm from './type-forms/token-form';
 
 const EthereumAddressInput = () => {
-  const [tokenName, setTokenName] = useState("");
+  const [tokenName, setTokenName] = useState('');
   const [loading, setLoading] = useState(false);
   const ethAddressRegex = /^(0x)?[0-9a-fA-F]{40}$/;
   const { address, isValid } = useBlockchain();
@@ -19,7 +19,7 @@ const EthereumAddressInput = () => {
       // const name = await fetchTokenName(address);
       // setTokenName(name);
     } catch (error) {
-      console.log("[TOKEN_FETCH] ", error);
+      console.log('[TOKEN_FETCH] ', error);
     } finally {
       setLoading(false);
     }
@@ -30,7 +30,7 @@ const EthereumAddressInput = () => {
       console.log(`Auto-submitting valid address: ${address}`);
       fetchName();
     }
-    setTokenName("");
+    setTokenName('');
   }, [isValid, address]);
 
   return (
