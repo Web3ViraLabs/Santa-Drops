@@ -5,32 +5,32 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
-import { ParticipationFormSchema } from '../logic/form-schema';
-import * as z from 'zod';
-import useBlockchain from '../logic/use-store';
-import useStore from '../logic/use-store';
-import { updateSavedGiveaway } from '../actions/actions';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import { ParticipationFormSchema } from "../../logic/form-schema";
+import * as z from "zod";
+import useBlockchain from "../../logic/use-store";
+import useStore from "../../logic/use-store";
+import { updateSavedGiveaway } from "../../actions/actions";
 
 const GiveawayType = () => {
   const { savedGwId } = useStore();
   const form = useForm<z.infer<typeof ParticipationFormSchema>>({
     resolver: zodResolver(ParticipationFormSchema),
     defaultValues: {
-      discordUrl: '',
-      twitterUrl: '',
+      discordUrl: "",
+      twitterUrl: "",
     },
   });
 
   const isLoading = form.formState.isSubmitting;
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault();
     }
   };
@@ -44,13 +44,13 @@ const GiveawayType = () => {
       });
 
       if (!updatedGw) {
-        console.log('[GIVEAWAY_SAVE] error saving gw');
+        console.log("[GIVEAWAY_SAVE] error saving gw");
         return;
       }
 
-      console.log('[SAVE_GIVEAWAY] ', updatedGw);
+      console.log("[SAVE_GIVEAWAY] ", updatedGw);
     } catch (error) {
-      console.log('[CREATE_PARTICIPANTS_CLIENT] ', error);
+      console.log("[CREATE_PARTICIPANTS_CLIENT] ", error);
     }
   }
   return (
@@ -99,7 +99,7 @@ const GiveawayType = () => {
                 {isLoading ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
                 ) : (
-                  'Save'
+                  "Save"
                 )}
               </Button>
             </div>

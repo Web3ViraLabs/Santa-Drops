@@ -12,16 +12,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { UploadFile } from "@/components/uploadfile";
 import { Loader2 } from "lucide-react";
-import { giveawayFormSchema } from "../logic/form-schema";
+import { giveawayFormSchema } from "../../logic/form-schema";
 import {
   formatDateToDateTimeLocal,
   getDefaultEndAt,
   timeFromNow,
-} from "../logic/logic";
+} from "../../logic/logic";
 import * as z from "zod";
 import { forwardRef } from "react";
-import useStore from "../logic/use-store";
-import { saveGiveaway } from "../actions/actions";
+import useStore from "../../logic/use-store";
+import { saveGiveaway } from "../../actions/actions";
 
 const GiveawayForm = forwardRef<HTMLDivElement, {}>((props, ref) => {
   const { setSavedGwId } = useStore();

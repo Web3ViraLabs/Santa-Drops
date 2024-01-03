@@ -78,12 +78,21 @@ enum Type {
   RESTRICTED
 }
 
+enum GiveawayType {
+  TOKEN
+  NFT
+  COIN
+  ALLOWLIST
+  WHITELIST
+}
+
 model Giveaway {
   id           String                @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   image        String?
   description  String?
-  endsAt       DateTime
+  endsAt       DateTime?
+  giveawayType GiveawayType?
   published    Boolean               @default(false)
   type         Type                  @default(PUBLIC)
   tokenDetails TokenGiveawayDetails?

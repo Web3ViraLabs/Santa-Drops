@@ -9,18 +9,25 @@ interface Props {
 
 const GiveawayManagement = ({ isActive }: Props) => {
   const router = useRouter();
-  const [isClicked, setIsClicked] = useState(false);
+  // const [isClicked, setIsClicked] = useState(false);
 
   return (
     <>
-      <button onClick={() => setIsClicked(!isClicked)}>
+      <button onClick={() => router.push("/giveaways")}>
         <NavItem
           label="Giveaway Managment"
           icon={<Component />}
           isActive={isActive("/giveaways")}
         />
       </button>
-      {isClicked && (
+      {/* <button onClick={() => setIsClicked(!isClicked)}>
+        <NavItem
+          label="Giveaway Managment"
+          icon={<Component />}
+          isActive={isActive("/giveaways")}
+        />
+      </button> */}
+      {/* {isClicked && (
         <>
           <button
             className="flex items-center"
@@ -47,7 +54,7 @@ const GiveawayManagement = ({ isActive }: Props) => {
             />
           </button>
         </>
-      )}
+      )} */}
     </>
   );
 };

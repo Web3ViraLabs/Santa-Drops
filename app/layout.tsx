@@ -21,12 +21,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full " suppressHydrationWarning>
+    <html lang="en" className={cn(poppins.className)} suppressHydrationWarning>
       <body
         suppressHydrationWarning
         className={cn(
-          "relative flex w-full h-full font-sans antialiased",
-          poppins.className
+          poppins.className,
+          "relative flex w-full h-full antialiased"
         )}
       >
         <NextSSRPlugin

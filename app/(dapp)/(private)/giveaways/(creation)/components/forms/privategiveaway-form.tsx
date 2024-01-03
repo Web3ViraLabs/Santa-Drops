@@ -5,18 +5,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
-import { GiveawayTypeFormSchema } from '../logic/form-schema';
-import * as z from 'zod';
-import { Switch } from '@/components/ui/switch';
-import useStore from '../logic/use-store';
-import { updateSavedGiveaway } from '../actions/actions';
-import { Type } from '@prisma/client';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import { GiveawayTypeFormSchema } from "../../logic/form-schema";
+import * as z from "zod";
+import { Switch } from "@/components/ui/switch";
+import useStore from "../../logic/use-store";
+import { updateSavedGiveaway } from "../../actions/actions";
+import { Type } from "@prisma/client";
 
 const PrivateGiveaway = () => {
   const { savedGwId } = useStore();
@@ -27,7 +27,7 @@ const PrivateGiveaway = () => {
   const isLoading = form.formState.isSubmitting;
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault();
     }
   };
@@ -40,9 +40,9 @@ const PrivateGiveaway = () => {
         type: values.privateGiveaway ? Type.RESTRICTED : Type.PUBLIC,
       });
 
-      console.log('[SAVE_GIVEAWAY_TYPE] ', updatedGw);
+      console.log("[SAVE_GIVEAWAY_TYPE] ", updatedGw);
     } catch (error) {
-      console.log('[SAVE_GIVEAWAY_TYPE] ', error);
+      console.log("[SAVE_GIVEAWAY_TYPE] ", error);
     }
   }
   return (
@@ -82,7 +82,7 @@ const PrivateGiveaway = () => {
                 {isLoading ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
                 ) : (
-                  'Save'
+                  "Save"
                 )}
               </Button>
             </div>

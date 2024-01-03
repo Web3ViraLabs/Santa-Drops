@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { UploadFile } from "@/components/uploadfile";
-import { createGiveaway } from "./actions/actions";
+import { createGiveaway } from "../(creation)/actions/actions";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 

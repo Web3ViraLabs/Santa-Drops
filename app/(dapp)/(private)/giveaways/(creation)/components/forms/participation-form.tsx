@@ -11,11 +11,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { ParticipationFormSchema } from "../logic/form-schema";
+import { ParticipationFormSchema } from "../../logic/form-schema";
 import * as z from "zod";
-import useBlockchain from "../logic/use-store";
-import useStore from "../logic/use-store";
-import { updateSavedGiveaway } from "../actions/actions";
+import useStore from "../../logic/use-store";
+import { updateSavedGiveaway } from "../../actions/actions";
 
 const ParticipationForm = () => {
   const { savedGwId } = useStore();

@@ -44,7 +44,7 @@ export async function existUser(name: string) {
 }
 
 export async function existAddress(address: string) {
-  const isWalletRegistered = await db.wallet.findFirst({
+  const isWalletRegistered = await db.wallet.findUnique({
     where: {
       address,
     },
