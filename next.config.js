@@ -20,5 +20,13 @@ module.exports = {
                 pathname: '/**'
             }
         ]
+    },
+    experimental: {
+        serverActions: {
+            allowedOrigins: [
+                '0n960zs4-3000.inc1.devtunnels.ms/',
+                'localhost:3000'
+            ]
+        }
     }
 }

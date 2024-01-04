@@ -86,23 +86,31 @@ enum GiveawayType {
   WHITELIST
 }
 
+enum BlockchainType {
+  SOLANA
+  ETHEREUM
+  BITCOIN
+  POLYGON
+}
+
 model Giveaway {
-  id           String                @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  image        String?
-  description  String?
-  endsAt       DateTime?
-  giveawayType GiveawayType?
-  published    Boolean               @default(false)
-  type         Type                  @default(PUBLIC)
-  tokenDetails TokenGiveawayDetails?
-  twitterUrl   String?
-  discordUrl   String?
-  createdAt    DateTime              @default(now())
-  updatedAt    DateTime              @updatedAt
-  creatorId    String                @db.ObjectId
-  creator      Profile               @relation(name: "GiveawayCreator", fields: [creatorId], references: [id])
-  participants Participation[]
+  id             String                @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  image          String?
+  description    String?
+  endsAt         DateTime?
+  blockchainType BlockchainType?
+  giveawayType   GiveawayType?
+  published      Boolean               @default(false)
+  type           Type                  @default(PUBLIC)
+  tokenDetails   TokenGiveawayDetails?
+  twitterUrl     String?
+  discordUrl     String?
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+  creatorId      String                @db.ObjectId
+  creator        Profile               @relation(name: "GiveawayCreator", fields: [creatorId], references: [id])
+  participants   Participation[]
 }
 
 model TokenGiveawayDetails {

@@ -33,6 +33,7 @@
         "**/*.ts",
         "**/*.tsx",
         ".next/types/**/*.ts",
+        "app/(dapp)/(private)/giveaways/(creation)/(routes)/[giveawayId]/components/later.bin",
     ],
     "exclude": [
         "node_modules"

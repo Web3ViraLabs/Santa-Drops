@@ -1,6 +1,6 @@
 import * as z from "zod";
 import { MAX_DURATION_MS, MIN_DURATION_MS } from "./logic";
-import { GiveawayType } from "@prisma/client";
+import { GiveawayType, BlockchainType } from "@prisma/client";
 
 export const giveawayFormSchema = z.object({
   title: z
@@ -35,6 +35,12 @@ export const giveawayFormSchema = z.object({
       message: "Please select a giveaway type.",
     }),
   }),
+  blockchainType: z.nativeEnum(BlockchainType, {
+    errorMap: () => ({
+      message: "Please select a blockchain type.",
+    }),
+  }),
+  tokenContractAddress: z.string(),
 
   privateGiveaway: z.boolean().default(false),
   twitterUrl: z
@@ -58,32 +64,4 @@ export const giveawayFormSchema = z.object({
           "Invalid discord community url. Please follow the format 'https://discord.gg/yourcommunity'. ",
       }
     ),
-});
-
-export const ParticipationFormSchema = z.object({
-  twitterUrl: z
-    .string()
-    .optional()
-    .refine(
-      (value) =>
-        !value || /^https:\/\/twitter\.com\/[a-zA-Z0-9_]{1,15}$/i.test(value),
-      {
-        message:
-          "Invalid twitter community url. Valid twitter account link starts from 'https://twitter.com/youraccount'.",
-      }
-    ),
-  discordUrl: z
-    .string()
-    .optional()
-    .refine(
-      (value) => !value || /^https:\/\/discord\.gg\/[a-zA-Z0-9]+$/i.test(value),
-      {
-        message:
-          "Invalid discord community url. Please follow the format 'https://discord.gg/yourcommunity'. ",
-      }
-    ),
-});
-
-export const GiveawayTypeFormSchema = z.object({
-  privateGiveaway: z.boolean().default(false),
 });
