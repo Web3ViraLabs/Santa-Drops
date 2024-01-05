@@ -4,8 +4,8 @@ import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { buttonVariants } from "@/components/ui/button";
-import { giveawayFormSchema } from "../../../logic/form-schema";
-import { getDefaultEndAt } from "../../../logic/logic";
+import { giveawayFormSchema } from "./forms/logic/form-schema";
+import { getDefaultEndAt } from "./forms/logic/logic";
 import * as z from "zod";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -14,6 +14,8 @@ import EngagmentForm from "./forms/engagment-form";
 import PrivateGwForm from "./forms/private-gw-form";
 import GiveawayForm from "./forms/giveaway-form";
 import DynamicForm from "./forms/dynamic-form";
+import { GiveawayType } from "@prisma/client";
+import useStore from "./forms/logic/use-store";
 
 const GiveawayMainForm = () => {
   const form = useForm<z.infer<typeof giveawayFormSchema>>({
@@ -29,9 +31,12 @@ const GiveawayMainForm = () => {
     },
   });
   const isLoading = form.formState.isSubmitting;
+  const { address, tokenData } = useStore();
 
   const {
     watch,
+    register,
+    unregister,
     formState: { isValidating, isSubmitting },
   } = form;
 
@@ -44,12 +49,17 @@ const GiveawayMainForm = () => {
   };
 
   useEffect(() => {
-    debouncedSave(formValues, isValidating, isSubmitting);
+    const validateData = {
+      tokenName: tokenData && tokenData.name ? tokenData.name : "",
+      tokenImage: tokenData && tokenData.image ? tokenData.image : "",
+      contractAddress: address || "",
+    };
+    debouncedSave(formValues, validateData, isValidating, isSubmitting);
 
     return () => {
       debouncedSave.cancel();
     };
-  }, [formValues]);
+  }, [formValues, tokenData, address]);
 
   async function onSubmit(values: z.infer<typeof giveawayFormSchema>) {
     try {
@@ -61,6 +71,28 @@ const GiveawayMainForm = () => {
 
   const giveawayType = watch("giveawayType");
   const blockchainType = watch("blockchainType");
+
+  console.log(!form.formState.errors ? form.formState.errors : "no errors");
+
+  useEffect(() => {
+    unregister("tokens");
+    unregister("cryptocoin");
+  }, [giveawayType]);
+
+  useEffect(() => {
+    if (giveawayType === GiveawayType.TOKEN) {
+      register("tokens", {
+        value: 0,
+      });
+      console.log("register amount");
+    }
+    if (giveawayType === GiveawayType.COIN) {
+      register("cryptocoin", {
+        value: 0,
+      });
+      console.log("register coin");
+    }
+  }, [giveawayType]);
 
   return (
     <div className="w-full lg:w-[60%] lg:ml-8 pb-20">
@@ -80,11 +112,12 @@ const GiveawayMainForm = () => {
           <PrivateGwForm control={form.control} />
           <EngagmentForm control={form.control} isLoading={isLoading} />
           <div className="w-full space-x-5">
-            <button
+            {/* <button
               type="button"
               onClick={() =>
                 autosave(
                   form.getValues(),
+                  
                   form.formState.isValid,
                   form.formState.isSubmitting
                 )
@@ -92,7 +125,7 @@ const GiveawayMainForm = () => {
               className={cn(buttonVariants({ variant: "default" }), "ms-auto")}
             >
               Save (auto save on)
-            </button>
+            </button> */}
             <button
               type="submit"
               className={cn(buttonVariants({ variant: "default" }), "ms-auto")}

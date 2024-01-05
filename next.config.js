@@ -18,6 +18,17 @@ module.exports = {
                 hostname: 'utfs.io',
                 port: '',
                 pathname: '/**'
+            },
+            {
+                protocol: 'https',
+                hostname: 'raw.githubusercontent.com',
+                port: '',
+                pathname: '/**'
+            }, {
+                protocol: 'https',
+                hostname: 'ipfs.io',
+                port: '',
+                pathname: '/**'
             }
         ]
     },

@@ -13,6 +13,9 @@ export const ourFileRouter = {
   giveawayImage: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
     .middleware(() => handle())
     .onUploadComplete(() => {}),
+  tokenImage: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
+    .middleware(() => handle())
+    .onUploadComplete(() => {}),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

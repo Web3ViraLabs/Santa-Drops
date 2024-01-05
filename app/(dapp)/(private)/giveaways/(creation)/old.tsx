@@ -458,4 +458,68 @@ const GiveawayCreateOptionsPage = () => {
   );
 };
 
-export default GiveawayCreateOptionsPage;
+("use server");
+
+import axios from "axios";
+import { Connection, PublicKey } from "@solana/web3.js";
+import { AccountInfo, ParsedAccountData } from "@solana/web3.js";
+
+const SOLANA_MAINNET_ENDPOINT = "https://api.mainnet-beta.solana.com";
+const connection = new Connection(SOLANA_MAINNET_ENDPOINT);
+
+// Function to fetch token details from a GitHub repository
+("use server");
+
+import axios from "axios";
+import { Connection, PublicKey } from "@solana/web3.js";
+import { AccountInfo, ParsedAccountData } from "@solana/web3.js";
+
+const SOLANA_MAINNET_ENDPOINT = "https://api.mainnet-beta.solana.com";
+const connection = new Connection(SOLANA_MAINNET_ENDPOINT);
+
+async function fetchTokenDetailsUsingSolanaWeb3(mintAddress: string) {
+  try {
+    const mintPublicKey = new PublicKey(mintAddress);
+    const tokenMintData = await connection.getParsedAccountInfo(mintPublicKey);
+
+    // Ensure the account data is parsed SPL Token data
+    if (tokenMintData.value && isParsedAccountData(tokenMintData.value.data)) {
+      const parsedData = tokenMintData.value.data.parsed;
+      // Now you can safely access parsedData.info or other properties
+      // Note: Structure depends on the token program used (e.g., SPL Token)
+      const info = parsedData.info;
+      return {
+        ...info,
+      };
+    }
+  } catch (error) {
+    console.error("Error fetching Solana token details using Web3:", error);
+    return null;
+  }
+}
+
+// Type guard to check if account data is ParsedAccountData
+function isParsedAccountData(
+  data: Buffer | ParsedAccountData
+): data is ParsedAccountData {
+  return (data as ParsedAccountData).parsed !== undefined;
+}
+
+// Main function to fetch token details, trying GitHub first, then Solana Web3.js
+const fetchSolanaToken = async (mintAddress: string) => {
+  //   let tokenDetails = await fetchTokenDetailsFromGitHub(mintAddress);
+
+  //   if (!tokenDetails) {
+  const tokenDetails = await fetchTokenDetailsUsingSolanaWeb3(mintAddress);
+  //   }
+
+  console.log("Token details fetched successfully:", tokenDetails);
+  return {
+    name: "",
+    image: "",
+  };
+
+  //   return tokenDetails;
+};
+
+export default fetchSolanaToken;

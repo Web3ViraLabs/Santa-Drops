@@ -40,8 +40,9 @@ export const giveawayFormSchema = z.object({
       message: "Please select a blockchain type.",
     }),
   }),
-  tokenContractAddress: z.string(),
-
+  // nftContractAddress: z.string().optional(),
+  tokens: z.coerce.number().optional().default(0),
+  cryptocoin: z.coerce.number().optional().default(0),
   privateGiveaway: z.boolean().default(false),
   twitterUrl: z
     .string()

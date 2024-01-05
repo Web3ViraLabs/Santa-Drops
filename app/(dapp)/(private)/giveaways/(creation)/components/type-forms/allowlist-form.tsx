@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { cn } from '@/lib/utils';
-import { Check, Loader2 } from 'lucide-react';
-import useBlockchain from '../../logic/use-store';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
+import { Check, Loader2 } from "lucide-react";
+import useBlockchain from "../../(routes)/[giveawayId]/components/forms/logic/use-store";
 
 interface TokenFormProps {
   loading: boolean;
@@ -52,10 +52,10 @@ const CryptoForm = ({
         </Label>
         <Input
           className={cn(
-            'w-full bg-main rounded-lg relative',
+            "w-full bg-main rounded-lg relative",
             isValid === false
-              ? 'border-red-500 focus:outline-none focus:ring-0 focus-visible:ring-0'
-              : 'dark:border-[#303030]'
+              ? "border-red-500 focus:outline-none focus:ring-0 focus-visible:ring-0"
+              : "dark:border-[#303030]"
           )}
           autoComplete="off"
           value={address}

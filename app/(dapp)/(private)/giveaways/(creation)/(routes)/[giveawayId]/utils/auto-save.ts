@@ -1,17 +1,25 @@
-import { giveawayFormSchema } from "../../../logic/form-schema";
-import { validateField } from "./field-validation";
-import { debounce } from "lodash";
 import * as z from "zod";
+import { debounce } from "lodash"; // assuming lodash is installed
+import { giveawayFormSchema } from "../components/forms/logic/form-schema";
+import { validateField } from "./field-validation";
+
+interface TokenData {
+  contractAddress: string;
+  tokenName: string;
+  tokenImage: string;
+}
 
 export const autosave = (
   data: z.infer<typeof giveawayFormSchema>,
+  dynamicData: TokenData,
   isValidating: boolean,
   isSubmitting: boolean
 ) => {
   if (!isValidating && !isSubmitting) {
-    const trimmedData: any = {};
     let isAnyFieldValid = false;
 
+    // Trim and validate static form data
+    const trimmedData: any = {};
     Object.entries(data).forEach(([key, value]: any) => {
       const result = validateField(key, value, giveawayFormSchema);
       if (result.valid) {
@@ -20,8 +28,22 @@ export const autosave = (
       }
     });
 
+    const isDynamicDataValid = Object.values(dynamicData).every(
+      (value) => value != null && value.trim() !== ""
+    );
+
+    const combinedData = isDynamicDataValid
+      ? {
+          ...trimmedData,
+          ...dynamicData,
+        }
+      : trimmedData;
+
     if (isAnyFieldValid) {
-      console.log("Auto-saving data:", JSON.stringify(trimmedData, null, 2));
+      console.log("Auto-saving data:", JSON.stringify(combinedData, null, 2));
+      // Implement the actual saving logic here...
+    } else {
+      console.log("No valid fields to save.");
     }
   }
 };

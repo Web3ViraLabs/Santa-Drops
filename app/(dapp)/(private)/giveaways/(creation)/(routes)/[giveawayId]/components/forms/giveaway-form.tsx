@@ -7,10 +7,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { UploadFile } from "@/components/uploadfile";
-import {
-  formatDateToDateTimeLocal,
-  timeFromNow,
-} from "../../../../logic/logic";
+import { formatDateToDateTimeLocal, timeFromNow } from "./logic/logic";
 import FormCard from "../form-card";
 
 const GiveawayForm = ({

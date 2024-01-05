@@ -8,7 +8,7 @@ export const MAX_DURATION_MS = 6 * 30 * 24 * 60 * 60 * 1000;
  */
 export const getDefaultEndAt = (): Date => {
   const now = new Date();
-  return new Date(now.getTime() + MIN_DURATION_MS);
+  return new Date(now.getTime() + MIN_DURATION_MS + 3600);
 };
 
 /**

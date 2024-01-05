@@ -11,10 +11,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { GiveawayTypeFormSchema } from "../../logic/form-schema";
+import { GiveawayTypeFormSchema } from "../../(routes)/[giveawayId]/components/forms/logic/form-schema";
 import * as z from "zod";
 import { Switch } from "@/components/ui/switch";
-import useStore from "../../logic/use-store";
+import useStore from "../../(routes)/[giveawayId]/components/forms/logic/use-store";
 import { updateSavedGiveaway } from "../../actions/actions";
 import { Type } from "@prisma/client";
 
