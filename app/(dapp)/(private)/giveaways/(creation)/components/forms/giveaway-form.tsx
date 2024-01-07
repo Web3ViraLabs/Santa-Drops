@@ -12,15 +12,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { UploadFile } from "@/components/uploadfile";
 import { Loader2 } from "lucide-react";
-import { giveawayFormSchema } from "../../(routes)/[giveawayId]/components/forms/logic/form-schema";
+import { giveawayFormSchema } from "../../(routes)/[giveawayId]/components/logic/form-schema";
 import {
   formatDateToDateTimeLocal,
   getDefaultEndAt,
   timeFromNow,
-} from "../../(routes)/[giveawayId]/components/forms/logic/logic";
+} from "../../(routes)/[giveawayId]/utils/utils";
 import * as z from "zod";
 import { forwardRef } from "react";
-import useStore from "../../(routes)/[giveawayId]/components/forms/logic/use-store";
+import useStore from "../../(routes)/[giveawayId]/components/logic/use-store";
 import { saveGiveaway } from "../../actions/actions";
 
 const GiveawayForm = forwardRef<HTMLDivElement, {}>((props, ref) => {

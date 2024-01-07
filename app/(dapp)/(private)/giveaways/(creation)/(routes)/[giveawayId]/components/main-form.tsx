@@ -4,20 +4,36 @@ import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { buttonVariants } from "@/components/ui/button";
-import { giveawayFormSchema } from "./forms/logic/form-schema";
-import { getDefaultEndAt } from "./forms/logic/logic";
+import { giveawayFormSchema } from "./logic/form-schema";
+import { getDefaultEndAt } from "../utils/utils";
 import * as z from "zod";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { autosave, debouncedSave } from "../utils/auto-save";
+import { debouncedSave } from "./logic/auto-save";
 import EngagmentForm from "./forms/engagment-form";
 import PrivateGwForm from "./forms/private-gw-form";
 import GiveawayForm from "./forms/giveaway-form";
 import DynamicForm from "./forms/dynamic-form";
 import { GiveawayType } from "@prisma/client";
-import useStore from "./forms/logic/use-store";
+import useStore from "./logic/use-store";
 
-const GiveawayMainForm = () => {
+interface ValuesProps {
+  title: string;
+  imageUrl: string | null;
+  description: string;
+  endsAt: Date;
+  privateGiveaway: boolean;
+  discordUrl: string | null;
+  twitterUrl: string | null;
+}
+
+const GiveawayMainForm = ({
+  id,
+  values,
+}: {
+  id: string;
+  values: ValuesProps;
+}) => {
   const form = useForm<z.infer<typeof giveawayFormSchema>>({
     resolver: zodResolver(giveawayFormSchema),
     defaultValues: {
@@ -30,6 +46,15 @@ const GiveawayMainForm = () => {
       twitterUrl: "",
     },
   });
+
+  useEffect(() => {
+    Object.entries(values).forEach(([key, value]: any) => {
+      console.log(key, value);
+
+      form.setValue(key, value);
+    });
+  }, []);
+
   const isLoading = form.formState.isSubmitting;
   const { address, tokenData } = useStore();
 
@@ -54,8 +79,7 @@ const GiveawayMainForm = () => {
       tokenImage: tokenData && tokenData.image ? tokenData.image : "",
       contractAddress: address || "",
     };
-    debouncedSave(formValues, validateData, isValidating, isSubmitting);
-
+    debouncedSave(id, formValues, validateData, isValidating, isSubmitting);
     return () => {
       debouncedSave.cancel();
     };
@@ -71,8 +95,6 @@ const GiveawayMainForm = () => {
 
   const giveawayType = watch("giveawayType");
   const blockchainType = watch("blockchainType");
-
-  console.log(!form.formState.errors ? form.formState.errors : "no errors");
 
   useEffect(() => {
     unregister("tokens");

@@ -25,9 +25,12 @@ const formSchema = z.object({
     .max(40, {
       message: "Title must be less than 40 characters.",
     }),
-  description: z.string().max(250, {
-    message: "Description must be less than 250 characters.",
-  }),
+  description: z
+    .string()
+    .min(20, "Description must be at least 20 characters.")
+    .max(250, {
+      message: "Description must be less than 250 characters.",
+    }),
 });
 
 const Create = () => {

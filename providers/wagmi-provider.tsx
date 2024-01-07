@@ -8,7 +8,7 @@ import { avalanche, polygon } from "viem/chains";
 import { APPNAME } from "@/config/global";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mainnet, polygon, avalanche],
+  [mainnet, polygon],
   [publicProvider()]
 );
 

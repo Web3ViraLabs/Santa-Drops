@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { Check, Loader2 } from "lucide-react";
-import useBlockchain from "../../(routes)/[giveawayId]/components/forms/logic/use-store";
+import useBlockchain from "../../(routes)/[giveawayId]/components/logic/use-store";
 
 interface TokenFormProps {
   loading: boolean;

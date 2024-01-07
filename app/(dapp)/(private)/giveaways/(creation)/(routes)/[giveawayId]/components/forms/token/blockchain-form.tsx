@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import useBlockchain from "../logic/use-store";
+import useBlockchain from "../../logic/use-store";
 import TokenForm from "./token-form";
 
 interface BlockchainFormProps {

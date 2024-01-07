@@ -97,7 +97,7 @@ model Giveaway {
   id             String                @id @default(auto()) @map("_id") @db.ObjectId
   name           String
   image          String?
-  description    String?
+  description    String
   endsAt         DateTime?
   blockchainType BlockchainType?
   giveawayType   GiveawayType?

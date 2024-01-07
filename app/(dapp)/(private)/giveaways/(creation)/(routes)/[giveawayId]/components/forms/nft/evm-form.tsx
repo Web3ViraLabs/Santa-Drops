@@ -3,42 +3,73 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { Check, Loader2, X } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import useStore from "../../logic/use-store";
 import Image from "next/image";
-import { UploadFile } from "@/components/uploadfile";
+import { useEffect, useState } from "react";
 
 interface TokenFormProps {
-  loading: boolean;
-  regex: RegExp;
-  placeholder: string;
+  fetchNft: (
+    address: string,
+    tokenId: string
+  ) => Promise<{ name: string; image: string }>;
 }
 
-const TokenForm = ({ loading, regex, placeholder }: TokenFormProps & {}) => {
-  const { setIsValid, isValid, address, setAddress, tokenData, setTokenData } =
-    useStore();
+const NftGiveaway = ({ fetchNft }: TokenFormProps & {}) => {
+  const {
+    setIsValid,
+    isValid,
+    address,
+    setAddress,
+    tokenData,
+    setTokenData,
+    tokenId,
+    setTokenId,
+  } = useStore();
+  const [loading, setLoading] = useState(false);
+  const [blurred, setBlurred] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
     setAddress(input);
-    if (regex.test(input)) {
+    if (/^(0x)?[0-9a-fA-F]{40}$/.test(input)) {
       setIsValid(true);
     } else {
       setIsValid(false);
+      setTokenId("");
+      setTokenData({ name: "", image: "" });
     }
   };
 
-  const onImageChange = (url: string | undefined) => {
-    setTokenData({
-      name: tokenData?.name || "",
-      image: url || "",
-    });
+  const fetchNftFunc = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchNft(address, tokenId);
+      setTokenData({
+        name: data.name,
+        image: data.image,
+      });
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    if (isValid && tokenId && blurred) {
+      try {
+        fetchNftFunc();
+      } catch (error) {
+        console.log("[fetchNft_client] ", error);
+      }
+    }
+  }, [isValid, address, blurred]);
+
   return (
     <>
       <div className="relative flex flex-col space-y-2 w-full">
         <Label className="uppercase text-sm dark:text-zinc-400">
-          Token contract address
+          Nft Collection contract address
         </Label>
         <Input
           className={cn(
@@ -50,8 +81,24 @@ const TokenForm = ({ loading, regex, placeholder }: TokenFormProps & {}) => {
           autoComplete="off"
           value={address}
           onChange={handleInputChange}
-          placeholder={placeholder}
+          placeholder={"0x..."}
         />
+        <div className="flex flex-col space-y-2 w-full">
+          <Label className="uppercase text-sm dark:text-zinc-400">
+            Nft token id
+          </Label>
+          <Input
+            className="w-full bg-main rounded-lg dark:border-[#303030]"
+            autoComplete="off"
+            value={tokenId}
+            onChange={(e) => {
+              setBlurred(false);
+              setTokenId(e.target.value);
+            }}
+            onBlur={() => setBlurred(true)}
+            placeholder="0"
+          />
+        </div>
         {loading && (
           <span className="absolute -top-2 right-2 text-green-400">
             <Loader2 className=" w-4 h-4 animate-spin" />
@@ -66,7 +113,7 @@ const TokenForm = ({ loading, regex, placeholder }: TokenFormProps & {}) => {
           <>
             <div className="flex flex-col space-y-2 w-full">
               <Label className="uppercase text-sm dark:text-zinc-400">
-                Token Name
+                Nft name
               </Label>
               <Input
                 disabled
@@ -77,7 +124,7 @@ const TokenForm = ({ loading, regex, placeholder }: TokenFormProps & {}) => {
             </div>
             <div className="flex flex-col space-y-2 w-full">
               <Label className="uppercase text-sm dark:text-zinc-400">
-                Token Image
+                Nft Image
               </Label>
               {tokenData.image && tokenData.image.startsWith("http") && (
                 <div className="relative h-32 w-32">
@@ -86,50 +133,15 @@ const TokenForm = ({ loading, regex, placeholder }: TokenFormProps & {}) => {
                     alt={tokenData.name || "Token image"}
                     fill
                     sizes="100%"
-                    className="rounded-full object-cover"
+                    className="rounded-lg object-cover"
                   />
-                  <button
-                    onClick={() => {
-                      setTokenData({
-                        name: tokenData?.name || "",
-                        image: "",
-                      });
-                    }}
-                    className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
-                    type="button"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
                 </div>
-              )}
-              {!tokenData.image && (
-                <UploadFile
-                  endpoint="tokenImage"
-                  onChange={onImageChange}
-                  value={tokenData?.image || ""}
-                  className="h-32 w-32 rounded-full"
-                />
               )}
             </div>
           </>
         )}
-      {/* {isValid &&
-        !loading &&
-        !selectedToken &&
-        tokenData &&
-        tokenData.image &&
-        tokenData.name && (
-          <div className="flex flex-col items-center w-full space-y-2">
-            <button
-              onClick={confirm}
-              className="rounded-full p-2 bg-neutral-600 hover:bg-neutral-500"
-            >
-              <Check className="w-6 h-6 text-green-400" />
-            </button>
-          </div>
-        )} */}
     </>
   );
 };
 
-export default TokenForm;
+export default NftGiveaway;

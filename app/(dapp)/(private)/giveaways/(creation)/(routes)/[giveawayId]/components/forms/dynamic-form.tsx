@@ -17,19 +17,19 @@ import {
 } from "@/components/ui/select";
 import { BlockchainType, GiveawayType } from "@prisma/client";
 import BlockchainAddressInput from "./token/blockchain-form";
-import useStore from "./logic/use-store";
+import useStore from "../logic/use-store";
 import { useEffect } from "react";
-import fetchEthToken from "../../utils/eth/get-eth-token";
+import fetchEthToken from "./token/actions/get-eth-token";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import fetchMaticToken from "../../utils/eth/get-matic-token";
-import fetchSolanaTokenMetadata from "../../utils/eth/get-solana-token";
-import fetchSolanaToken from "../../utils/eth/get-solana-token";
+import fetchMaticToken from "./token/actions/get-matic-token";
+import fetchSolanaToken from "./token/actions/get-solana-token";
 import AmountField from "./coins/amount-field";
-import NftGiveaway from "./nft/nft-eth-form";
-import { fetchEthNftDetails } from "../../utils/nft/fetch-nft-eth";
-import { fetchMaticNftDetails } from "../../utils/nft/fetch-nft-matic";
-import NftSolana from "./nft/nft-sol-form";
+import NftGiveaway from "./nft/evm-form";
+import { fetchEthNftDetails } from "./nft/actions/fetch-nft-eth";
+import { fetchMaticNftDetails } from "./nft/actions/fetch-nft-matic";
+import NftSolana from "./nft/sol-form";
+import NftBitcoin from "./nft/btc-form";
 
 const DynamicForm = ({
   control,
@@ -175,7 +175,6 @@ const DynamicForm = ({
                   </FormItem>
                 )}
               />
-              <Button type="button">Initiate Transaction</Button>
             </>
           )}
         </>
@@ -223,21 +222,19 @@ const DynamicForm = ({
       {giveawayType === GiveawayType.NFT && (
         <>
           {blockchainType === BlockchainType.ETHEREUM && (
-            <NftGiveaway
-              regex={/^(0x)?[0-9a-fA-F]{40}$/}
-              placeholder="0x..."
-              fetchNft={fetchEthNftDetails}
-            />
+            <NftGiveaway fetchNft={fetchEthNftDetails} />
           )}
           {blockchainType === BlockchainType.POLYGON && (
-            <NftGiveaway
-              regex={/^(0x)?[0-9a-fA-F]{40}$/}
-              placeholder="0x..."
-              fetchNft={fetchMaticNftDetails}
-            />
+            <NftGiveaway fetchNft={fetchMaticNftDetails} />
           )}
           {blockchainType === BlockchainType.SOLANA && <NftSolana />}
+          {blockchainType === BlockchainType.BITCOIN && <NftBitcoin />}
         </>
+      )}
+      {isValid && address && tokenData && (
+        <Button type="button" className="w-full">
+          Initiate transaction
+        </Button>
       )}
     </FormCard>
   );
