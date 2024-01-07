@@ -29,6 +29,11 @@ module.exports = {
                 hostname: 'ipfs.io',
                 port: '',
                 pathname: '/**'
+            }, {
+                protocol: 'https',
+                hostname: 'res.cloudinary.com',
+                port: '',
+                pathname: '/**'
             }
         ]
     },

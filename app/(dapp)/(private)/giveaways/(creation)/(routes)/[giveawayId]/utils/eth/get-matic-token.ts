@@ -53,10 +53,6 @@ const fetchMaticToken = async (
 
     try {
       name = (await contract.methods.name().call()) as string;
-      console.log(
-        "Token name fetched successfully from Polygon contract:",
-        name
-      );
     } catch (error) {
       console.log("Error fetching token name from Polygon contract:");
       return { name: "", image: "" }; // Return empty details if both methods fail

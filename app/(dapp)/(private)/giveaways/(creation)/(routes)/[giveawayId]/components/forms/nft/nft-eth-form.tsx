@@ -3,19 +3,21 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { Check, Loader2, X } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import useStore from "../logic/use-store";
 import Image from "next/image";
-import { UploadFile } from "@/components/uploadfile";
 import { useEffect, useState } from "react";
-import { fetchNftDetails } from "../../../utils/ERC-721";
 
 interface TokenFormProps {
   regex: RegExp;
   placeholder: string;
+  fetchNft: (
+    address: string,
+    tokenId: string
+  ) => Promise<{ name: string; image: string }>;
 }
 
-const NftGiveaway = ({ regex, placeholder }: TokenFormProps & {}) => {
+const NftGiveaway = ({ regex, placeholder, fetchNft }: TokenFormProps & {}) => {
   const {
     setIsValid,
     isValid,
@@ -27,6 +29,7 @@ const NftGiveaway = ({ regex, placeholder }: TokenFormProps & {}) => {
     setTokenId,
   } = useStore();
   const [loading, setLoading] = useState(false);
+  const [blurred, setBlurred] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
@@ -35,14 +38,19 @@ const NftGiveaway = ({ regex, placeholder }: TokenFormProps & {}) => {
       setIsValid(true);
     } else {
       setIsValid(false);
+      setTokenId("");
+      setTokenData({ name: "", image: "" });
     }
   };
 
-  const fetchNft = async () => {
+  const fetchNftFunc = async () => {
     setLoading(true);
     try {
-      const data = await fetchNftDetails(address, tokenId);
-      setTokenData(data);
+      const data = await fetchNft(address, tokenId);
+      setTokenData({
+        name: data.name,
+        image: data.image,
+      });
     } catch (error) {
     } finally {
       setLoading(false);
@@ -50,19 +58,15 @@ const NftGiveaway = ({ regex, placeholder }: TokenFormProps & {}) => {
   };
 
   useEffect(() => {
-    if (isValid && tokenId) {
-      fetchNft();
+    if (isValid && tokenId && blurred) {
       try {
-      } catch (error) {}
+        fetchNftFunc();
+      } catch (error) {
+        console.log("[fetchNft_client] ", error);
+      }
     }
-  }, [isValid, tokenId, address]);
+  }, [isValid, address, blurred]);
 
-  const onImageChange = (url: string | undefined) => {
-    setTokenData({
-      name: tokenData?.name || "",
-      image: url || "",
-    });
-  };
   return (
     <>
       <div className="relative flex flex-col space-y-2 w-full">
@@ -89,7 +93,11 @@ const NftGiveaway = ({ regex, placeholder }: TokenFormProps & {}) => {
             className="w-full bg-main rounded-lg dark:border-[#303030]"
             autoComplete="off"
             value={tokenId}
-            onChange={(e) => setTokenId(e.target.value)}
+            onChange={(e) => {
+              setBlurred(false);
+              setTokenId(e.target.value);
+            }}
+            onBlur={() => setBlurred(true)}
             placeholder="0"
           />
         </div>
@@ -123,52 +131,17 @@ const NftGiveaway = ({ regex, placeholder }: TokenFormProps & {}) => {
               {tokenData.image && tokenData.image.startsWith("http") && (
                 <div className="relative h-32 w-32">
                   <Image
-                    src={tokenData.image}
+                    src={"/api/images?url=" + tokenData.image}
                     alt={tokenData.name || "Token image"}
                     fill
                     sizes="100%"
-                    className="rounded-full object-cover"
+                    className="rounded-lg object-cover"
                   />
-                  {/* <button
-                    onClick={() => {
-                      setTokenData({
-                        name: tokenData?.name || "",
-                        image: "",
-                      });
-                    }}
-                    className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
-                    type="button"
-                  >
-                    <X className="h-4 w-4" />
-                  </button> */}
                 </div>
               )}
-              {/* {!tokenData.image && (
-                <UploadFile
-                  endpoint="tokenImage"
-                  onChange={onImageChange}
-                  value={tokenData?.image || ""}
-                  className="h-32 w-32 rounded-full"
-                />
-              )} */}
             </div>
           </>
         )}
-      {/* {isValid &&
-        !loading &&
-        !selectedToken &&
-        tokenData &&
-        tokenData.image &&
-        tokenData.name && (
-          <div className="flex flex-col items-center w-full space-y-2">
-            <button
-              onClick={confirm}
-              className="rounded-full p-2 bg-neutral-600 hover:bg-neutral-500"
-            >
-              <Check className="w-6 h-6 text-green-400" />
-            </button>
-          </div>
-        )} */}
     </>
   );
 };

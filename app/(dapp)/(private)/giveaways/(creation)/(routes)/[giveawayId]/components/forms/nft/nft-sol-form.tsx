@@ -3,51 +3,57 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { Check, Loader2, X } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import useStore from "../logic/use-store";
 import Image from "next/image";
-import { UploadFile } from "@/components/uploadfile";
+import { useEffect, useState } from "react";
+import fetchSolanaToken from "../../../utils/eth/get-solana-token";
 
-interface TokenFormProps {
-  loading: boolean;
-  regex: RegExp;
-  placeholder: string;
-}
-
-const TokenForm = ({ loading, regex, placeholder }: TokenFormProps & {}) => {
-  const {
-    selectedToken,
-    setSelectedToken,
-    setIsValid,
-    isValid,
-    address,
-    setAddress,
-    tokenData,
-    setTokenData,
-  } = useStore();
+const NftSolana = () => {
+  const { setIsValid, isValid, address, setAddress, tokenData, setTokenData } =
+    useStore();
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
     setAddress(input);
-    if (regex.test(input)) {
+    if (/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(input)) {
       setIsValid(true);
     } else {
       setIsValid(false);
-      setSelectedToken(false);
+      setTokenData({ name: "", image: "" });
     }
   };
 
-  const onImageChange = (url: string | undefined) => {
-    setTokenData({
-      name: tokenData?.name || "",
-      image: url || "",
-    });
+  const fetchNftFunc = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchSolanaToken(address);
+      setTokenData({
+        name: data.name,
+        image: data.image,
+      });
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    if (isValid) {
+      try {
+        fetchNftFunc();
+      } catch (error) {
+        console.log("[fetchNftSolana_client] ", error);
+      }
+    }
+  }, [isValid, address]);
+
   return (
     <>
       <div className="relative flex flex-col space-y-2 w-full">
         <Label className="uppercase text-sm dark:text-zinc-400">
-          Token contract address
+          Mint address
         </Label>
         <Input
           className={cn(
@@ -59,7 +65,7 @@ const TokenForm = ({ loading, regex, placeholder }: TokenFormProps & {}) => {
           autoComplete="off"
           value={address}
           onChange={handleInputChange}
-          placeholder={placeholder}
+          placeholder={"SOL..."}
         />
         {loading && (
           <span className="absolute -top-2 right-2 text-green-400">
@@ -75,7 +81,7 @@ const TokenForm = ({ loading, regex, placeholder }: TokenFormProps & {}) => {
           <>
             <div className="flex flex-col space-y-2 w-full">
               <Label className="uppercase text-sm dark:text-zinc-400">
-                Token Name
+                Nft name
               </Label>
               <Input
                 disabled
@@ -86,7 +92,7 @@ const TokenForm = ({ loading, regex, placeholder }: TokenFormProps & {}) => {
             </div>
             <div className="flex flex-col space-y-2 w-full">
               <Label className="uppercase text-sm dark:text-zinc-400">
-                Token Image
+                Nft Image
               </Label>
               {tokenData.image && tokenData.image.startsWith("http") && (
                 <div className="relative h-32 w-32">
@@ -95,50 +101,15 @@ const TokenForm = ({ loading, regex, placeholder }: TokenFormProps & {}) => {
                     alt={tokenData.name || "Token image"}
                     fill
                     sizes="100%"
-                    className="rounded-full object-cover"
+                    className="rounded-lg object-cover"
                   />
-                  <button
-                    onClick={() => {
-                      setTokenData({
-                        name: tokenData?.name || "",
-                        image: "",
-                      });
-                    }}
-                    className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
-                    type="button"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
                 </div>
-              )}
-              {!tokenData.image && (
-                <UploadFile
-                  endpoint="tokenImage"
-                  onChange={onImageChange}
-                  value={tokenData?.image || ""}
-                  className="h-32 w-32 rounded-full"
-                />
               )}
             </div>
           </>
         )}
-      {/* {isValid &&
-        !loading &&
-        !selectedToken &&
-        tokenData &&
-        tokenData.image &&
-        tokenData.name && (
-          <div className="flex flex-col items-center w-full space-y-2">
-            <button
-              onClick={confirm}
-              className="rounded-full p-2 bg-neutral-600 hover:bg-neutral-500"
-            >
-              <Check className="w-6 h-6 text-green-400" />
-            </button>
-          </div>
-        )} */}
     </>
   );
 };
 
-export default TokenForm;
+export default NftSolana;

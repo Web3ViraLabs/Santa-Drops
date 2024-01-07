@@ -19,14 +19,17 @@ import { BlockchainType, GiveawayType } from "@prisma/client";
 import BlockchainAddressInput from "./token/blockchain-form";
 import useStore from "./logic/use-store";
 import { useEffect } from "react";
-import fetchEthToken from "../../utils/get-eth-token";
+import fetchEthToken from "../../utils/eth/get-eth-token";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import fetchMaticToken from "../../utils/get-matic-token";
-import fetchSolanaTokenMetadata from "../../utils/get-solana-token";
-import fetchSolanaToken from "../../utils/get-solana-token";
+import fetchMaticToken from "../../utils/eth/get-matic-token";
+import fetchSolanaTokenMetadata from "../../utils/eth/get-solana-token";
+import fetchSolanaToken from "../../utils/eth/get-solana-token";
 import AmountField from "./coins/amount-field";
-import NftGiveaway from "./nft/nft-form";
+import NftGiveaway from "./nft/nft-eth-form";
+import { fetchEthNftDetails } from "../../utils/nft/fetch-nft-eth";
+import { fetchMaticNftDetails } from "../../utils/nft/fetch-nft-matic";
+import NftSolana from "./nft/nft-sol-form";
 
 const DynamicForm = ({
   control,
@@ -217,10 +220,25 @@ const DynamicForm = ({
           )}
         </>
       )}
-      {giveawayType === GiveawayType.NFT &&
-        blockchainType === BlockchainType.ETHEREUM && (
-          <NftGiveaway regex={/^(0x)?[0-9a-fA-F]{40}$/} placeholder="0x..." />
-        )}
+      {giveawayType === GiveawayType.NFT && (
+        <>
+          {blockchainType === BlockchainType.ETHEREUM && (
+            <NftGiveaway
+              regex={/^(0x)?[0-9a-fA-F]{40}$/}
+              placeholder="0x..."
+              fetchNft={fetchEthNftDetails}
+            />
+          )}
+          {blockchainType === BlockchainType.POLYGON && (
+            <NftGiveaway
+              regex={/^(0x)?[0-9a-fA-F]{40}$/}
+              placeholder="0x..."
+              fetchNft={fetchMaticNftDetails}
+            />
+          )}
+          {blockchainType === BlockchainType.SOLANA && <NftSolana />}
+        </>
+      )}
     </FormCard>
   );
 };
